@@ -1,0 +1,25 @@
+/**
+ * eslint-plugin-security - ESLint plugin for Node Security
+ */
+
+'use strict';
+
+module.exports = {
+  rules: {
+    'detect-unsafe-regex': require('./rules/detect-unsafe-regex'),
+    'detect-non-literal-regexp': require('./rules/detect-non-literal-regexp'),
+    'detect-non-literal-require': require('./rules/detect-non-literal-require'),
+    'detect-non-literal-fs-filename': require('./rules/detect-non-literal-fs-filename'),
+    'detect-eval-with-expression': require('./rules/detect-eval-with-expression'),
+    'detect-pseudoRandomBytes': require('./rules/detect-pseudoRandomBytes'),
+    'detect-possible-timing-attacks': require('./rules/detect-possible-timing-attacks'),
+    'detect-no-csrf-before-method-override': require('./rules/detect-no-csrf-before-method-override'),
+    'detect-buffer-noassert': require('./rules/detect-buffer-noassert'),
+    'detect-child-process': require('./rules/detect-child-process'),
+    'detect-disable-mustache-escape': require('./rules/detect-disable-mustache-escape'),
+    'detect-object-injection': require('./rules/detect-object-injection')
+  },
+  rulesConfig: {
+    'detect-unsafe-regex': 0
+  }
+};
