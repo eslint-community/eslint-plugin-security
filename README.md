@@ -1,6 +1,8 @@
 # eslint-plugin-security
 ESLint rules for Node Security
 
+Probably not something you want to just toss and leave in a project. It will help identify potential security hotspots, but finds a lot of false positives that needs triaged by a human.
+
 ### Installation
 
 `npm install --save-dev eslint-plugin-security`
