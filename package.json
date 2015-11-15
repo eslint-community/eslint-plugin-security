@@ -8,19 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xjamundx/eslint-plugin-modules.git"
+    "url": "git+https://github.com/nodesecurity/eslint-plugin-security.git"
   },
   "keywords": [
     "eslint",
     "security",
     "nodesecurity"
   ],
-  "author": "Adam Baldwin",
+  "author": "Node Security Project",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/xjamundx/eslint-plugin-modules/issues"
+    "url": "https://github.com/nodesecurity/eslint-plugin-security/issues"
   },
-  "homepage": "https://github.com/xjamundx/eslint-plugin-modules#readme",
+  "homepage": "https://github.com/nodesecurity/eslint-plugin-security#readme",
   "dependencies": {
     "safe-regex": "^1.1.0"
   },
