@@ -17,7 +17,8 @@ module.exports = {
     'detect-buffer-noassert': require('./rules/detect-buffer-noassert'),
     'detect-child-process': require('./rules/detect-child-process'),
     'detect-disable-mustache-escape': require('./rules/detect-disable-mustache-escape'),
-    'detect-object-injection': require('./rules/detect-object-injection')
+    'detect-object-injection': require('./rules/detect-object-injection'),
+    'detect-new-buffer': require('./rules/detect-new-buffer')
   },
   rulesConfig: {
     'detect-unsafe-regex': 0,
@@ -31,6 +32,7 @@ module.exports = {
     'detect-buffer-noassert': 0,
     'detect-child-process': 0,
     'detect-disable-mustache-escape': 0,
-    'detect-object-injection': 0
+    'detect-object-injection': 0,
+    'detect-new-buffer': 0
   }
 };
