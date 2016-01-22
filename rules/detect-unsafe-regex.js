@@ -1,7 +1,7 @@
 var safe = require('safe-regex');
 /**
  * Check if the regex is evil or not using the safe-regex module
- * @author Adam Baldwin 
+ * @author Adam Baldwin
  */
 
 //------------------------------------------------------------------------------
@@ -11,9 +11,6 @@ var safe = require('safe-regex');
 module.exports = function(context) {
 
     "use strict";
-    var getSource = function(token) {
-            return token.loc.start.line + ':  ' + context.getSourceLines().slice(token.loc.start.line - 1, token.loc.end.line).join('\n\t');
-    }
 
     return {
         "Literal": function(node) {
@@ -23,7 +20,14 @@ module.exports = function(context) {
 
             if (nodeType === "RegularExpression") {
                 if (!safe(nodeValue)) {
-                    context.report(node, "Unsafe Regular Expression\n" + getSource(token));
+                    context.report(node, "Unsafe Regular Expression");
+                }
+            }
+        },
+        "NewExpression": function(node) {
+            if (node.callee.name == "RegExp" && node.arguments && node.arguments.length > 0 && node.arguments[0].type == "Literal") {
+                if (!safe(node.arguments[0].value)) {
+                    context.report(node, "Unsafe Regular Expression (new RegExp)");
                 }
             }
         }
