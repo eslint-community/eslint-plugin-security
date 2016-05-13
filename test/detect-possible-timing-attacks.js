@@ -3,10 +3,10 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-possible-timing-attacks");
 
 
-var valid = "if (age === 5) {}",
+var eslintTester = new RuleTester(),
+  valid = "if (age === 5) {}",
   invalidLeft = "if (password === 'mypass') {}",
-  invalidRigth = "if ('mypass' === password) {}",
-  eslintTester = new RuleTester();
+  invalidRigth = "if ('mypass' === password) {}";
 
 
 // We only check with one string "password" and operator "==="

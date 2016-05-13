@@ -3,13 +3,12 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-non-literal-fs-filename");
 
 
-var valid = "var a = fs.open('test')",
-  invalid = "var a = fs.open(c)",
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester(),
+  invalid = "var a = fs.open(c)";
 
 
 eslintTester.run("detect-non-literal-fs-filename", rule, {
-  valid: [{ code: valid }],
+  valid: [{ code: "var a = fs.open('test')" }],
   invalid: [
     {
       code: invalid,

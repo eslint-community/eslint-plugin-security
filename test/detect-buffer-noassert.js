@@ -3,10 +3,9 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-buffer-noassert");
 
 
-var valid = "a.readUInt8(0);",
-  valid2 = "a.readUInt8(0, false);",
-  invalid = "a.readUInt8(0, true);",
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester(),
+  valid = "a.readUInt8(0);",
+  invalid = "a.readUInt8(0, true);";
 
 
 eslintTester.run("detect-buffer-noassert", rule, {
@@ -20,7 +19,7 @@ eslintTester.run("detect-buffer-noassert", rule, {
 });
 
 eslintTester.run("detect-buffer-noassert (false)", rule, {
-  valid: [{ code: valid2 }],
+  valid: [{ code: "a.readUInt8(0, false);" }],
   invalid: [
     {
       code: invalid,

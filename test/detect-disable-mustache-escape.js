@@ -3,17 +3,14 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-disable-mustache-escape");
 
 
-var valid = "escapeMarkup = false",
-  invalid = "a.escapeMarkup = false",
-
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester();
 
 
 eslintTester.run("detect-disable-mustache-escape", rule, {
-  valid: [{ code: valid }],
+  valid: [{ code: "escapeMarkup = false" }],
   invalid: [
     {
-      code: invalid,
+      code: "a.escapeMarkup = false",
       errors: [{ message: "Markup escaping disabled." }]
     },
   ]

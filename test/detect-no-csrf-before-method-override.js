@@ -3,16 +3,14 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-no-csrf-before-method-override");
 
 
-var valid = "express.methodOverride();express.csrf()",
-  invalid = "express.csrf();express.methodOverride()",
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester();
 
 
 eslintTester.run("detect-no-csrf-before-method-override", rule, {
-  valid: [{ code: valid }],
+  valid: [{ code: "express.methodOverride();express.csrf()" }],
   invalid: [
     {
-      code: invalid,
+      code: "express.csrf();express.methodOverride()",
       errors: [{ message: "express.csrf() middleware found before express.methodOverride()" }]
     },
   ]

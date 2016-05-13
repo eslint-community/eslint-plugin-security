@@ -3,13 +3,12 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-non-literal-require");
 
 
-var valid = "var a = require('b')",
-  invalid = "var a = require(c)",
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester(),
+  invalid = "var a = require(c)";
 
 
 eslintTester.run("detect-non-literal-require", rule, {
-  valid: [{ code: valid }],
+  valid: [{ code: "var a = require('b')" }],
   invalid: [
     {
       code: invalid,

@@ -3,10 +3,10 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-child-process");
 
 
-var valid = "child_process.exec('ls')",
+var eslintTester = new RuleTester(),
+  valid = "child_process.exec('ls')",
   invalidRequire = "require('child_process')",
-  invalidExec= "var child = require('child_process'); child.exec(com)",
-  eslintTester = new RuleTester();
+  invalidExec= "var child = require('child_process'); child.exec(com)";
 
 
 eslintTester.run("detect-child-process (require('child_process'))", rule, {

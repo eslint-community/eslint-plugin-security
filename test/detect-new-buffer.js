@@ -3,13 +3,12 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-new-buffer");
 
 
-var valid = "var a = new Buffer('test')",
-  invalid = "var a = new Buffer(c)",
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester(),
+    invalid = "var a = new Buffer(c)";
 
 
 eslintTester.run("detect-new-buffer", rule, {
-  valid: [{ code: valid }],
+  valid: [{ code: "var a = new Buffer('test')" }],
   invalid: [
     {
       code: invalid,

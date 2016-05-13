@@ -3,13 +3,12 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-pseudoRandomBytes");
 
 
-var valid = "crypto.randomBytes",
-  invalid = "crypto.pseudoRandomBytes",
-  eslintTester = new RuleTester();
+var eslintTester = new RuleTester(),
+  invalid = "crypto.pseudoRandomBytes";
 
 
 eslintTester.run("detect-pseudoRandomBytes", rule, {
-  valid: [{ code: valid }],
+  valid: [{ code: "crypto.randomBytes" }],
   invalid: [
     {
       code: invalid,

@@ -3,11 +3,11 @@ var RuleTester = require("eslint").RuleTester;
 var rule = require("../rules/detect-object-injection");
 
 
-var valid = "var a = {};",
+var eslintTester = new RuleTester(),
+  valid = "var a = {};",
   // invalidVariable = "TODO",
   // invalidFunction = "TODO",
-  invalidGeneric = "var a = {}; a[b] = 4",
-  eslintTester = new RuleTester();
+  invalidGeneric = "var a = {}; a[b] = 4";
 
 
 // TODO
