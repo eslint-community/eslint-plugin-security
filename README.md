@@ -16,6 +16,7 @@ Add the following to your `.eslintrc` file:
   "security"
 ]
 ```
+
 ### Rules
 
 - `detect-unsafe-regex` - Locates potentially unsafe regular expressions
@@ -31,3 +32,8 @@ Add the following to your `.eslintrc` file:
 - `detect-possible-timing-attacks` - Detects insecure comparisons (== != !== ===)
 - `detect-pseudoRandomBytes` - Detects if pseudoRandomBytes() is in use
 
+### Tests
+
+```sh
+npm test
+```

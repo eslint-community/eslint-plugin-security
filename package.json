@@ -4,7 +4,7 @@
   "description": "Security rules for eslint",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha test/**/*"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "safe-regex": "^1.1.0"
   },
   "devDependencies": {
-    "eslint": "^1.8.0"
+    "eslint": "^1.8.0",
+    "mocha": "^2.4.5"
   }
 }
