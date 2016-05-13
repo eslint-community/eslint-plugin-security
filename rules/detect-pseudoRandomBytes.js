@@ -19,7 +19,7 @@ module.exports = function(context) {
         "MemberExpression": function (node) {
             if (node.property.name === 'pseudoRandomBytes') {
                 var token = context.getTokens(node)[0];
-                return context.report(node, 'found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers:\n\t' + getSource(token));
+                return context.report(node, 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers:\n\t' + getSource(token));
             }
         }
 

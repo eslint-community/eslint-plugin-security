@@ -63,7 +63,7 @@ module.exports = function(context) {
 
             if (index && node.parent && node.parent.arguments && node.parent.arguments[index] &&  node.parent.arguments[index].value) {
                 var token = context.getTokens(node)[0];
-                return context.report(node, 'found Buffer.' + node.property.name + ' with noAssert flag set true:\n\t' + getSource(token));
+                return context.report(node, 'Found Buffer.' + node.property.name + ' with noAssert flag set true:\n\t' + getSource(token));
                 
             }
         }

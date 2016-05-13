@@ -28,7 +28,7 @@ module.exports = function(context) {
                     } else if (node.parent.type === 'AssignmentExpression' && node.parent.operator === '=') {
                         names.push(node.parent.left.name);
                     }
-                    return context.report(node, 'found require("child_process")\n\t' + getSource(token));
+                    return context.report(node, 'Found require("child_process")\n\t' + getSource(token));
                 }
             }
         },
@@ -36,7 +36,7 @@ module.exports = function(context) {
             var token = context.getTokens(node)[0];
             if (node.property.name === 'exec' && names.indexOf(node.object.name) > -1) {
                 if (node.parent && node.parent.arguments  && node.parent.arguments[0].type !== 'Literal') {
-                    return context.report(node, 'found child_process.exec() with non Literal first argument\n\t' + getSource(token));
+                    return context.report(node, 'Found child_process.exec() with non Literal first argument\n\t' + getSource(token));
                 }
             }
         }

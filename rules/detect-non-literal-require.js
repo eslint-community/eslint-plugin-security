@@ -21,7 +21,7 @@ module.exports = function(context) {
                 var args = node.arguments;
                 if (args && args.length > 0 && args[0].type !== 'Literal') {
                     var token = context.getTokens(node)[0];
-                    return context.report(node, 'found non-literal argument in require\n\t' + getSource(token));
+                    return context.report(node, 'Found non-literal argument in require\n\t' + getSource(token));
                 }
             }
 
