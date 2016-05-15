@@ -7,6 +7,7 @@ const invalid = 'var a = fs.open(c)';
 
 const ruleName = 'detect-non-literal-fs-filename';
 
+
 tester.run(ruleName, require(`../rules/${ruleName}`), {
   valid: [{ code: 'var a = fs.open(\'test\')' }],
   invalid: [

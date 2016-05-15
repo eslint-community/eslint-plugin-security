@@ -5,6 +5,7 @@ const tester = new RuleTester();
 
 const ruleName = 'detect-no-csrf-before-method-override';
 
+
 tester.run(ruleName, require(`../rules/${ruleName}`), {
   valid: [{ code: 'express.methodOverride();express.csrf()' }],
   invalid: [
