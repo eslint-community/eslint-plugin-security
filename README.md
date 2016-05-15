@@ -32,8 +32,18 @@ Add the following to your `.eslintrc` file:
 - `detect-possible-timing-attacks` - Detects insecure comparisons (== != !== ===)
 - `detect-pseudoRandomBytes` - Detects if pseudoRandomBytes() is in use
 
-### Tests
 
+## Developer guide
+
+- Use [GitHub pull requests](https://help.github.com/articles/using-pull-requests).
+- Conventions:
+ - We use our [custom ESLint setup](https://github.com/nodesecurity/eslint-config-nodesecurity).
+ - Please implement a test for each new rule and use this command to be sure the new code respects the style guide and the tests keep passing:
+ ```sh
+ npm run-script cont-int
+ ```
+
+### Tests
 ```sh
 npm test
 ```
