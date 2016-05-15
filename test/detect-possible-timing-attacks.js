@@ -1,34 +1,36 @@
-var RuleTester = require("eslint").RuleTester;
+'use strict';
 
-var rule = require("../rules/detect-possible-timing-attacks");
+const RuleTester = require('eslint').RuleTester;
+const tester = new RuleTester();
 
+const ruleName = 'detect-possible-timing-attacks';
+const Rule = require(`../rules/${ruleName}`);
 
-var eslintTester = new RuleTester(),
-  valid = "if (age === 5) {}",
-  invalidLeft = "if (password === 'mypass') {}",
-  invalidRigth = "if ('mypass' === password) {}";
+const valid = 'if (age === 5) {}';
+const invalidLeft = 'if (password === \'mypass\') {}';
+const invalidRigth = 'if (\'mypass\' === password) {}';
 
 
 // We only check with one string "password" and operator "==="
 // to KISS.
 
-eslintTester.run("detect-detect-possible-timing-attacks (left side)", rule, {
+tester.run(`${ruleName} (left side)`, Rule, {
   valid: [{ code: valid }],
   invalid: [
     {
       code: invalidLeft,
-      errors: [{ message: "Potential timing attack, left side: true\n\t1:  " + invalidLeft }]
-    },
+      errors: [{ message: `Potential timing attack, left side: true\n\t1:  ${invalidLeft}` }]
+    }
   ]
 });
 
 
-eslintTester.run("detect-detect-possible-timing-attacks (right side)", rule, {
+tester.run(`${ruleName} (right side)`, Rule, {
   valid: [{ code: valid }],
   invalid: [
     {
       code: invalidRigth,
-      errors: [{ message: "Potential timing attack, right side: true\n\t1:  " + invalidRigth }]
-    },
+      errors: [{ message: `Potential timing attack, right side: true\n\t1:  ${invalidRigth}` }]
+    }
   ]
 });

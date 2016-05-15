@@ -1,28 +1,29 @@
-var RuleTester = require("eslint").RuleTester;
+'use strict';
 
-var rule = require("../rules/detect-unsafe-regex");
+const RuleTester = require('eslint').RuleTester;
+const tester = new RuleTester();
+
+const ruleName = 'detect-unsafe-regex';
+const Rule = require(`../rules/${ruleName}`);
 
 
-var eslintTester = new RuleTester();
-
-
-eslintTester.run("detect-unsafe-regex", rule, {
-  valid: [{ code: "/^\d+1337\d+$/" }],
+tester.run(ruleName, Rule, {
+  valid: [{ code: '/^\d+1337\d+$/' }],
   invalid: [
     {
-      code: "/(x+x+)+y/",
-      errors: [{ message: "Unsafe Regular Expression" }]
-    },
+      code: '/(x+x+)+y/',
+      errors: [{ message: 'Unsafe Regular Expression' }]
+    }
   ]
 });
 
 
-eslintTester.run("detect-unsafe-regex (new RegExp)", rule, {
-  valid: [{ code: "new RegExp('^\d+1337\d+$')" }],
+tester.run(`${ruleName} (new RegExp)`, Rule, {
+  valid: [{ code: 'new RegExp(\'^\d+1337\d+$\')' }],
   invalid: [
     {
-      code: "new RegExp('x+x+)+y')",
-      errors: [{ message: "Unsafe Regular Expression (new RegExp)" }]
-    },
+      code: 'new RegExp(\'x+x+)+y\')',
+      errors: [{ message: 'Unsafe Regular Expression (new RegExp)' }]
+    }
   ]
 });

@@ -1,33 +1,35 @@
-var RuleTester = require("eslint").RuleTester;
+'use strict';
 
-var rule = require("../rules/detect-child-process");
+const RuleTester = require('eslint').RuleTester;
+const tester = new RuleTester();
+
+const ruleName = 'detect-child-process';
+const Rule = require(`../rules/${ruleName}`);
+
+const valid = 'child_process.exec(\'ls\')';
+const invalidRequire = 'require(\'child_process\')';
+const invalidExec = 'var child = require(\'child_process\'); child.exec(com)';
 
 
-var eslintTester = new RuleTester(),
-  valid = "child_process.exec('ls')",
-  invalidRequire = "require('child_process')",
-  invalidExec= "var child = require('child_process'); child.exec(com)";
-
-
-eslintTester.run("detect-child-process (require('child_process'))", rule, {
+tester.run(`${ruleName} (require("child_process"))`, Rule, {
   valid: [{ code: valid }],
   invalid: [
     {
       code: invalidRequire,
-      errors: [{ message: "Found require(\"child_process\")\n\t1:  " + invalidRequire }]
-    },
+      errors: [{ message: `Found require("child_process")\n\t1:  ${invalidRequire}` }]
+    }
   ]
 });
 
 
-eslintTester.run("detect-child-process (child_process.exec() wih non literal 1st arg.)", rule, {
+tester.run(`${ruleName} (child_process.exec() wih non literal 1st arg.)`, Rule, {
   valid: [{ code: valid }],
   invalid: [
     {
       code: invalidExec,
       errors: [
-        { message: "Found require(\"child_process\")\n\t1:  " + invalidExec },
-        { message: "Found child_process.exec() with non Literal first argument\n\t1:  " + invalidExec }]
-    },
+        { message: `Found require("child_process")\n\t1:  ${invalidExec}` },
+        { message: `Found child_process.exec() with non Literal first argument\n\t1:  ${invalidExec}` }]
+    }
   ]
 });

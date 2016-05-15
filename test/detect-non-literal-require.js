@@ -1,18 +1,18 @@
-var RuleTester = require("eslint").RuleTester;
+'use strict';
 
-var rule = require("../rules/detect-non-literal-require");
+const RuleTester = require('eslint').RuleTester;
+const tester = new RuleTester();
+
+const ruleName = 'detect-non-literal-require';
+const invalid = 'var a = require(c)';
 
 
-var eslintTester = new RuleTester(),
-  invalid = "var a = require(c)";
-
-
-eslintTester.run("detect-non-literal-require", rule, {
-  valid: [{ code: "var a = require('b')" }],
+tester.run(ruleName, require(`../rules/${ruleName}`), {
+  valid: [{ code: 'var a = require(\'b\')' }],
   invalid: [
     {
       code: invalid,
-      errors: [{ message: "Found non-literal argument in require\n\t1:  " + invalid }]
-    },
+      errors: [{ message: `Found non-literal argument in require\n\t1:  ${invalid}` }]
+    }
   ]
 });

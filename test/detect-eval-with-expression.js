@@ -1,17 +1,17 @@
-var RuleTester = require("eslint").RuleTester;
+'use strict';
 
-var rule = require("../rules/detect-eval-with-expression");
+const RuleTester = require('eslint').RuleTester;
+const tester = new RuleTester();
+
+const ruleName = 'detect-eval-with-expression';
 
 
-var eslintTester = new RuleTester();
-
-
-eslintTester.run("detect-eval-with-expression", rule, {
-  valid: [{ code: "eval('alert()')" }],
+tester.run(ruleName, require(`../rules/${ruleName}`), {
+  valid: [{ code: 'eval(\'alert()\')' }],
   invalid: [
     {
-      code: "eval(a);",
-      errors: [{ message: "eval with argument of type Identifier" }]
-    },
+      code: 'eval(a);',
+      errors: [{ message: 'eval with argument of type Identifier' }]
+    }
   ]
 });
