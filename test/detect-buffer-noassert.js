@@ -1,39 +1,30 @@
-var RuleTester = require("eslint").RuleTester;
+'use strict';
 
-var rule = require("../rules/detect-buffer-noassert");
+const RuleTester = require('eslint').RuleTester;
+const tester = new RuleTester();
+
+const ruleName = 'detect-buffer-noassert';
+const Rule = require(`../rules/${ruleName}`);
+
+const invalid = 'a.readUInt8(0, true);';
 
 
-var eslintTester = new RuleTester(),
-  valid = "a.readUInt8(0);",
-  invalid = "a.readUInt8(0, true);";
-
-
-eslintTester.run("detect-buffer-noassert", rule, {
-  valid: [{ code: valid }],
+tester.run(ruleName, Rule, {
+  valid: [{ code: 'a.readUInt8(0);' }],
   invalid: [
     {
       code: invalid,
-      errors: [{ message: "Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  " + invalid }]
-    },
+      errors: [{ message: `Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  ${invalid}` }]
+    }
   ]
 });
 
-eslintTester.run("detect-buffer-noassert (false)", rule, {
-  valid: [{ code: "a.readUInt8(0, false);" }],
+tester.run(`${ruleName} (false)`, Rule, {
+  valid: [{ code: 'a.readUInt8(0, false);' }],
   invalid: [
     {
       code: invalid,
-      errors: [{ message: "Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  " + invalid }]
-    },
-  ]
-});
-
-eslintTester.run("detect-buffer-noassert", rule, {
-  valid: [{ code: valid }],
-  invalid: [
-    {
-      code: invalid,
-      errors: [{ message: "Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  " + invalid }]
-    },
+      errors: [{ message: `Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  ${invalid}` }]
+    }
   ]
 });
