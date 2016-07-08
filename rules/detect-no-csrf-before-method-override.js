@@ -1,6 +1,6 @@
 /**
- * Check and see if CSRF middleware is before methodOverride 
- * @author Adam Baldwin 
+ * Check and see if CSRF middleware is before methodOverride
+ * @author Adam Baldwin
  */
 
 //------------------------------------------------------------------------------
@@ -20,6 +20,10 @@ module.exports = function(context) {
                 nodeValue = token.value;
 
             if (nodeValue === "express") {
+                if (!node.callee || !node.callee.property) {
+                    return;
+                }
+
                 if (node.callee.property.name === "methodOverride" && csrf) {
                     context.report(node, "express.csrf() middleware found before express.methodOverride()");
                 }
