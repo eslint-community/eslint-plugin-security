@@ -21,7 +21,7 @@ Add the following to your `.eslintrc` file:
 - `detect-unsafe-regex` - Locates potentially unsafe regular expressions
 - `detect-buffer-noassert` - Detects calls to buffer with noassert flag set
 - `detect-child-process` - Detects instances of child_process & non-literal cp.exec()
-- `detect-disable-mustache-escape` -
+- `detect-disable-mustache-escape` - Detects instances of setting the escapeMarkup property to false
 - `detect-eval-with-expression` - Detects eval(var)
 - `detect-no-csrf-before-method-override` - Detects Express.csrf before method-override
 - `detect-non-literal-fs-filename` - Detects var in filename argument of fs calls
