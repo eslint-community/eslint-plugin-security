@@ -24,6 +24,7 @@ Add the following to your `.eslintrc` file:
 - `detect-child-process` - Detects instances of child_process & non-literal cp.exec()
 - `detect-disable-mustache-escape` - Detects instances of setting the escapeMarkup property to false
 - `detect-eval-with-expression` - Detects eval(var)
+- `detect-new-buffer` - Detects instances of new Buffer(argument) where argument is any non literal value
 - `detect-no-csrf-before-method-override` - Detects Express.csrf before method-override
 - `detect-non-literal-fs-filename` - Detects var in filename argument of fs calls
 - `detect-non-literal-regexp` - Detects RegExp(var)
