@@ -36,7 +36,7 @@ module.exports = function(context) {
 
             if (result.length > 0) {
                 var token = context.getTokens(node)[0];
-                return context.report(node, 'found fs.' + node.property.name + ' with non literal argument at index ' + result.join(',') + '\n\t' + getSource(token));
+                return context.report(node, 'Found fs.' + node.property.name + ' with non literal argument at index ' + result.join(',') + '\n\t' + getSource(token));
             }
 
 
