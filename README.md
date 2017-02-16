@@ -94,7 +94,7 @@ More information: http://www.bennadel.com/blog/2169-where-does-node-js-and-requi
 
 Detects `variable[key]` as a left- or right-hand assignment operand.
 
-More information: https://blog.liftsecurity.io/2015/01/15/the-dangers-of-square-bracket-notation
+More information: https://blog.liftsecurity.io/2015/01/14/the-dangers-of-square-bracket-notation/
 
 #### `detect-possible-timing-attacks`
 
