@@ -15,6 +15,9 @@ Add the following to your `.eslintrc` file:
 ```js
 "plugins": [
   "security"
+],
+"extends": [
+  "plugin:security/recommended"
 ]
 ```
 
