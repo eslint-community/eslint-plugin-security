@@ -16,7 +16,7 @@ tester.run(`${ruleName} (require("child_process"))`, Rule, {
   invalid: [
     {
       code: invalidRequire,
-      errors: [{ message: `Found require("child_process")\n\t1:  ${invalidRequire}` }]
+      errors: [{ message: 'Found require("child_process")' }]
     }
   ]
 });
@@ -28,8 +28,8 @@ tester.run(`${ruleName} (child_process.exec() wih non literal 1st arg.)`, Rule, 
     {
       code: invalidExec,
       errors: [
-        { message: `Found require("child_process")\n\t1:  ${invalidExec}` },
-        { message: `Found child_process.exec() with non Literal first argument\n\t1:  ${invalidExec}` }]
+        { message: 'Found require("child_process")' },
+        { message: 'Found child_process.exec() with non Literal first argument' }]
     }
   ]
 });

@@ -19,7 +19,7 @@ const invalidGeneric = 'var a = {}; a[b] = 4';
 //   invalid: [
 //     {
 //       code: invalidVariable,
-//       errors: [{ message: `Variable Assigned to Object Injection Sink: <input>: 1\n\t${invalidVariable}\n\n` }]
+//       errors: [{ message: 'Variable Assigned to Object Injection Sink' }]
 //     }
 //   ]
 // });
@@ -41,7 +41,7 @@ tester.run(`${ruleName} (Generic)`, Rule, {
   invalid: [
     {
       code: invalidGeneric,
-      errors: [{ message: `Generic Object Injection Sink: <input>: 1\n\t${invalidGeneric}\n\n` }]
+      errors: [{ message: 'Generic Object Injection Sink' }]
     }
   ]
 });

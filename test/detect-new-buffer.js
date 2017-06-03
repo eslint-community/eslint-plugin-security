@@ -12,7 +12,7 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
   invalid: [
     {
       code: invalid,
-      errors: [{ message: `Found new Buffer\n\t1:  ${invalid}` }]
+      errors: [{ message: 'Found new Buffer' }]
     }
   ]
 });

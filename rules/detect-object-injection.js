@@ -59,13 +59,13 @@ var isChanged = false;
                     var token = context.getTokens(node)[0];
                     if (node.property.type === 'Identifier') {
                         if (node.parent.type === 'VariableDeclarator') {
-   context.report(node, 'Variable Assigned to Object Injection Sink: ' + context.getFilename() + ': ' + token.loc.start.line+ '\n\t' + context.getSourceLines().slice(token.loc.start.line-1, token.loc.end.line).join('\n\t') + '\n\n');
+   context.report(node, 'Variable Assigned to Object Injection Sink');
     
                         } else if (node.parent.type === 'CallExpression') {
                         //    console.log(node.parent)
-  context.report(node, 'Function Call Object Injection Sink: ' + context.getFilename() + ': ' + token.loc.start.line+ '\n\t' + context.getSourceLines().slice(token.loc.start.line-1, token.loc.end.line).join('\n\t') + '\n\n');
+  context.report(node, 'Function Call Object Injection Sink');
                         } else {
-                        context.report(node, 'Generic Object Injection Sink: ' + context.getFilename() + ': ' + token.loc.start.line+ '\n\t' + context.getSourceLines().slice(token.loc.start.line-1, token.loc.end.line).join('\n\t') + '\n\n');
+                        context.report(node, 'Generic Object Injection Sink');
     
                         }
 
