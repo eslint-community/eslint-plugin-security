@@ -13,7 +13,7 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
   invalid: [
     {
       code: invalid,
-      errors: [{ message: `Found fs.open with non literal argument at index 0\n\t1:  ${invalid}` }]
+      errors: [{ message: 'Found fs.open with non literal argument at index 0' }]
     }
   ]
 });

@@ -32,10 +32,6 @@ module.exports = function(context) {
 
     "use strict";
 
-    var getSource = function (token) {
-        return token.loc.start.line+ ':  ' + context.getSourceLines().slice(token.loc.start.line-1, token.loc.end.line).join('\n\t');
-    }
-
     return {
         "IfStatement": function(node) {
             if (node.test && node.test.type === 'BinaryExpression') {
@@ -46,14 +42,14 @@ module.exports = function(context) {
                     if (node.test.left) {
                     var left = containsKeyword(node.test.left);
                         if (left) {
-                            return context.report(node, "Potential timing attack, left side: " + left + '\n\t' + getSource(token));
+                            return context.report(node, "Potential timing attack, left side: " + left);
                         }
                     }
 
                     if (node.test.right) {
                     var right = containsKeyword(node.test.right);
                         if (right) {
-                            return context.report(node, "Potential timing attack, right side: " + right + '\n\t' + getSource(token));
+                            return context.report(node, "Potential timing attack, right side: " + right);
                         }
                     }
                 }

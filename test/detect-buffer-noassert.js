@@ -14,7 +14,7 @@ tester.run(ruleName, Rule, {
   invalid: [
     {
       code: invalid,
-      errors: [{ message: `Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  ${invalid}` }]
+      errors: [{ message: 'Found Buffer.readUInt8 with noAssert flag set true' }]
     }
   ]
 });
@@ -24,7 +24,7 @@ tester.run(`${ruleName} (false)`, Rule, {
   invalid: [
     {
       code: invalid,
-      errors: [{ message: `Found Buffer.readUInt8 with noAssert flag set true:\n\t1:  ${invalid}` }]
+      errors: [{ message: 'Found Buffer.readUInt8 with noAssert flag set true' }]
     }
   ]
 });

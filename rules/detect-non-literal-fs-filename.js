@@ -15,10 +15,6 @@ module.exports = function(context) {
 
     "use strict";
 
-    var getSource = function (token) {
-        return token.loc.start.line+ ':  ' + context.getSourceLines().slice(token.loc.start.line-1, token.loc.end.line).join('\n\t');
-    }
-
     return {
         "MemberExpression": function (node) {
             var result = [];
@@ -36,13 +32,13 @@ module.exports = function(context) {
 
             if (result.length > 0) {
                 var token = context.getTokens(node)[0];
-                return context.report(node, 'Found fs.' + node.property.name + ' with non literal argument at index ' + result.join(',') + '\n\t' + getSource(token));
+                return context.report(node, 'Found fs.' + node.property.name + ' with non literal argument at index ' + result.join(','));
             }
 
 
             /*
             if (node.parent && node.parent.arguments && node.parent.arguments[index].value) {
-                return context.report(node, 'found Buffer.' + node.property.name + ' with noAssert flag set true:\n\t' + getSource(token));
+                return context.report(node, 'found Buffer.' + node.property.name + ' with noAssert flag set true');
 
             }
             */

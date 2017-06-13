@@ -19,7 +19,7 @@ tester.run(`${ruleName} (left side)`, Rule, {
   invalid: [
     {
       code: invalidLeft,
-      errors: [{ message: `Potential timing attack, left side: true\n\t1:  ${invalidLeft}` }]
+      errors: [{ message: 'Potential timing attack, left side: true' }]
     }
   ]
 });
@@ -30,7 +30,7 @@ tester.run(`${ruleName} (right side)`, Rule, {
   invalid: [
     {
       code: invalidRigth,
-      errors: [{ message: `Potential timing attack, right side: true\n\t1:  ${invalidRigth}` }]
+      errors: [{ message: 'Potential timing attack, right side: true' }]
     }
   ]
 });
