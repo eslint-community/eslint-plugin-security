@@ -1,3 +1,9 @@
+1.4.0 / 2017-06-12
+==================
+  
+  * Add recommended ruleset to the usage example
+  * Removes filenames from error output
+  
 1.3.0 / 2017-02-09
 ==================
 
