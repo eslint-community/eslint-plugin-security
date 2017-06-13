@@ -12,7 +12,6 @@ const valid = 'var a = {};';
 // const invalidFunction = "TODO";
 const invalidGeneric = 'var a = {}; a[b] = 4';
 
-
 // TODO
 // tester.run(`${ruleName} (Variable Assigned to)`, Rule, {
 //   valid: [{ code: valid }],
@@ -34,7 +33,6 @@ const invalidGeneric = 'var a = {}; a[b] = 4';
 //     }
 //   ]
 // });
-
 
 tester.run(`${ruleName} (Generic)`, Rule, {
   valid: [{ code: valid }],

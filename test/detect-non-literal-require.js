@@ -6,7 +6,6 @@ const tester = new RuleTester();
 const ruleName = 'detect-non-literal-require';
 const invalid = 'var a = require(c)';
 
-
 tester.run(ruleName, require(`../rules/${ruleName}`), {
   valid: [{ code: 'var a = require(\'b\')' }],
   invalid: [

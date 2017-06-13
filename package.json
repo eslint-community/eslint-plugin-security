@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
-    "test": "./node_modules/.bin/mocha test/**/*",
-    "lint": "./node_modules/.bin/eslint .",
+    "format": "prettier '{rules/,test/,}*.js' --single-quote --write",
+    "postformat": "npm run lint -- --fix",
+    "test": "mocha test/**/*",
+    "lint": "eslint .",
     "cont-int": "npm test && npm run-script lint"
   },
   "repository": {
@@ -31,6 +33,7 @@
     "changelog": "1.3.0",
     "eslint": "^2.10.1",
     "eslint-config-nodesecurity": "^1.3.1",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "prettier": "1.4.4"
   }
 }

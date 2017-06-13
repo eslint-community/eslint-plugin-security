@@ -10,7 +10,6 @@ const valid = 'if (age === 5) {}';
 const invalidLeft = 'if (password === \'mypass\') {}';
 const invalidRigth = 'if (\'mypass\' === password) {}';
 
-
 // We only check with one string "password" and operator "==="
 // to KISS.
 
@@ -23,7 +22,6 @@ tester.run(`${ruleName} (left side)`, Rule, {
     }
   ]
 });
-
 
 tester.run(`${ruleName} (right side)`, Rule, {
   valid: [{ code: valid }],

@@ -1,3 +1,15 @@
 {
-  "extends": "nodesecurity"
+  "extends": "nodesecurity",
+
+  "root": true,
+
+  "rules": {
+    "hapi/hapi-scope-start": "off",
+
+    "brace-style": "off",
+    "func-style": "off",
+    "no-var": "off",
+    "prefer-arrow-callback": "off",
+    "prefer-template": "off"
+  }
 }

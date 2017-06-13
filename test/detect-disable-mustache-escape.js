@@ -5,7 +5,6 @@ const tester = new RuleTester();
 
 const ruleName = 'detect-disable-mustache-escape';
 
-
 tester.run(ruleName, require(`../rules/${ruleName}`), {
   valid: [{ code: 'escapeMarkup = false' }],
   invalid: [
