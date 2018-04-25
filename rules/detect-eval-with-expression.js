@@ -1,5 +1,5 @@
 /**
- * Idnetifies eval with expression
+ * Identifies eval with expression
  * @author Adam Baldwin
  */
 
