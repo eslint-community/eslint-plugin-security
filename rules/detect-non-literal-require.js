@@ -15,7 +15,9 @@ module.exports = function(context) {
         "CallExpression": function (node) {
             if (node.callee.name === 'require') {
                 var args = node.arguments;
-                if (args && args.length > 0 && args[0].type !== 'Literal') {
+                if (args && args.length > 0 &&
+                    (args[0].type === 'TemplateLiteral' && args[0].expressions.length > 0) ||
+                    (args[0].type !== 'TemplateLiteral' && args[0].type !== 'Literal')) {
                     var token = context.getTokens(node)[0];
                     return context.report(node, 'Found non-literal argument in require');
                 }
