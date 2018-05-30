@@ -28,6 +28,7 @@
     "safe-regex": "^1.1.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
     "changelog": "1.3.0",
     "eslint": "^2.10.1",
     "eslint-config-nodesecurity": "^1.3.1",
