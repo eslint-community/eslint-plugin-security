@@ -37,8 +37,6 @@ module.exports = function(context) {
             if (node.test && node.test.type === 'BinaryExpression') {
                 if (node.test.operator === '==' || node.test.operator === '===' || node.test.operator === '!=' || node.test.operator === '!==') {
 
-                    var token = context.getTokens(node)[0];
-
                     if (node.test.left) {
                     var left = containsKeyword(node.test.left);
                         if (left) {
