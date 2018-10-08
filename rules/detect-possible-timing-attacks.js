@@ -13,7 +13,6 @@ var keywords = '((' + [
     'api',
     'apiKey',
     'token',
-    'auth',
     'pass',
     'hash'
 ].join(')|(') + '))';
