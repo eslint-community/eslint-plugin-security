@@ -43,7 +43,7 @@ npm test
 
 Locates potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.
 
-More information: https://blog.liftsecurity.io/2014/11/03/regular-expression-dos-and-node.js
+More information: https://web.archive.org/web/20170131192028/https://blog.liftsecurity.io/2014/11/03/regular-expression-dos-and-node.js
 
 #### `detect-buffer-noassert`
 
