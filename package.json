@@ -31,6 +31,6 @@
     "changelog": "1.3.0",
     "eslint": "^2.10.1",
     "eslint-config-nodesecurity": "^1.3.1",
-    "mocha": "^2.4.5"
+    "mocha": "^6.0.2"
   }
 }
