@@ -55,7 +55,7 @@ From the Node.js API docs: "Setting `noAssert` to true skips validation of the `
 
 Detects instances of [`child_process`](https://nodejs.org/api/child_process.html) & non-literal [`exec()`](https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback)
 
-More information: https://blog.liftsecurity.io/2014/08/19/Avoid-Command-Injection-Node.js
+More information: https://web.archive.org/web/20140903015907/https://blog.liftsecurity.io/2014/08/19/Avoid-Command-Injection-Node.js
 
 #### `detect-disable-mustache-escape`
 
