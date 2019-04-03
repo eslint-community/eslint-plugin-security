@@ -43,7 +43,7 @@ npm test
 
 Locates potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.
 
-More information: https://web.archive.org/web/20170131192028/https://blog.liftsecurity.io/2014/11/03/regular-expression-dos-and-node.js
+More information: [Regular Expression DoS and Node.js](docs/regular-expression-dos-and-node.md)
 
 #### `detect-buffer-noassert`
 
@@ -55,7 +55,7 @@ From the Node.js API docs: "Setting `noAssert` to true skips validation of the `
 
 Detects instances of [`child_process`](https://nodejs.org/api/child_process.html) & non-literal [`exec()`](https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback)
 
-More information: https://web.archive.org/web/20140903015907/https://blog.liftsecurity.io/2014/08/19/Avoid-Command-Injection-Node.js
+More information: [Avoiding Command Injection in Node.js](docs/avoid-command-injection-node.md)
 
 #### `detect-disable-mustache-escape`
 
@@ -73,7 +73,7 @@ More information: http://security.stackexchange.com/questions/94017/what-are-the
 
 Detects Express `csrf` middleware setup before `method-override` middleware. This can allow `GET` requests (which are not checked by `csrf`) to turn into `POST` requests later.
 
-More information: https://blog.liftsecurity.io/2013/09/07/bypass-connect-csrf-protection-by-abusing
+More information: [Bypass Connect CSRF protection by abusing methodOverride Middleware](docs/bypass-connect-csrf-protection-by-abusing.md)
 
 #### `detect-non-literal-fs-filename`
 
@@ -85,7 +85,7 @@ More information: https://www.owasp.org/index.php/Path_Traversal
 
 Detects `RegExp(variable)`, which might allow an attacker to DOS your server with a long-running regular expression.
 
-More information: https://blog.liftsecurity.io/2014/11/03/regular-expression-dos-and-node.js
+More information: [Regular Expression DoS and Node.js](docs/regular-expression-dos-and-node.md)
 
 #### `detect-non-literal-require`
 
@@ -97,7 +97,7 @@ More information: http://www.bennadel.com/blog/2169-where-does-node-js-and-requi
 
 Detects `variable[key]` as a left- or right-hand assignment operand.
 
-More information: https://web.archive.org/web/20150430062816/https://blog.liftsecurity.io/2015/01/15/the-dangers-of-square-bracket-notation
+More information: [The Dangers of Square Bracket Notation](docs/the-dangers-of-square-bracket-notation.md)
 
 #### `detect-possible-timing-attacks`
 
