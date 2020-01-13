@@ -2,7 +2,7 @@
 
 In this post we are going to learn about the proper way to call a system command using node.js to avoid a common security flaw, command injection.
 
-A call that we often see used, due to it's symplicity is `child_process.exec`. It's got a simple pattern; pass in a command string and it calls you back with an error or the command results.
+A call that we often see used, due to it's simplicity is `child_process.exec`. It's got a simple pattern; pass in a command string and it calls you back with an error or the command results.
 
 Here is a very typical way you would call a system command with `child_process.exec.`
 
@@ -12,7 +12,7 @@ child_process.exec('ls', function (err, data) {
 });
 ```
 
-What happens though when you need to start getting user input for arguments into your command? The obvious solution is to take the user input and build your command out using string concatenation. But here's something I've learned over the years: When you use string concatentation to send data from one system to another you're probably going to have a bad day.
+What happens though when you need to start getting user input for arguments into your command? The obvious solution is to take the user input and build your command out using string concatenation. But here's something I've learned over the years: When you use string concatenation to send data from one system to another you're probably going to have a bad day.
 
 ```js
 var path = "user input";
