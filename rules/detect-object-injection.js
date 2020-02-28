@@ -7,7 +7,6 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-var Sinks = [];
 function getSerialize (fn, decycle) {
   var seen = [], keys = [];
   decycle = decycle || function(key, value) {
@@ -44,14 +43,18 @@ function stringify(obj, fn, spaces, decycle) {
   return JSON.stringify(obj, getSerialize(fn, decycle), spaces);
 }
 
-stringify.getSerialize = getSerialize;module.exports = function(context) {
+stringify.getSerialize = getSerialize;
+
+module.exports = {
+    meta: {
+        docs: {
+            description: "detect instances of var[var]",
+            category: "Security"
+        }
+    }, 
+    create(context) {
 
         "use strict";
-
-var isChanged = false;
-
-
-
         return {
             "MemberExpression": function(node) {
 
@@ -59,14 +62,12 @@ var isChanged = false;
                     var token = context.getTokens(node)[0];
                     if (node.property.type === 'Identifier') {
                         if (node.parent.type === 'VariableDeclarator') {
-   context.report(node, 'Variable Assigned to Object Injection Sink');
-    
+                            context.report(node, 'Variable Assigned to Object Injection Sink');
                         } else if (node.parent.type === 'CallExpression') {
                         //    console.log(node.parent)
-  context.report(node, 'Function Call Object Injection Sink');
+                            context.report(node, 'Function Call Object Injection Sink');
                         } else {
-                        context.report(node, 'Generic Object Injection Sink');
-    
+                            context.report(node, 'Generic Object Injection Sink');
                         }
 
                     }
@@ -76,4 +77,5 @@ var isChanged = false;
 
         };
     }
+};
 

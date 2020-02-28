@@ -28,33 +28,41 @@ function containsKeyword (node) {
         return
 }
 
-module.exports = function(context) {
+module.exports = {
+    meta: {
+        docs: {
+            description: "detect potential hotspot string comparisons",
+            category: "Security"
+        }
+    },
+    create(context) {
 
-    "use strict";
+        "use strict";
 
-    return {
-        "IfStatement": function(node) {
-            if (node.test && node.test.type === 'BinaryExpression') {
-                if (node.test.operator === '==' || node.test.operator === '===' || node.test.operator === '!=' || node.test.operator === '!==') {
+        return {
+            "IfStatement": function(node) {
+                if (node.test && node.test.type === 'BinaryExpression') {
+                    if (node.test.operator === '==' || node.test.operator === '===' || node.test.operator === '!=' || node.test.operator === '!==') {
 
-                    var token = context.getTokens(node)[0];
+                        var token = context.getTokens(node)[0];
 
-                    if (node.test.left) {
-                    var left = containsKeyword(node.test.left);
-                        if (left) {
-                            return context.report(node, "Potential timing attack, left side: " + left);
+                        if (node.test.left) {
+                        var left = containsKeyword(node.test.left);
+                            if (left) {
+                                return context.report(node, "Potential timing attack, left side: " + left);
+                            }
                         }
-                    }
 
-                    if (node.test.right) {
-                    var right = containsKeyword(node.test.right);
-                        if (right) {
-                            return context.report(node, "Potential timing attack, right side: " + right);
+                        if (node.test.right) {
+                        var right = containsKeyword(node.test.right);
+                            if (right) {
+                                return context.report(node, "Potential timing attack, right side: " + right);
+                            }
                         }
                     }
                 }
             }
-        }
-    };
+        };
 
+    }
 };
