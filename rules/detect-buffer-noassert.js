@@ -26,7 +26,7 @@ module.exports = function(context) {
         "readInt32BE",
         "readFloatLE",
         "readFloatBE",
-        "readDoubleL",
+        "readDoubleLE",
         "readDoubleBE"
     ];
 
