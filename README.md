@@ -103,7 +103,7 @@ More information: [The Dangers of Square Bracket Notation](docs/the-dangers-of-s
 
 Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.
 
-More information: https://snyk.io/blog/node-js-timing-attack-ccc-ctf/
+More information: https://codahale.com/a-lesson-in-timing-attacks/
 
 #### `detect-pseudoRandomBytes`
 
