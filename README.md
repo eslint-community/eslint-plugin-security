@@ -6,7 +6,7 @@ This project will help identify potential security hotspots, but finds a lot of 
 
 ### Installation
 
-`npm install --save-dev eslint-plugin-security`
+`npm install --save-dev eslint-plugin-security` or `yarn add eslint-plugin-security --dev`
 
 ### Usage
 
