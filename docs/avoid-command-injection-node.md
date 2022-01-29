@@ -2,7 +2,7 @@
 
 In this post we are going to learn about the proper way to call a system command using node.js to avoid a common security flaw, command injection.
 
-A call that we often see used, due to it's symplicity is `child_process.exec`. It's got a simple pattern; pass in a command string and it calls you back with an error or the command results.
+A call that we often see used, due to it's simplicity is `child_process.exec`. It's got a simple pattern; pass in a command string and it calls you back with an error or the command results.
 
 Here is a very typical way you would call a system command with `child_process.exec.`
 
@@ -12,7 +12,7 @@ child_process.exec('ls', function (err, data) {
 });
 ```
 
-What happens though when you need to start getting user input for arguments into your command? The obvious solution is to take the user input and build your command out using string concatenation. But here's something I've learned over the years: When you use string concatentation to send data from one system to another you're probably going to have a bad day.
+What happens though when you need to start getting user input for arguments into your command? The obvious solution is to take the user input and build your command out using string concatenation. But here's something I've learned over the years: When you use string concatenation to send data from one system to another you're probably going to have a bad day.
 
 ```js
 var path = "user input";
@@ -23,7 +23,7 @@ child_process.exec('ls -l ' + path, function (err, data) {
 
 ## Why is string concatenation a problem?
 
-Well, because under the hood, `child_process.exec`  makes a call to execute <kbd>/bin/sh</kbd> rather than the target program. The command that was sent just gets passed along as a shell command in the newly spawned <kbd>/bin/sh</kbd> process. `child_process.exec` has a misleading name - it's a bash interpreter, not a program launcher. And that means that all shell metacharacters can have devestating effects if the command is including user input.
+Well, because under the hood, `child_process.exec`  makes a call to execute <kbd>/bin/sh</kbd> rather than the target program. The command that was sent just gets passed along as a shell command in the newly spawned <kbd>/bin/sh</kbd> process. `child_process.exec` has a misleading name - it's a bash interpreter, not a program launcher. And that means that all shell metacharacters can have devastating effects if the command is including user input.
 
 ```sh
 [pid 25170] execve("/bin/sh", ["/bin/sh", "-c", "ls -l user input"], [/* 16 vars */]

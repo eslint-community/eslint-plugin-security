@@ -65,7 +65,7 @@ More information: https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)
 
 #### `detect-eval-with-expression`
 
-Detects `eval(variable)` which can allow an attacker to run arbitary code inside your process.
+Detects `eval(variable)` which can allow an attacker to run arbitrary code inside your process.
 
 More information: http://security.stackexchange.com/questions/94017/what-are-the-security-issues-with-eval-in-javascript
 
