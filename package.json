@@ -25,6 +25,12 @@
     "url": "https://github.com/nodesecurity/eslint-plugin-security/issues"
   },
   "homepage": "https://github.com/nodesecurity/eslint-plugin-security#readme",
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
+  },
   "dependencies": {
     "safe-regex": "^2.1.1"
   },
@@ -32,6 +38,8 @@
     "changelog": "1.3.0",
     "eslint": "^8.11.0",
     "eslint-config-nodesecurity": "^1.3.1",
-    "mocha": "^9.2.2"
+    "lint-staged": "^12.3.7",
+    "mocha": "^9.2.2",
+    "yorkie": "^2.0.0"
   }
 }
