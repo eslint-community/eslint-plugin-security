@@ -1,0 +1,42 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+    - name: Install Packages
+      run: npm install
+    - name: Lint Files
+      run: node Makefile lint
+
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [17.x, 16.x, 14.x, 12.x, "12.22.0"]
+        include:
+        - os: windows-latest
+          node: "16.x"
+        - os: macOS-latest
+          node: "16.x"
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node }}
+    - name: Install Packages
+      run: npm install
+    - name: Test
+      run: npm test
