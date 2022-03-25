@@ -3,26 +3,26 @@
  * @author Jon Lamendola
  */
 
+'use strict';
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-
 module.exports = function(context) {
 
-        "use strict";
 
-        return {
-                "NewExpression": function(node) {
-                        if (node.callee.name === 'RegExp') {
-                                var args = node.arguments;
-                                if (args && args.length > 0 && args[0].type !== 'Literal') {
-                                        var token = context.getTokens(node)[0];
-                                        return context.report(node, 'Found non-literal argument to RegExp Constructor');
-                                }
-                        }
-
-                }
-
+  return {
+    'NewExpression': function(node) {
+      if (node.callee.name === 'RegExp') {
+        const args = node.arguments;
+        if (args && args.length > 0 && args[0].type !== 'Literal') {
+          const token = context.getTokens(node)[0];
+          return context.report(node, 'Found non-literal argument to RegExp Constructor');
         }
-}
+      }
+
+    }
+
+  };
+};
