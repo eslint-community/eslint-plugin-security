@@ -14,10 +14,12 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '16.x'
+    
     - name: Install Packages
       run: npm install
+    
     - name: Lint Files
-      run: node Makefile lint
+      run: npm run lint
 
   test:
     name: Test
@@ -33,10 +35,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
+    
     - uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node }}
+    
     - name: Install Packages
       run: npm install
+    
     - name: Test
       run: npm test
