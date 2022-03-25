@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
-    "test": "./node_modules/.bin/mocha test/**/*",
-    "lint": "./node_modules/.bin/eslint .",
+    "test": "npx mocha test/**/*",
+    "lint": "npx eslint .",
     "cont-int": "npm test && npm run-script lint"
   },
   "repository": {
