@@ -7,8 +7,9 @@
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "test": "mocha test/**/*",
     "lint": "eslint .",
+    "format": "prettier --write .",
     "lint:fix": "eslint --fix .",
-    "cont-int": "npm test && npm run lint"
+    "cont-int": "npm test && npm run lint && format"
   },
   "repository": {
     "type": "git",
