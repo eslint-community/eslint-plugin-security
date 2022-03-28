@@ -13,9 +13,6 @@ This project will help identify potential security hotspots, but finds a lot of 
 Add the following to your `.eslintrc` file:
 
 ```js
-"plugins": [
-  "security"
-],
 "extends": [
   "plugin:security/recommended"
 ]
