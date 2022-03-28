@@ -27,10 +27,11 @@ const getPath = (value, seen, keys) => {
 
 const getSerialize = (fn, decycle) => {
 
-  const seen = []; const keys = [];
+  const seen = [];
+  const keys = [];
   decycle = decycle || function(key, value) {
 
-    return `[Circular ${  getPath(value, seen, keys)  }]`;
+    return `[Circular ${getPath(value, seen, keys)}]`;
   };
   return function(key, value) {
 
@@ -57,35 +58,39 @@ const stringify = (obj, fn, spaces, decycle) => {
   return JSON.stringify(obj, getSerialize(fn, decycle), spaces);
 };
 
-stringify.getSerialize = getSerialize; module.exports = function(context) {
+stringify.getSerialize = getSerialize;
+module.exports = {
+  meta: {
+    type: 'suggestion',
+    docs: {
+      description: 'Detects `variable[key]` as a left- or right-hand assignment operand.',
+      category: 'Possible Security Vulnerability',
+      recommended: true,
+      url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/the-dangers-of-square-bracket-notation.md'
+    }
+  },
+  create: function(context) {
+    const isChanged = false;
 
-  const isChanged = false;
+    return {
+      'MemberExpression': function(node) {
 
+        if (node.computed === true) {
+          const token = context.getTokens(node)[0];
+          if (node.property.type === 'Identifier') {
+            if (node.parent.type === 'VariableDeclarator') {
+              context.report(node, 'Variable Assigned to Object Injection Sink');
 
-
-  return {
-    'MemberExpression': function(node) {
-
-      if (node.computed === true) {
-        const token = context.getTokens(node)[0];
-        if (node.property.type === 'Identifier') {
-          if (node.parent.type === 'VariableDeclarator') {
-            context.report(node, 'Variable Assigned to Object Injection Sink');
-
+            }
+            else if (node.parent.type === 'CallExpression') {
+              context.report(node, 'Function Call Object Injection Sink');
+            }
+            else {
+              context.report(node, 'Generic Object Injection Sink');
+            }
           }
-          else if (node.parent.type === 'CallExpression') {
-            //    console.log(node.parent)
-            context.report(node, 'Function Call Object Injection Sink');
-          }
-          else {
-            context.report(node, 'Generic Object Injection Sink');
-
-          }
-
         }
       }
-
-    }
-
-  };
+    };
+  }
 };
