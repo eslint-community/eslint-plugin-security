@@ -67,7 +67,7 @@ More information: [OWASP XSS](https://www.owasp.org/index.php/Cross-site_Scripti
 
 Detects `eval(variable)` which can allow an attacker to run arbitrary code inside your process.
 
-More information: [stack-exchange post](http://security.stackexchange.com/questions/94017/what-are-the-security-issues-with-eval-in-javascript)
+More information: [What are the security issues with eval in JavaScript?](http://security.stackexchange.com/questions/94017/what-are-the-security-issues-with-eval-in-javascript)
 
 #### `detect-no-csrf-before-method-override`
 
