@@ -61,9 +61,9 @@ const stringify = (obj, fn, spaces, decycle) => {
 stringify.getSerialize = getSerialize;
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detects `variable[key]` as a left- or right-hand assignment operand.',
+      description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/the-dangers-of-square-bracket-notation.md'

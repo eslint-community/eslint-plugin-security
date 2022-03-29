@@ -13,9 +13,9 @@ const names = [];
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detect instances of [`child_process`](https://nodejs.org/api/child_process.html) & non-literal [`exec()`](https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback).',
+      description: 'Detect instances of "child_process" & non-literal "exec()" calls.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/avoid-command-injection-node.md'

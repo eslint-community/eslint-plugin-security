@@ -11,12 +11,12 @@
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detects if `pseudoRandomBytes()` is in use, which might not give you the randomness you need and expect.',
+      description: 'Detects if "pseudoRandomBytes()" is in use, which might not give you the randomness you need and expect.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://stackoverflow.com/questions/18130254/randombytes-vs-pseudorandombytes'
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-pseudorandombytes'
     }
   },
   create: function(context) {

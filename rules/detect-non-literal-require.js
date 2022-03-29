@@ -11,9 +11,9 @@
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detects `require(variable)`, which might allow an attacker to load and run arbitrary code, or access arbitrary files on disk. ',
+      description: 'Detects "require(variable)", which might allow an attacker to load and run arbitrary code, or access arbitrary files on disk. ',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-non-literal-require'

@@ -12,9 +12,9 @@
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detects Express `csrf` middleware setup before `method-override` middleware. This can allow `GET` requests (which are not checked by `csrf`) to turn into `POST` requests later.',
+      description: 'Detects Express "csrf" middleware setup before "method-override" middleware.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/bypass-connect-csrf-protection-by-abusing.md'

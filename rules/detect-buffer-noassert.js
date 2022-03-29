@@ -13,12 +13,12 @@ const names = [];
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detect calls to "buffer" with `noAssert` flag set. From the Node.js API docs: "Setting `noAssert` to true skips validation of the `offset`. This allows the `offset` to be beyond the end of the `Buffer`."',
+      description: 'Detect calls to "buffer" with "noAssert" flag set.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://nodejs.org/api/buffer.html'
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-buffer-noassert'
     }
   },
   create: function(context) {

@@ -3,7 +3,7 @@
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
       description: 'Detect instances of new Buffer(argument) where argument is any non-literal value.',
       category: 'Possible Security Vulnerability',

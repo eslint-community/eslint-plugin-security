@@ -15,12 +15,12 @@ const funcNames = Object.keys(fsMetaData);
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detects variable in filename argument of `fs` calls, which might allow an attacker to access anything on your system.',
+      description: 'Detects variable in filename argument of "fs" calls, which might allow an attacker to access anything on your system.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://www.owasp.org/index.php/Path_Traversal'
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-non-literal-fs-filename'
     }
   },
   create: function(context) {

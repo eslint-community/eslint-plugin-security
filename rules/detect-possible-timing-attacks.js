@@ -34,12 +34,12 @@ const containsKeyword = (node) => {
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
       description: 'Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://snyk.io/blog/node-js-timing-attack-ccc-ctf/'
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-possible-timing-attacks'
     }
   },
   create: function(context) {

@@ -11,12 +11,12 @@
 
 module.exports = {
   meta: {
-    type: 'suggestion',
+    type: 'error',
     docs: {
-      description: 'Detects `eval(variable)` which can allow an attacker to run arbitrary code inside your process.',
+      description: 'Detects "eval(variable)" which can allow an attacker to run arbitrary code inside your process.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://security.stackexchange.com/questions/94017/what-are-the-security-issues-with-eval-in-javascript'
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-eval-with-expression'
     }
   },
   create: function(context) {
