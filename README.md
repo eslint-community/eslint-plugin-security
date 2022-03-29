@@ -91,7 +91,7 @@ More information: [Regular Expression DoS and Node.js](docs/regular-expression-d
 
 Detects `require(variable)`, which might allow an attacker to load and run arbitrary code, or access arbitrary files on disk.
 
-More information: [Require Blogpost](http://www.bennadel.com/blog/2169-where-does-node-js-and-require-look-for-modules.htm)
+More information: [Where does Node.js and require look for modules?](http://www.bennadel.com/blog/2169-where-does-node-js-and-require-look-for-modules.htm)
 
 #### `detect-object-injection`
 
