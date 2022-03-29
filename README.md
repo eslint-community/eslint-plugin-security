@@ -109,7 +109,7 @@ More information: [Snyk Blogpost; possbily flawed.](https://snyk.io/blog/node-js
 
 Detects if `pseudoRandomBytes()` is in use, which might not give you the randomness you need and expect.
 
-More information: [Stackoverflow Post](http://stackoverflow.com/questions/18130254/randombytes-vs-pseudorandombytes)
+More information: [Randombytes vs pseudorandombytes](http://stackoverflow.com/questions/18130254/randombytes-vs-pseudorandombytes)
 
 #### `detect-new-buffer`
 
