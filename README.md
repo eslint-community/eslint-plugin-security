@@ -13,9 +13,6 @@ This project will help identify potential security hotspots, but finds a lot of 
 Add the following to your `.eslintrc` file:
 
 ```js
-"plugins": [
-  "security"
-],
 "extends": [
   "plugin:security/recommended"
 ]
@@ -103,7 +100,7 @@ More information: [The Dangers of Square Bracket Notation](docs/the-dangers-of-s
 
 Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.
 
-More information: [Node.js timing attacks](https://snyk.io/blog/node-js-timing-attack-ccc-ctf/)
+More information: [A lesson in timing attacks](https://codahale.com/a-lesson-in-timing-attacks/)
 
 #### `detect-pseudoRandomBytes`
 
