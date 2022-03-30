@@ -9,17 +9,24 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = function(context) {
-
-
-  return {
-    'MemberExpression': function (node) {
-      if (node.property.name === 'pseudoRandomBytes') {
-        const token = context.getTokens(node)[0];
-        return context.report(node, 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers');
-      }
+module.exports = {
+  meta: {
+    type: 'error',
+    docs: {
+      description: 'Detects if "pseudoRandomBytes()" is in use, which might not give you the randomness you need and expect.',
+      category: 'Possible Security Vulnerability',
+      recommended: true,
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-pseudorandombytes'
     }
-
-  };
-
+  },
+  create: function(context) {
+    return {
+      'MemberExpression': function(node) {
+        if (node.property.name === 'pseudoRandomBytes') {
+          const token = context.getTokens(node)[0];
+          return context.report(node, 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers');
+        }
+      }
+    };
+  }
 };
