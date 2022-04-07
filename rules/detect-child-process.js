@@ -41,7 +41,7 @@ module.exports = {
       'MemberExpression': function(node) {
         const token = context.getTokens(node)[0];
         if (node.property.name === 'exec' && names.indexOf(node.object.name) > -1) {
-        if (node.parent && node.parent.arguments && node.parent.arguments[0] && node.parent.arguments[0].type !== 'Literal') {
+          if (node.parent && node.parent.arguments && node.parent.arguments[0] && node.parent.arguments[0].type !== 'Literal') {
             return context.report(node, 'Found child_process.exec() with non Literal first argument');
           }
         }
