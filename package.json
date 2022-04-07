@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "lint:fix": "eslint --fix .",
-    "cont-int": "npm test && npm run lint && format"
+    "cont-int": "npm test && npm run lint"
   },
   "repository": {
     "type": "git",
