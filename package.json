@@ -30,7 +30,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.js": "eslint --fix && prettier --write"
   },
   "dependencies": {
     "safe-regex": "^2.1.1"
