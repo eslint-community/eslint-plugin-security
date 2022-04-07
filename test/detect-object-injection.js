@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-object-injection';
+import Rule from '../rules/detect-object-injection.js';
 
 const tester = new RuleTester();
 

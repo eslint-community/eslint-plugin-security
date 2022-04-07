@@ -9,10 +9,12 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const fsMetaData = require('./data/fsFunctionData.json');
 const funcNames = Object.keys(fsMetaData);
 
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {

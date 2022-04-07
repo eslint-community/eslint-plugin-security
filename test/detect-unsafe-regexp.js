@@ -5,7 +5,7 @@ import { RuleTester } from 'eslint';
 const tester = new RuleTester();
 
 const ruleName = 'detect-unsafe-regex';
-import Rule from '../rules/detect-unsafe-regex';
+import Rule from '../rules/detect-unsafe-regex.js';
 
 tester.run(ruleName, Rule, {
   valid: [{ code: '/^d+1337d+$/' }],

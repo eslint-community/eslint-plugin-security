@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-non-literal-fs-filename';
+import Rule from '../rules/detect-non-literal-fs-filename.js';
 
 const tester = new RuleTester();
 

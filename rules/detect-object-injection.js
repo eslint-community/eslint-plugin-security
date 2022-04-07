@@ -51,7 +51,7 @@ const stringify = (obj, fn, spaces, decycle) => {
 };
 
 stringify.getSerialize = getSerialize;
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {

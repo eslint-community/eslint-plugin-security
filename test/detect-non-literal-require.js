@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-non-literal-require';
+import Rule from '../rules/detect-non-literal-require.js';
 
 const tester = new RuleTester();
 

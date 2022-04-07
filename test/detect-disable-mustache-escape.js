@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-disable-mustache-escape';
+import Rule from '../rules/detect-disable-mustache-escape.js';
 
 const tester = new RuleTester();
 

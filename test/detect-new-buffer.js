@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-new-buffer';
+import Rule from '../rules/detect-new-buffer.js';
 
 const tester = new RuleTester();
 

@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-no-csrf-before-method-override';
+import Rule from '../rules/detect-no-csrf-before-method-override.js';
 
 const tester = new RuleTester();
 

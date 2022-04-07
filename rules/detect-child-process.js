@@ -11,7 +11,7 @@
 
 const names = [];
 
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {

@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-pseudoRandomBytes';
+import Rule from '../rules/detect-pseudoRandomBytes.js';
 
 const tester = new RuleTester();
 

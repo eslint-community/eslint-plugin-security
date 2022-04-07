@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-eval-with-expression';
+import Rule from '../rules/detect-eval-with-expression.js';
 
 const tester = new RuleTester();
 

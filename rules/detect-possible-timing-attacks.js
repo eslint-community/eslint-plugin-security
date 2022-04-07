@@ -22,7 +22,7 @@ const containsKeyword = (node) => {
   return;
 };
 
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {

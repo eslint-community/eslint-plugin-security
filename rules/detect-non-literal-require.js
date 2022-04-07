@@ -9,7 +9,7 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {

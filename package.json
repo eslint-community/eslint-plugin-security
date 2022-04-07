@@ -3,6 +3,7 @@
   "version": "1.4.0",
   "description": "Security rules for eslint",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "test": "mocha test/**/*",

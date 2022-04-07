@@ -1,7 +1,7 @@
 'use strict';
 
 import { RuleTester } from 'eslint';
-import Rule from '../rules/detect-child-process';
+import Rule from '../rules/detect-child-process.js';
 
 const tester = new RuleTester();
 
