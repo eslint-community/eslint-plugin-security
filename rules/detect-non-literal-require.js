@@ -20,11 +20,11 @@ module.exports = {
     }
   },
   create: function(context) {
-  return {
-    'CallExpression': function (node) {
-      if (node.callee.name === 'require') {
-        const args = node.arguments;
-        if (args && args.length > 0 &&
+    return {
+      'CallExpression': function (node) {
+        if (node.callee.name === 'require') {
+          const args = node.arguments;
+          if (args && args.length > 0 &&
           (args[0].type === 'TemplateLiteral' && args[0].expressions.length > 0) ||
           (args[0].type !== 'TemplateLiteral' && args[0].type !== 'Literal')) {
             const token = context.getTokens(node)[0];
