@@ -2,9 +2,7 @@
 
 const RuleTester = require('eslint').RuleTester;
 
-const tester = new RuleTester({
-  parser: require.resolve('babel-eslint')
-});
+const tester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 const ruleName = 'detect-non-literal-require';
 
