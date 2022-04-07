@@ -1,18 +1,19 @@
 'use strict';
 
-const RuleTester = require('eslint').RuleTester;
+import { RuleTester } from 'eslint';
+import Rule from '../rules/detect-non-literal-regexp';
+
 const tester = new RuleTester();
 
 const ruleName = 'detect-non-literal-regexp';
-const invalid = 'var a = new RegExp(c, \'i\')';
+const invalid = "var a = new RegExp(c, 'i')";
 
-
-tester.run(ruleName, require(`../rules/${ruleName}`), {
-  valid: [{ code: 'var a = new RegExp(\'ab+c\', \'i\')' }],
+tester.run(ruleName, Rule, {
+  valid: [{ code: "var a = new RegExp('ab+c', 'i')" }],
   invalid: [
     {
       code: invalid,
-      errors: [{ message: 'Found non-literal argument to RegExp Constructor' }]
-    }
-  ]
+      errors: [{ message: 'Found non-literal argument to RegExp Constructor' }],
+    },
+  ],
 });

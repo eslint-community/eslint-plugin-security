@@ -1,17 +1,16 @@
 'use strict';
 
-const RuleTester = require('eslint').RuleTester;
+import { RuleTester } from 'eslint';
+import Rule from '../rules/detect-object-injection';
+
 const tester = new RuleTester();
 
 const ruleName = 'detect-object-injection';
-
-const Rule = require(`../rules/${ruleName}`);
 
 const valid = 'var a = {};';
 // const invalidVariable = "TODO";
 // const invalidFunction = "TODO";
 const invalidGeneric = 'var a = {}; a[b] = 4';
-
 
 // TODO
 // tester.run(`${ruleName} (Variable Assigned to)`, Rule, {
@@ -35,13 +34,12 @@ const invalidGeneric = 'var a = {}; a[b] = 4';
 //   ]
 // });
 
-
 tester.run(`${ruleName} (Generic)`, Rule, {
   valid: [{ code: valid }],
   invalid: [
     {
       code: invalidGeneric,
-      errors: [{ message: 'Generic Object Injection Sink' }]
-    }
-  ]
+      errors: [{ message: 'Generic Object Injection Sink' }],
+    },
+  ],
 });

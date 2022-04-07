@@ -9,11 +9,7 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const Sinks = [];
-
-
 const getPath = (value, seen, keys) => {
-
   let index = seen.indexOf(value);
   const path = [keys[index]];
   for (index--; index >= 0; index--) {
@@ -26,21 +22,19 @@ const getPath = (value, seen, keys) => {
 };
 
 const getSerialize = (fn, decycle) => {
-
   const seen = [];
   const keys = [];
-  decycle = decycle || function(key, value) {
-
-    return `[Circular ${getPath(value, seen, keys)}]`;
-  };
-  return function(key, value) {
-
+  decycle =
+    decycle ||
+    function (key, value) {
+      return `[Circular ${getPath(value, seen, keys)}]`;
+    };
+  return function (key, value) {
     let ret = value;
     if (typeof value === 'object' && value) {
       if (seen.indexOf(value) !== -1) {
         ret = decycle(key, value);
-      }
-      else {
+      } else {
         seen.push(value);
         keys.push(key);
       }
@@ -52,9 +46,7 @@ const getSerialize = (fn, decycle) => {
   };
 };
 
-
 const stringify = (obj, fn, spaces, decycle) => {
-
   return JSON.stringify(obj, getSerialize(fn, decycle), spaces);
 };
 
@@ -66,31 +58,24 @@ module.exports = {
       description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/the-dangers-of-square-bracket-notation.md'
-    }
+      url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/the-dangers-of-square-bracket-notation.md',
+    },
   },
-  create: function(context) {
-    const isChanged = false;
-
+  create: function (context) {
     return {
-      'MemberExpression': function(node) {
-
+      MemberExpression: function (node) {
         if (node.computed === true) {
-          const token = context.getTokens(node)[0];
           if (node.property.type === 'Identifier') {
             if (node.parent.type === 'VariableDeclarator') {
               context.report(node, 'Variable Assigned to Object Injection Sink');
-
-            }
-            else if (node.parent.type === 'CallExpression') {
+            } else if (node.parent.type === 'CallExpression') {
               context.report(node, 'Function Call Object Injection Sink');
-            }
-            else {
+            } else {
               context.report(node, 'Generic Object Injection Sink');
             }
           }
         }
-      }
+      },
     };
-  }
+  },
 };

@@ -9,21 +9,11 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const keywords = `((${  [
-  'password',
-  'secret',
-  'api',
-  'apiKey',
-  'token',
-  'auth',
-  'pass',
-  'hash'
-].join(')|(')  }))`;
+const keywords = `((${['password', 'secret', 'api', 'apiKey', 'token', 'auth', 'pass', 'hash'].join(')|(')}))`;
 
-const re = new RegExp(`^${  keywords  }$`, 'im');
+const re = new RegExp(`^${keywords}$`, 'im');
 
 const containsKeyword = (node) => {
-
   if (node.type === 'Identifier') {
     if (re.test(node.name)) {
       return true;
@@ -39,16 +29,14 @@ module.exports = {
       description: 'Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-possible-timing-attacks'
-    }
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-possible-timing-attacks',
+    },
   },
-  create: function(context) {
+  create: function (context) {
     return {
-      'IfStatement': function(node) {
-
+      IfStatement: function (node) {
         if (node.test && node.test.type === 'BinaryExpression') {
           if (node.test.operator === '==' || node.test.operator === '===' || node.test.operator === '!=' || node.test.operator === '!==') {
-
             if (node.test.left) {
               const left = containsKeyword(node.test.left);
               if (left) {
@@ -64,7 +52,7 @@ module.exports = {
             }
           }
         }
-      }
+      },
     };
-  }
+  },
 };

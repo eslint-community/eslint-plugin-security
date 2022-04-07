@@ -18,7 +18,7 @@ module.exports = {
     'detect-child-process': require('./rules/detect-child-process'),
     'detect-disable-mustache-escape': require('./rules/detect-disable-mustache-escape'),
     'detect-object-injection': require('./rules/detect-object-injection'),
-    'detect-new-buffer': require('./rules/detect-new-buffer')
+    'detect-new-buffer': require('./rules/detect-new-buffer'),
   },
   rulesConfig: {
     'detect-unsafe-regex': 0,
@@ -33,13 +33,11 @@ module.exports = {
     'detect-child-process': 0,
     'detect-disable-mustache-escape': 0,
     'detect-object-injection': 0,
-    'detect-new-buffer': 0
+    'detect-new-buffer': 0,
   },
   configs: {
     recommended: {
-      plugins: [
-        'security'
-      ],
+      plugins: ['security'],
       rules: {
         'security/detect-buffer-noassert': 'warn',
         'security/detect-child-process': 'warn',
@@ -53,8 +51,8 @@ module.exports = {
         'security/detect-object-injection': 'warn',
         'security/detect-possible-timing-attacks': 'warn',
         'security/detect-pseudoRandomBytes': 'warn',
-        'security/detect-unsafe-regex': 'warn'
-      }
-    }
-  }
+        'security/detect-unsafe-regex': 'warn',
+      },
+    },
+  },
 };
