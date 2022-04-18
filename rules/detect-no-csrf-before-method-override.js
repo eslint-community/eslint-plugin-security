@@ -9,7 +9,6 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-
 module.exports = {
   meta: {
     type: 'error',
@@ -17,16 +16,15 @@ module.exports = {
       description: 'Detects Express "csrf" middleware setup before "method-override" middleware.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/bypass-connect-csrf-protection-by-abusing.md'
-    }
+      url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/bypass-connect-csrf-protection-by-abusing.md',
+    },
   },
-  create: function(context) {
+  create: function (context) {
     let csrf = false;
 
     return {
-      'CallExpression': function(node) {
+      CallExpression: function (node) {
         const token = context.getTokens(node)[0];
-        const nodeType = token.type;
         const nodeValue = token.value;
 
         if (nodeValue === 'express') {
@@ -42,7 +40,7 @@ module.exports = {
             csrf = true;
           }
         }
-      }
+      },
     };
-  }
+  },
 };

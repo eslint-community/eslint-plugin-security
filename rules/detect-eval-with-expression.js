@@ -19,9 +19,9 @@ module.exports = {
       url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-eval-with-expression'
     }
   },
-  create: function(context) {
+  create: function (context) {
     return {
-      'CallExpression': function(node) {
+      CallExpression: function (node) {
         if (node.callee.name === 'eval' && node.arguments[0].type !== 'Literal') {
           context.report(node, `eval with argument of type ${node.arguments[0].type}`);
         }

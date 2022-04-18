@@ -18,18 +18,19 @@ Add the following to your `.eslintrc` file:
 ]
 ```
 
-
 ## Developer guide
 
 - Use [GitHub pull requests](https://help.github.com/articles/using-pull-requests).
 - Conventions:
- - We use our [custom ESLint setup](https://github.com/nodesecurity/eslint-config-nodesecurity).
- - Please implement a test for each new rule and use this command to be sure the new code respects the style guide and the tests keep passing:
- ```sh
- npm run-script cont-int
- ```
+- We use our [custom ESLint setup](https://github.com/nodesecurity/eslint-config-nodesecurity).
+- Please implement a test for each new rule and use this command to be sure the new code respects the style guide and the tests keep passing:
+
+```sh
+npm run-script cont-int
+```
 
 ### Tests
+
 ```sh
 npm test
 ```
@@ -58,7 +59,7 @@ More information: [Avoiding Command Injection in Node.js](docs/avoid-command-inj
 
 Detects `object.escapeMarkup = false`, which can be used with some template engines to disable escaping of HTML entities. This can lead to Cross-Site Scripting (XSS) vulnerabilities.
 
-More information: [OWASP XSS](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))
+More information: [OWASP XSS](<https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)>)
 
 #### `detect-eval-with-expression`
 

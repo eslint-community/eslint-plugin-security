@@ -37,9 +37,7 @@ module.exports = {
   },
   configs: {
     recommended: {
-      plugins: [
-        'security'
-      ],
+      plugins: ['security'],
       rules: {
         'security/detect-buffer-noassert': 'warn',
         'security/detect-child-process': 'warn',

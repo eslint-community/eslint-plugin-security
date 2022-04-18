@@ -6,7 +6,6 @@ const tester = new RuleTester();
 const ruleName = 'detect-new-buffer';
 const invalid = 'var a = new Buffer(c)';
 
-
 tester.run(ruleName, require(`../rules/${ruleName}`), {
   valid: [{ code: 'var a = new Buffer(\'test\')' }],
   invalid: [

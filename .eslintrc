@@ -1,3 +1,13 @@
 {
-  "extends": "nodesecurity"
+  "extends": [
+    "eslint:recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "env": {
+    "node": true,
+    "es2020": true
+  }
 }

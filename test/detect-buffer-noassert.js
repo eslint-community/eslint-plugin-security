@@ -8,7 +8,6 @@ const Rule = require(`../rules/${ruleName}`);
 
 const invalid = 'a.readUInt8(0, true);';
 
-
 tester.run(ruleName, Rule, {
   valid: [{ code: 'a.readUInt8(0);' }],
   invalid: [

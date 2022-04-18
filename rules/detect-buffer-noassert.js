@@ -9,8 +9,6 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const names = [];
-
 module.exports = {
   meta: {
     type: 'error',
@@ -18,10 +16,10 @@ module.exports = {
       description: 'Detect calls to "buffer" with "noAssert" flag set.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-buffer-noassert'
-    }
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-buffer-noassert',
+    },
   },
-  create: function(context) {
+  create: function (context) {
     const read = [
       'readUInt8',
       'readUInt16LE',
@@ -36,7 +34,7 @@ module.exports = {
       'readFloatLE',
       'readFloatBE',
       'readDoubleL',
-      'readDoubleBE'
+      'readDoubleBE',
     ];
 
     const write = [
@@ -53,25 +51,22 @@ module.exports = {
       'writeFloatLE',
       'writeFloatBE',
       'writeDoubleLE',
-      'writeDoubleBE'
+      'writeDoubleBE',
     ];
 
     return {
-      'MemberExpression': function(node) {
+      MemberExpression: function (node) {
         let index;
         if (read.indexOf(node.property.name) !== -1) {
           index = 1;
-        }
-        else if (write.indexOf(node.property.name) !== -1) {
+        } else if (write.indexOf(node.property.name) !== -1) {
           index = 2;
         }
 
         if (index && node.parent && node.parent.arguments && node.parent.arguments[index] && node.parent.arguments[index].value) {
-          const token = context.getTokens(node)[0];
           return context.report(node, `Found Buffer.${node.property.name} with noAssert flag set true`);
-
         }
-      }
+      },
     };
-  }
+  },
 };
