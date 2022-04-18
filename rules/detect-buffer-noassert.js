@@ -5,6 +5,44 @@
 
 'use strict';
 
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
+
+const read = [
+  'readUInt8',
+  'readUInt16LE',
+  'readUInt16BE',
+  'readUInt32LE',
+  'readUInt32BE',
+  'readInt8',
+  'readInt16LE',
+  'readInt16BE',
+  'readInt32LE',
+  'readInt32BE',
+  'readFloatLE',
+  'readFloatBE',
+  'readDoubleLE',
+  'readDoubleBE',
+];
+
+const write = [
+  'writeUInt8',
+  'writeUInt16LE',
+  'writeUInt16BE',
+  'writeUInt32LE',
+  'writeUInt32BE',
+  'writeInt8',
+  'writeInt16LE',
+  'writeInt16BE',
+  'writeInt32LE',
+  'writeInt32BE',
+  'writeFloatLE',
+  'writeFloatBE',
+  'writeDoubleLE',
+  'writeDoubleBE',
+];
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -18,42 +56,12 @@ module.exports = {
       recommended: true,
       url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-buffer-noassert',
     },
+    __methodsToCheck: {
+      read,
+      write,
+    },
   },
   create: function (context) {
-    const read = [
-      'readUInt8',
-      'readUInt16LE',
-      'readUInt16BE',
-      'readUInt32LE',
-      'readUInt32BE',
-      'readInt8',
-      'readInt16LE',
-      'readInt16BE',
-      'readInt32LE',
-      'readInt32BE',
-      'readFloatLE',
-      'readFloatBE',
-      'readDoubleL',
-      'readDoubleBE',
-    ];
-
-    const write = [
-      'writeUInt8',
-      'writeUInt16LE',
-      'writeUInt16BE',
-      'writeUInt32LE',
-      'writeUInt32BE',
-      'writeInt8',
-      'writeInt16LE',
-      'writeInt16BE',
-      'writeInt32LE',
-      'writeInt32BE',
-      'writeFloatLE',
-      'writeFloatBE',
-      'writeDoubleLE',
-      'writeDoubleBE',
-    ];
-
     return {
       MemberExpression: function (node) {
         let index;
