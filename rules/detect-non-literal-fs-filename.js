@@ -26,7 +26,7 @@ module.exports = {
     return {
       MemberExpression: function (node) {
         const result = [];
-        if (funcNames.indexOf(node.property.name) !== -1) {
+        if (node.object && node.object.name === 'fs' && funcNames.indexOf(node.property.name) !== -1) {
           const meta = fsMetaData[node.property.name];
           const args = node.parent.arguments;
           meta.forEach((i) => {
@@ -38,16 +38,9 @@ module.exports = {
           });
         }
 
-        if (result.length > 0) {
+        if (result.length) {
           return context.report(node, `Found fs.${node.property.name} with non literal argument at index ${result.join(',')}`);
         }
-
-        /*
-              if (node.parent && node.parent.arguments && node.parent.arguments[index].value) {
-                  return context.report(node, 'found Buffer.' + node.property.name + ' with noAssert flag set true');
-
-              }
-              */
       },
     };
   },
