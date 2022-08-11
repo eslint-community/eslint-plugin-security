@@ -58,7 +58,7 @@ module.exports = {
       description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security/blob/main/docs/the-dangers-of-square-bracket-notation.md',
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-object-injection',
     },
   },
   create: function (context) {
@@ -67,11 +67,11 @@ module.exports = {
         if (node.computed === true) {
           if (node.property.type === 'Identifier') {
             if (node.parent.type === 'VariableDeclarator') {
-              context.report(node, 'Variable Assigned to Object Injection Sink');
+              context.report({ node: node, message: 'Variable Assigned to Object Injection Sink' });
             } else if (node.parent.type === 'CallExpression') {
-              context.report(node, 'Function Call Object Injection Sink');
+              context.report({ node: node, message: 'Function Call Object Injection Sink' });
             } else {
-              context.report(node, 'Generic Object Injection Sink');
+              context.report({ node: node, message: 'Generic Object Injection Sink' });
             }
           }
         }

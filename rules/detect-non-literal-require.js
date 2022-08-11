@@ -28,7 +28,7 @@ module.exports = {
             (args && args.length > 0 && args[0].type === 'TemplateLiteral' && args[0].expressions.length > 0) ||
             (args[0].type !== 'TemplateLiteral' && args[0].type !== 'Literal')
           ) {
-            return context.report(node, 'Found non-literal argument in require');
+            return context.report({ node: node, message: 'Found non-literal argument in require' });
           }
         }
       },
