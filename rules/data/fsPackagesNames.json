@@ -1,0 +1,3 @@
+[
+    "fs", "node:fs", "fs/promises", "node:fs/promises", "fs-extra"
+]
