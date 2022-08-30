@@ -8,6 +8,7 @@
 const fsMetaData = require('./data/fsFunctionData.json');
 const funcNames = Object.keys(fsMetaData);
 const fsPackageNames = require('./data/fsPackagesNames.json');
+const { getImportDeclaration, getVariableDeclaration } = require('./utils/import-utils');
 
 //------------------------------------------------------------------------------
 // Utils
@@ -18,6 +19,9 @@ function sinkPositions(node, argMeta) {
 }
 
 function generateReport({ context, node, packageName, methodName, indeces }) {
+  if (!indeces || indeces.length === 0) {
+    return null;
+  }
   return context.report(node, `Found ${methodName} from package "${packageName}" with non literal argument at index ${indeces.join(',')}`);
 }
 
@@ -27,19 +31,13 @@ function generateReport({ context, node, packageName, methodName, indeces }) {
  * | something(a);
  */
 function sinksForRequireWithProperty({ context, methodName, node, program }) {
-  const declaration = program.body
-    // a node import is a variable declaration
-    .filter((entry) => entry.type === 'VariableDeclaration')
-    // one var/let/const may contain multiple declarations, separated by comma, after the "="" sign
-    .flatMap((d) => d.declarations)
-    // it's imported from 'fs'
-    .find(
-      (e) =>
-        e.init.object?.callee.name === 'require' &&
-        e.init.object.arguments[0].type === 'Literal' &&
-        fsPackageNames.includes(e.init.object.arguments[0].value) &&
-        e.init.parent.id.name === methodName
-    );
+  const declaration = getVariableDeclaration({
+    condition: (declaration) => declaration.init.parent.id.name === methodName,
+    hasObject: true,
+    methodName,
+    packageNames: fsPackageNames,
+    program,
+  });
 
   if (!declaration) {
     return null;
@@ -63,14 +61,75 @@ function sinksForRequireWithProperty({ context, methodName, node, program }) {
 
 /**
  * Detects:
+ * | var something = require('fs');
+ * | something.readFile(c);
+ */
+function sinkForMethodCall({ context, node, program, methodName }) {
+  const declaration = getVariableDeclaration({
+    packageNames: fsPackageNames,
+    hasObject: false,
+    program,
+  });
+
+  if (!declaration) {
+    return null;
+  }
+
+  const sinks = sinkPositions(node.parent, fsMetaData[methodName]);
+  if (sinks.length === 0) {
+    return null;
+  }
+
+  return generateReport({
+    context,
+    node,
+    packageName: declaration.init.arguments[0].value,
+    methodName,
+    indeces: sinks,
+  });
+}
+
+/**
+ * Detects:
+ * | var { readFile: something } = require('fs')
+ * | readFile(filename)
+ */
+function sinkForDestructuredRequire({ context, methodName, node, program }) {
+  const declaration = getVariableDeclaration({
+    condition: (declaration) => declaration?.id?.properties?.some((p) => p.value.name === methodName),
+    hasObject: false,
+    methodName,
+    packageNames: fsPackageNames,
+    program,
+  });
+
+  if (!declaration) {
+    return null;
+  }
+
+  const realMethodName = declaration.id.properties.find((p) => p.value.name === methodName).key.name;
+
+  const meta = fsMetaData[realMethodName];
+  const sinks = sinkPositions(node, meta);
+
+  return generateReport({
+    context,
+    node,
+    packageName: declaration.init.arguments[0].value,
+    methodName: realMethodName,
+    indeces: sinks,
+  });
+}
+
+/**
+ * Detects:
  * | import { readFile as something } from 'fs';
  * | something(filename);
  */
-function sinkForImport({ context, methodName, node, program }) {
-  const specifier = program.body
-    .filter((entry) => entry.type === 'ImportDeclaration' && fsPackageNames.includes(entry.source.value) && entry.specifiers.some((s) => s.local.name === methodName))
-    .flatMap((i) => i.specifiers)
-    .find((s) => !!funcNames.includes(s.imported.name));
+function sinkForDestructuredImport({ context, methodName, node, program }) {
+  const importDeclaration = getImportDeclaration({ methodName, packageNames: fsPackageNames, program });
+
+  const specifier = importDeclaration?.specifiers?.find((s) => !!funcNames.includes(s.imported.name));
 
   if (!specifier) {
     return null;
@@ -91,66 +150,6 @@ function sinkForImport({ context, methodName, node, program }) {
 
 /**
  * Detects:
- * | var something = require('fs');
- * | something.readFile(c);
- */
-function sinkForMethodCall({ context, node, program, methodName }) {
-  const imports = program.body
-    .filter((entry) => entry.type === 'VariableDeclaration')
-    // one var/let/const may contain multiple declarations, separated by comma, after the "="" sign
-    .flatMap((d) => d.declarations)
-    // // it's imported from 'fs'
-    .find((e) => e.init.callee?.name === 'require' && e.init.arguments.some((a) => fsPackageNames.includes(a.value)));
-
-  if (!imports) {
-    return null;
-  }
-
-  const sinks = sinkPositions(node.parent, fsMetaData[methodName]);
-  if (sinks.length === 0) {
-    return null;
-  }
-
-  const packageName = imports.init.arguments[0].value;
-
-  return generateReport({
-    context,
-    node,
-    packageName,
-    methodName,
-    indeces: sinks,
-  });
-}
-
-/**
- * Detects:
- * | var { readFile } = require('fs')
- * | readFile(filename)
- */
-function sinkForDestructuredRequire({ context, methodName, node, program }) {
-  const declaration = program.body
-    .filter((entry) => entry.type === 'VariableDeclaration')
-    .flatMap((entry) => entry.declarations)
-    .find((d) => d.init?.callee?.name === 'require' && fsPackageNames.includes(d.init.arguments?.[0].value));
-
-  if (!declaration) {
-    return null;
-  }
-
-  const meta = fsMetaData[methodName];
-  const sinks = sinkPositions(node, meta);
-
-  return generateReport({
-    context,
-    node,
-    packageName: declaration.init.arguments[0].value,
-    methodName,
-    indeces: sinks,
-  });
-}
-
-/**
- * Detects:
  * | import * as something from 'fs';
  * | something.readFile(c);
  */
@@ -159,11 +158,9 @@ function sinkForDefaultImport({ context, methodName, node, objectName, program }
     return null;
   }
 
-  const import_ = program.body.find(
-    (entry) => entry.type === 'ImportDeclaration' && fsPackageNames.includes(entry.source.value) && entry?.specifiers.some((s) => s.local.name === objectName)
-  );
+  const importDeclaration = getImportDeclaration({ methodName: objectName, packageNames: fsPackageNames, program });
 
-  if (!import_) {
+  if (!importDeclaration) {
     return null;
   }
 
@@ -173,7 +170,7 @@ function sinkForDefaultImport({ context, methodName, node, objectName, program }
   return generateReport({
     context,
     node,
-    packageName: import_.source.value,
+    packageName: importDeclaration.source.value,
     methodName,
     indeces: sinks,
   });
@@ -259,7 +256,7 @@ module.exports = {
           return destructuredRequireReport;
         }
 
-        const importReport = sinkForImport({
+        const importReport = sinkForDestructuredImport({
           context,
           methodName: localMethodName,
           node,
