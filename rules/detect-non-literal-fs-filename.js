@@ -39,7 +39,7 @@ module.exports = {
         }
 
         if (result.length > 0) {
-          return context.report(node, `Found fs.${node.property.name} with non literal argument at index ${result.join(',')}`);
+          return context.report({ node: node, message: `Found fs.${node.property.name} with non literal argument at index ${result.join(',')}` });
         }
 
         /*

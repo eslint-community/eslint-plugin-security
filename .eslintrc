@@ -1,7 +1,8 @@
 {
   "extends": [
     "eslint:recommended",
-    "prettier"
+    "prettier",
+    "plugin:eslint-plugin/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": "latest"
@@ -9,5 +10,17 @@
   "env": {
     "node": true,
     "es2020": true
+  },
+  "rules": {
+    "eslint-plugin/prefer-message-ids": "off", // TODO: enable
+    "eslint-plugin/require-meta-docs-url": [
+      "error",
+      {
+        "pattern":
+          "https://github.com/nodesecurity/eslint-plugin-security#{{name}}",
+      },
+    ],
+    "eslint-plugin/require-meta-schema": "off", // TODO: enable
+    "eslint-plugin/require-meta-type": "off"// TODO: enable
   }
 }

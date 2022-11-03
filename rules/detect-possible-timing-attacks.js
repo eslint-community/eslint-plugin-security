@@ -29,8 +29,8 @@ module.exports = {
       description: 'Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-possible-timing-attacks'
-    }
+      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-possible-timing-attacks',
+    },
   },
   create: function (context) {
     return {
@@ -40,19 +40,19 @@ module.exports = {
             if (node.test.left) {
               const left = containsKeyword(node.test.left);
               if (left) {
-                return context.report(node, `Potential timing attack, left side: ${left}`);
+                return context.report({ node: node, message: `Potential timing attack, left side: ${left}` });
               }
             }
 
             if (node.test.right) {
               const right = containsKeyword(node.test.right);
               if (right) {
-                return context.report(node, `Potential timing attack, right side: ${right}`);
+                return context.report({ node: node, message: `Potential timing attack, right side: ${right}` });
               }
             }
           }
         }
-      }
+      },
     };
-  }
+  },
 };

@@ -72,7 +72,7 @@ module.exports = {
         }
 
         if (index && node.parent && node.parent.arguments && node.parent.arguments[index] && node.parent.arguments[index].value) {
-          return context.report(node, `Found Buffer.${node.property.name} with noAssert flag set true`);
+          return context.report({ node: node, message: `Found Buffer.${node.property.name} with noAssert flag set true` });
         }
       },
     };
