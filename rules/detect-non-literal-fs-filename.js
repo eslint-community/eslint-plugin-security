@@ -7,22 +7,23 @@
 
 const fsMetaData = require('./data/fsFunctionData.json');
 const funcNames = Object.keys(fsMetaData);
-const fsPackageNames = require('./data/fsPackagesNames.json');
+const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'];
+
 const { getImportDeclaration, getVariableDeclaration } = require('./utils/import-utils');
 
 //------------------------------------------------------------------------------
 // Utils
 //------------------------------------------------------------------------------
 
-function sinkPositions(node, argMeta) {
+function getIndices(node, argMeta) {
   return (argMeta || []).filter((argIndex) => node.arguments[argIndex].type !== 'Literal');
 }
 
-function generateReport({ context, node, packageName, methodName, indeces }) {
-  if (!indeces || indeces.length === 0) {
+function generateReport({ context, node, packageName, methodName, indices }) {
+  if (!indices || indices.length === 0) {
     return null;
   }
-  return context.report(node, `Found ${methodName} from package "${packageName}" with non literal argument at index ${indeces.join(',')}`);
+  return context.report(node, `Found ${methodName} from package "${packageName}" with non literal argument at index ${indices.join(',')}`);
 }
 
 /**
@@ -30,7 +31,7 @@ function generateReport({ context, node, packageName, methodName, indeces }) {
  * | var something = require('fs').readFile;
  * | something(a);
  */
-function sinksForRequireWithProperty({ context, methodName, node, program }) {
+function detectOnRequireWithProperty({ context, methodName, node, program }) {
   const declaration = getVariableDeclaration({
     condition: (declaration) => declaration.init.parent.id.name === methodName,
     hasObject: true,
@@ -48,14 +49,14 @@ function sinksForRequireWithProperty({ context, methodName, node, program }) {
   const packageName = declaration.init.object.arguments[0].value;
   const fnName = declaration.init.property.name;
 
-  const sinks = sinkPositions(node, fsMetaData[fsFunction]);
+  const indices = getIndices(node, fsMetaData[fsFunction]);
 
   return generateReport({
     context,
     node,
     packageName,
     methodName: fnName,
-    indeces: sinks,
+    indices,
   });
 }
 
@@ -64,7 +65,7 @@ function sinksForRequireWithProperty({ context, methodName, node, program }) {
  * | var something = require('fs');
  * | something.readFile(c);
  */
-function sinkForMethodCall({ context, node, program, methodName }) {
+function detectOnMethodCall({ context, node, program, methodName }) {
   const declaration = getVariableDeclaration({
     packageNames: fsPackageNames,
     hasObject: false,
@@ -75,17 +76,14 @@ function sinkForMethodCall({ context, node, program, methodName }) {
     return null;
   }
 
-  const sinks = sinkPositions(node.parent, fsMetaData[methodName]);
-  if (sinks.length === 0) {
-    return null;
-  }
+  const indices = getIndices(node.parent, fsMetaData[methodName]);
 
   return generateReport({
     context,
     node,
     packageName: declaration.init.arguments[0].value,
     methodName,
-    indeces: sinks,
+    indices,
   });
 }
 
@@ -94,7 +92,7 @@ function sinkForMethodCall({ context, node, program, methodName }) {
  * | var { readFile: something } = require('fs')
  * | readFile(filename)
  */
-function sinkForDestructuredRequire({ context, methodName, node, program }) {
+function detectOnDestructuredRequire({ context, methodName, node, program }) {
   const declaration = getVariableDeclaration({
     condition: (declaration) => declaration?.id?.properties?.some((p) => p.value.name === methodName),
     hasObject: false,
@@ -110,14 +108,14 @@ function sinkForDestructuredRequire({ context, methodName, node, program }) {
   const realMethodName = declaration.id.properties.find((p) => p.value.name === methodName).key.name;
 
   const meta = fsMetaData[realMethodName];
-  const sinks = sinkPositions(node, meta);
+  const indices = getIndices(node, meta);
 
   return generateReport({
     context,
     node,
     packageName: declaration.init.arguments[0].value,
     methodName: realMethodName,
-    indeces: sinks,
+    indices,
   });
 }
 
@@ -126,7 +124,7 @@ function sinkForDestructuredRequire({ context, methodName, node, program }) {
  * | import { readFile as something } from 'fs';
  * | something(filename);
  */
-function sinkForDestructuredImport({ context, methodName, node, program }) {
+function detectOnDestructuredImport({ context, methodName, node, program }) {
   const importDeclaration = getImportDeclaration({ methodName, packageNames: fsPackageNames, program });
 
   const specifier = importDeclaration?.specifiers?.find((s) => !!funcNames.includes(s.imported.name));
@@ -137,14 +135,14 @@ function sinkForDestructuredImport({ context, methodName, node, program }) {
 
   const fnName = specifier.imported.name;
   const meta = fsMetaData[fnName];
-  const sinks = sinkPositions(node, meta);
+  const indices = getIndices(node, meta);
 
   return generateReport({
     context,
     node,
     packageName: specifier.parent.source.value,
     methodName: fnName,
-    indeces: sinks,
+    indices,
   });
 }
 
@@ -153,7 +151,7 @@ function sinkForDestructuredImport({ context, methodName, node, program }) {
  * | import * as something from 'fs';
  * | something.readFile(c);
  */
-function sinkForDefaultImport({ context, methodName, node, objectName, program }) {
+function detectOnDefaultImport({ context, methodName, node, objectName, program }) {
   if (!funcNames.includes(methodName)) {
     return null;
   }
@@ -165,14 +163,14 @@ function sinkForDefaultImport({ context, methodName, node, objectName, program }
   }
 
   const meta = fsMetaData[methodName];
-  const sinks = sinkPositions(node.parent, meta);
+  const indices = getIndices(node.parent, meta);
 
   return generateReport({
     context,
     node,
     packageName: importDeclaration.source.value,
     methodName,
-    indeces: sinks,
+    indices,
   });
 }
 
@@ -181,30 +179,30 @@ function sinkForDefaultImport({ context, methodName, node, objectName, program }
  * | var something = require('fs').promises;
  * | something.readFile(filename)
  */
-function sinkForPromiseProperty({ context, methodName, node, objectName, program }) {
+function detectOnPromiseProperty({ context, methodName, node, objectName, program }) {
   const declaration = program.body
     .filter((entry) => entry.type === 'VariableDeclaration')
     .flatMap((entry) => entry.declarations)
     .find(
-      (d) =>
-        d.id.name === objectName &&
-        d.init.type === 'MemberExpression' &&
+      (declaration) =>
+        declaration.id.name === objectName &&
+        declaration.init.type === 'MemberExpression' &&
         // package name is fs / fs-extra
-        fsPackageNames.includes(d.init.object.arguments[0].value)
+        fsPackageNames.includes(declaration.init.object.arguments[0].value)
     );
 
   if (!declaration) {
     return null;
   }
   const meta = fsMetaData[methodName];
-  const sinks = sinkPositions(node.parent, meta);
+  const indices = getIndices(node.parent, meta);
 
   return generateReport({
     context,
     node,
     packageName: declaration.init.object.arguments[0].value,
     methodName,
-    indeces: sinks,
+    indices,
   });
 }
 
@@ -236,7 +234,7 @@ module.exports = {
         // this only works, when imports are on top level!
         const program = context.getAncestors()[0];
 
-        const requireReport = sinksForRequireWithProperty({
+        const requireReport = detectOnRequireWithProperty({
           context,
           methodName: localMethodName,
           node,
@@ -246,7 +244,7 @@ module.exports = {
           return requireReport;
         }
 
-        const destructuredRequireReport = sinkForDestructuredRequire({
+        const destructuredRequireReport = detectOnDestructuredRequire({
           context,
           methodName: localMethodName,
           node,
@@ -256,7 +254,7 @@ module.exports = {
           return destructuredRequireReport;
         }
 
-        const importReport = sinkForDestructuredImport({
+        const importReport = detectOnDestructuredImport({
           context,
           methodName: localMethodName,
           node,
@@ -273,7 +271,7 @@ module.exports = {
         // this only works, when imports are on top level!
         const program = context.getAncestors()[0];
 
-        const methodCallSinkReport = sinkForMethodCall({
+        const methodCallSinkReport = detectOnMethodCall({
           context,
           methodName: realMethodName,
           node,
@@ -283,7 +281,7 @@ module.exports = {
           return methodCallSinkReport;
         }
 
-        const defaultImportReport = sinkForDefaultImport({
+        const defaultImportReport = detectOnDefaultImport({
           program,
           objectName: localObjectName,
           methodName: realMethodName,
@@ -295,7 +293,7 @@ module.exports = {
           return defaultImportReport;
         }
 
-        const promisePropertyReport = sinkForPromiseProperty({
+        const promisePropertyReport = detectOnPromiseProperty({
           context,
           methodName: realMethodName,
           node,

@@ -2,7 +2,10 @@
 
 const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: 'module',
+  },
 });
 
 const ruleName = 'detect-non-literal-fs-filename';
