@@ -21,5 +21,9 @@ tester.run(ruleName, rule, {
       code: "var child = require('child_process'); child.exec()",
       errors: [{ message: 'Found require("child_process")' }],
     },
+    {
+      code: "var child = sinon.stub(require('child_process')); child.exec.returns({});",
+      errors: [{ message: 'Found require("child_process")' }],
+    },
   ],
 });

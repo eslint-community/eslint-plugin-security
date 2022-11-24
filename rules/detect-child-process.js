@@ -41,7 +41,7 @@ module.exports = {
       },
       MemberExpression: function (node) {
         if (node.property.name === 'exec' && names.indexOf(node.object.name) > -1) {
-          if (node.parent && node.parent.arguments.length && node.parent.arguments[0].type !== 'Literal') {
+          if (node.parent && node.parent.arguments && node.parent.arguments.length && node.parent.arguments[0].type !== 'Literal') {
             return context.report({ node: node, message: 'Found child_process.exec() with non Literal first argument' });
           }
         }
