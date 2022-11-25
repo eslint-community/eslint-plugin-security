@@ -100,8 +100,8 @@ Edge cases are uncommon, but because they are uncommon the problems with them ar
 
 The most direct fix here is going to be to **avoid the use of user input in property name fields**. This isn't reasonable in all circumstances, however, and there should be a way to safely use core language features.
 
-Another option is to create a whitelist of allowed property names, and filter each user input through a helper function to check before allowing it to be used. This is a great option in situations where you know specifically what property names to allow.
+Another option is to create a allowlist of allowed property names, and filter each user input through a helper function to check before allowing it to be used. This is a great option in situations where you know specifically what property names to allow.
 
-In cases where you don't have a strictly defined data model ( which isn't ideal, but there are cases where it has to be so ) then using the same method as above, but with a blacklist of disallowed properties instead is a valid choice.
+In cases where you don't have a strictly defined data model ( which isn't ideal, but there are cases where it has to be so ) then using the same method as above, but with a denylist of disallowed properties instead is a valid choice.
 
 If you are using the `--harmony` flag or [io.js](https://iojs.org/), you also have the option of using [ECMAScript 6 direct proxies](http://wiki.ecmascript.org/doku.php?id=harmony:direct_proxies), which can stand in front of your real object ( private API ) and expose a limited subset of the object ( public API ). This is probably the best approach if you are using this pattern, as it is most consistent with typical object oriented programming paradigms.
