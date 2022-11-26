@@ -23,7 +23,7 @@ function generateReport({ context, node, packageName, methodName, indices }) {
   if (!indices || indices.length === 0) {
     return null;
   }
-  return context.report(node, `Found ${methodName} from package "${packageName}" with non literal argument at index ${indices.join(',')}`);
+  return context.report({ node, message: `Found ${methodName} from package "${packageName}" with non literal argument at index ${indices.join(',')}` });
 }
 
 /**
