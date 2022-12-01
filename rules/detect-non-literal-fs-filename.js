@@ -94,7 +94,7 @@ function detectOnMethodCall({ context, node, program, methodName }) {
  */
 function detectOnDestructuredRequire({ context, methodName, node, program }) {
   const declaration = getVariableDeclaration({
-    condition: (declaration) => declaration?.id?.properties?.some((p) => p.value.name === methodName),
+    condition: (declaration) => declaration && declaration.id && declaration.id.properties && declaration.id.properties.some((p) => p.value.name === methodName),
     hasObject: false,
     methodName,
     packageNames: fsPackageNames,
@@ -127,7 +127,7 @@ function detectOnDestructuredRequire({ context, methodName, node, program }) {
 function detectOnDestructuredImport({ context, methodName, node, program }) {
   const importDeclaration = getImportDeclaration({ methodName, packageNames: fsPackageNames, program });
 
-  const specifier = importDeclaration?.specifiers?.find((s) => !!funcNames.includes(s.imported.name));
+  const specifier = importDeclaration && importDeclaration.specifiers && importDeclaration.specifiers.find((s) => !!funcNames.includes(s.imported.name));
 
   if (!specifier) {
     return null;
@@ -271,14 +271,14 @@ module.exports = {
         // this only works, when imports are on top level!
         const program = context.getAncestors()[0];
 
-        const methodCallSinkReport = detectOnMethodCall({
+        const methodCallReport = detectOnMethodCall({
           context,
           methodName: realMethodName,
           node,
           program,
         });
-        if (methodCallSinkReport) {
-          return methodCallSinkReport;
+        if (methodCallReport) {
+          return methodCallReport;
         }
 
         const defaultImportReport = detectOnDefaultImport({

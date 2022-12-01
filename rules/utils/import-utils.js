@@ -30,5 +30,12 @@ module.exports.getVariableDeclaration = ({ condition, hasObject, packageNames, p
     .find((d) => {
       const init = hasObject ? d.init.object : d.init;
 
-      return init?.callee?.name === 'require' && init.arguments[0].type === 'Literal' && packageNames.includes(init.arguments[0].value) && (!condition || condition(d));
+      return (
+        init &&
+        init.callee &&
+        init.callee.name === 'require' &&
+        init.arguments[0].type === 'Literal' &&
+        packageNames.includes(init.arguments[0].value) &&
+        (!condition || condition(d))
+      );
     });
