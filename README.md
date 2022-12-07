@@ -1,5 +1,7 @@
 # eslint-plugin-security
 
+[![NPM version](https://img.shields.io/npm/v/eslint-plugin-security.svg?style=flat)](https://npmjs.org/package/eslint-plugin-security)
+
 ESLint rules for Node Security
 
 This project will help identify potential security hotspots, but finds a lot of false positives which need triage by a human.
