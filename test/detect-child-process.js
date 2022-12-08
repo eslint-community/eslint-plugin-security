@@ -36,6 +36,17 @@ tester.run(ruleName, rule, {
       code: `
       var foo = require('child_process');
       function fn () {
+        var result = foo.exec(str);
+      }`,
+      errors: [
+        { message: 'Found require("child_process")', line: 2 },
+        { message: 'Found child_process.exec() with non Literal first argument', line: 4 },
+      ],
+    },
+    {
+      code: `
+      var foo = require('child_process');
+      function fn () {
         var foo = /hello/;
         var result = foo.exec(str);
       }`,
