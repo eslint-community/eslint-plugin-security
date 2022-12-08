@@ -29,7 +29,7 @@ module.exports = {
       description: 'Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-possible-timing-attacks',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-possible-timing-attacks.md',
     },
   },
   create: function (context) {

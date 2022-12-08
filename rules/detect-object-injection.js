@@ -58,7 +58,7 @@ module.exports = {
       description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-object-injection',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-object-injection.md',
     },
   },
   create: function (context) {

@@ -8,7 +8,7 @@ _Note: These examples are simple, and seemingly obvious - we will take a look at
 
 Let's take a look at why this could be a problem.
 
-### Issue #1: Bracket object notation with user input grants access to every property available on the object.
+## Issue #1: Bracket object notation with user input grants access to every property available on the object
 
 ```js
 exampleClass[userInput[1]] = userInput[2];
@@ -16,7 +16,7 @@ exampleClass[userInput[1]] = userInput[2];
 
 I won't spend much time here, as I believe this is fairly well known. If exampleClass contains a sensitive property, the above code will allow it to be edited.
 
-### Issue #2: Bracket object notation with user input grants access to every property available on the object, **_including prototypes._**
+## Issue #2: Bracket object notation with user input grants access to every property available on the object, **_including prototypes._**
 
 ```js
 userInput = ['constructor', '{}'];
@@ -25,7 +25,7 @@ exampleClass[userInput[1]] = userInput[2];
 
 This looks pretty innocuous, even if it is an uncommon pattern. The problem here is that we can access or overwrite prototypes such as `constructor` or `__defineGetter__`, which may be used later on. The most likely outcome of this scenario would be an application crash, when a string is attempted to be called as a function.
 
-### Issue #3: Bracket object notation with user input grants access to every property available on the object, including prototypes, **_which can lead to Remote Code Execution._**
+## Issue #3: Bracket object notation with user input grants access to every property available on the object, including prototypes, **_which can lead to Remote Code Execution._**
 
 Now here's where things get really dangerous. It's also where example code gets really implausible - bear with me.
 
@@ -43,7 +43,7 @@ function handler(userInput) {
 
 In the previous section, I mentioned that constructor can be accessed from square brackets. In this case, since we are dealing with a function, the constructor we get back is the `Function` Constructor, which compiles a string of code into a function.
 
-### Exploitation:
+## Exploitation
 
 In order to exploit the above code, we need a two stage exploit function.
 
@@ -84,11 +84,11 @@ user.anyVal = user.anyVal('date');
 
 What we end up with is this:
 
-![](https://cldup.com/lR_Xp0PwU9.png)
+![Exploiting date screenshot](https://cldup.com/lR_Xp0PwU9.png)
 
 Remote Code Execution. The biggest problem here is that there is very little indication in the code that this is what is going on. With something so serious, method calls tend to be very explicit - eval, child_process, etc. It's pretty difficult in node to accidentally introduce one of those into your application. Here though, without having either deep knowledge of JavaScript builtins or having done previous research, it is very easy to accidentally introduce this into your application.
 
-### Isn't this so obscure that it doesn't matter a whole lot?
+## Isn't this so obscure that it doesn't matter a whole lot?
 
 Well, yes and no. Is this particular vector a widespread problem? No, because current JavaScript style guides don't advocate programming this way. Might it become a widespread problem in the future? Absolutely. This pattern is avoided because it isn't common, and therefore not learned and taken up as habit, not because it's a known insecure pattern.
 
@@ -96,7 +96,7 @@ Yes, we are talking about some fairly extreme edge cases, but don't make the ass
 
 Edge cases are uncommon, but because they are uncommon the problems with them are not well known, and they frequently go un-noticed during code review. If the code works, these types of problems tend to disappear. If the code works, and the problems are buried in a module nested n-levels deep, it's likely it won't be found until it causes problems, and by then it's too late. A blind require is essentially running untrusted code in your application. Be [aware of what you require.](https://requiresafe.com)
 
-### How do I fix it?
+## How do I fix it?
 
 The most direct fix here is going to be to **avoid the use of user input in property name fields**. This isn't reasonable in all circumstances, however, and there should be a way to safely use core language features.
 

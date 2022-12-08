@@ -8,7 +8,7 @@ This issue was found and reported to us by [Luca Carettoni](http://twitter.com/_
 
 Connect, methodOverride middleware
 
-### Description:
+### Description
 
 **Connect's "methodOverride" middleware allows an HTTP request to override the method of the request with the value of the "\_method" post key or with the header "x-http-method-override".**
 
@@ -25,7 +25,7 @@ app.use express.methodOverride()
 
 Connect's CSRF middleware does not check csrf tokens in case of idempotent verbs (GET/HEAD/OPTIONS, see lib/middleware/csrf.js). As a result, it is possible to bypass this security control by sending a GET request with a POST MethodOverride header or key.
 
-### Example:
+### Example
 
 ```sh
 GET / HTTP/1.1
@@ -33,7 +33,7 @@ GET / HTTP/1.1
 _method=POST
 ```
 
-### Mitigation Factors:
+### Mitigation Factors
 
 Disable methodOverride or make sure that it takes precedence over other middleware declarations.
 
