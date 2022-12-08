@@ -25,5 +25,21 @@ tester.run(ruleName, rule, {
       code: "var child = sinon.stub(require('child_process')); child.exec.returns({});",
       errors: [{ message: 'Found require("child_process")' }],
     },
+    {
+      code: `
+      var {} = require('child_process');
+      var result = /hello/.exec(str);`,
+      parserOptions: { ecmaVersion: 6 },
+      errors: [{ message: 'Found require("child_process")', line: 2 }],
+    },
+    {
+      code: `
+      var foo = require('child_process');
+      function fn () {
+        var foo = /hello/;
+        var result = foo.exec(str);
+      }`,
+      errors: [{ message: 'Found require("child_process")', line: 2 }],
+    },
   ],
 });
