@@ -25,7 +25,7 @@ tester.run(ruleName, Rule, {
           console.log("You are an admin.");
       }
       `,
-      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i }],
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i, line: 3, endLine: 3, column: 26, endColumn: 55 }],
     },
   ],
 });
@@ -48,10 +48,13 @@ tester.run(`${ruleName} in comment-line`, Rule, {
       /*‮ } ⁦if (isAdmin)⁩ ⁦ begin admins only */
           console.log("You are an admin.");
       /* end admins only ‮ { ⁦*/
+      /* end admins only ‮ 
+         { ⁦*/
         `,
       errors: [
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i },
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 7, endColumn: 50 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 5, endLine: 5, column: 7, endColumn: 33 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 6, endLine: 7, column: 7, endColumn: 15 },
       ],
     },
   ],

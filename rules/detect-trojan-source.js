@@ -45,6 +45,7 @@ module.exports = {
                 data: {
                   text: token.value,
                 },
+                loc: token.loc,
                 message: "Detected potential trojan source attack with unicode bidi introduced in this code: '{{text}}'.",
               });
             }
@@ -59,6 +60,7 @@ module.exports = {
                 data: {
                   text: comment.value,
                 },
+                loc: comment.loc,
                 message: "Detected potential trojan source attack with unicode bidi introduced in this comment: '{{text}}'.",
               });
             }
