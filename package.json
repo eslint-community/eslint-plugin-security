@@ -6,7 +6,7 @@
   "scripts": {
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "release": "npx semantic-release",
-    "test": "mocha test/**/*",
+    "test": "mocha test/**",
     "format": "prettier --write **/*.{md,js,yml}",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
