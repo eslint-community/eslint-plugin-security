@@ -38,12 +38,12 @@ module.exports = {
       Program: function (node) {
         // at the start of analyzing a code path
         if (node.tokens && Array.isArray(node.tokens)) {
-          node.tokens.forEach((tokenObject) => {
-            if (tokenObject.value && hasTrojanSource({ sourceText: tokenObject.value })) {
+          node.tokens.forEach((token) => {
+            if (hasTrojanSource({ sourceText: token.value })) {
               context.report({
                 node: node,
                 data: {
-                  text: tokenObject.value.toString('utf-8'),
+                  text: token.value,
                 },
                 message: "Detected potential trojan source attack with unicode bidi introduced in this code: '{{text}}'.",
               });
@@ -52,12 +52,12 @@ module.exports = {
         }
 
         if (node.comments && Array.isArray(node.comments)) {
-          node.comments.forEach((tokenObject) => {
-            if (tokenObject.value && hasTrojanSource({ sourceText: tokenObject.value })) {
+          node.comments.forEach((comment) => {
+            if (hasTrojanSource({ sourceText: comment.value })) {
               context.report({
                 node: node,
                 data: {
-                  text: tokenObject.value.toString('utf-8'),
+                  text: comment.value,
                 },
                 message: "Detected potential trojan source attack with unicode bidi introduced in this comment: '{{text}}'.",
               });
