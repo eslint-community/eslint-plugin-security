@@ -35,7 +35,7 @@ module.exports = {
   },
   create: function (context) {
     return {
-      onCodePathStart: function (codePath, node) {
+      Program: function (node) {
         // at the start of analyzing a code path
         if (node.tokens && Array.isArray(node.tokens)) {
           node.tokens.forEach((tokenObject) => {
