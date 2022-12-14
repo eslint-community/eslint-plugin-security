@@ -19,10 +19,10 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Locates potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.',
+      description: 'Detects potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-unsafe-regex',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-unsafe-regex.md',
     },
   },
   create: function (context) {

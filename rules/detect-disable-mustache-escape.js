@@ -7,7 +7,7 @@ module.exports = {
       description: 'Detects "object.escapeMarkup = false", which can be used with some template engines to disable escaping of HTML entities.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-disable-mustache-escape',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-disable-mustache-escape.md',
     },
   },
   create: function (context) {
