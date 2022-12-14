@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
-  - type: textarea
+  - type: input
     attributes:
       label: What version of eslint-plugin-security are you using?
     validations:
