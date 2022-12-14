@@ -7,7 +7,19 @@ const ruleName = 'detect-child-process';
 const rule = require(`../rules/${ruleName}`);
 
 tester.run(ruleName, rule, {
-  valid: ["child_process.exec('ls')"],
+  valid: [
+    "child_process.exec('ls')",
+    {
+      code: `
+      var {} = require('child_process');
+      var result = /hello/.exec(str);`,
+      parserOptions: { ecmaVersion: 6 },
+    },
+    {
+      code: "var { spawn } = require('child_process'); spawn(str);",
+      parserOptions: { ecmaVersion: 6 },
+    },
+  ],
   invalid: [
     {
       code: "require('child_process')",
@@ -24,13 +36,6 @@ tester.run(ruleName, rule, {
     {
       code: "var child = sinon.stub(require('child_process')); child.exec.returns({});",
       errors: [{ message: 'Found require("child_process")' }],
-    },
-    {
-      code: `
-      var {} = require('child_process');
-      var result = /hello/.exec(str);`,
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{ message: 'Found require("child_process")', line: 2 }],
     },
     {
       code: `

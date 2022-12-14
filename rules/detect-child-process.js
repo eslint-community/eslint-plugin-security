@@ -47,12 +47,18 @@ module.exports = {
         if (node.callee.name === 'require') {
           const args = node.arguments[0];
           if (args && args.type === 'Literal' && args.value === 'child_process') {
+            let pattern;
             if (node.parent.type === 'VariableDeclarator') {
-              extractChildProcessIdentifiers(node.parent.id);
+              pattern = node.parent.id;
             } else if (node.parent.type === 'AssignmentExpression' && node.parent.operator === '=') {
-              extractChildProcessIdentifiers(node.parent.left);
+              pattern = node.parent.left;
             }
-            return context.report({ node: node, message: 'Found require("child_process")' });
+            if (pattern) {
+              extractChildProcessIdentifiers(pattern);
+            }
+            if (!pattern || pattern.type === 'Identifier') {
+              return context.report({ node: node, message: 'Found require("child_process")' });
+            }
           }
         }
       },
