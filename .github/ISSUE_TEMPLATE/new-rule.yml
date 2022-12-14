@@ -16,8 +16,8 @@ body:
       required: true
   - type: input
     attributes:
-      label: Related [CVE](https://www.redhat.com/en/topics/security/what-is-cve)
-      description: We only accept new rules that have published CVEs.
+      label: Related CVE
+      description: We only accept new rules that have a published [CVE](https://www.redhat.com/en/topics/security/what-is-cve).
     validations:
       required: true
   - type: textarea
