@@ -43,6 +43,7 @@
     "*.yml": "prettier --write"
   },
   "dependencies": {
+    "anti-trojan-source": "^1.4.0",
     "safe-regex": "^2.1.1"
   },
   "devDependencies": {
