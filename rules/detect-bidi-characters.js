@@ -9,6 +9,15 @@
 
 const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069]/gu;
 
+/**
+ * Detects all the dangerous bidi characters in a given source text
+ *
+ * @param {object} options - Options
+ * @param {string} options.sourceText - The source text to search for dangerous bidi characters
+ * @param {number} options.firstLineOffset - The offset of the first line in the source text
+ * @returns {Array<{line: number, column: number}>} - An array of reports, each report is an
+ *    object with the line and column of the dangerous character
+ */
 function detectBidiCharacters({ sourceText, firstLineOffset }) {
   const sourceTextToSearch = sourceText.toString();
 
