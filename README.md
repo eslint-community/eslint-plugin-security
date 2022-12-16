@@ -54,6 +54,7 @@ npm test
 
 | Name                                                                                         | Description                                                                                                                   | ⚠️  |
 | :------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :-- |
+| [detect-bidi-characters](docs/rules/detect-bidi-characters.md)                               | Detects trojan source attacks that employ unicode bidi attacks to inject malicious code.                                      | ✅  |
 | [detect-buffer-noassert](docs/rules/detect-buffer-noassert.md)                               | Detects calls to "buffer" with "noAssert" flag set.                                                                           | ✅  |
 | [detect-child-process](docs/rules/detect-child-process.md)                                   | Detects instances of "child_process" & non-literal "exec()" calls.                                                            | ✅  |
 | [detect-disable-mustache-escape](docs/rules/detect-disable-mustache-escape.md)               | Detects "object.escapeMarkup = false", which can be used with some template engines to disable escaping of HTML entities.     | ✅  |

@@ -19,7 +19,7 @@ module.exports = {
     'detect-disable-mustache-escape': require('./rules/detect-disable-mustache-escape'),
     'detect-object-injection': require('./rules/detect-object-injection'),
     'detect-new-buffer': require('./rules/detect-new-buffer'),
-    'detect-trojan-source': require('./rules/detect-trojan-source'),
+    'detect-bidi-characters': require('./rules/detect-bidi-characters'),
   },
   rulesConfig: {
     'detect-unsafe-regex': 0,
@@ -35,7 +35,7 @@ module.exports = {
     'detect-disable-mustache-escape': 0,
     'detect-object-injection': 0,
     'detect-new-buffer': 0,
-    'detect-trojan-source': 0,
+    'detect-bidi-characters': 0,
   },
   configs: {
     recommended: {
@@ -54,7 +54,7 @@ module.exports = {
         'security/detect-possible-timing-attacks': 'warn',
         'security/detect-pseudoRandomBytes': 'warn',
         'security/detect-unsafe-regex': 'warn',
-        'security/detect-trojan-source': 'warn',
+        'security/detect-bidi-characters': 'warn',
       },
     },
   },

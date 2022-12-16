@@ -3,7 +3,7 @@
 const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
-const ruleName = 'detect-trojan-source';
+const ruleName = 'detect-bidi-characters';
 const Rule = require(`../rules/${ruleName}`);
 
 tester.run(ruleName, Rule, {
@@ -54,18 +54,19 @@ tester.run(`${ruleName} in comment-line`, Rule, {
           console.log("You are an admin.");
       /* end admins only ‮
 ⁦*/
-      /* end admins only ‮ \r\n { ⁦*/
+      /* end admins only ‮ 
+ { ⁦*/
         `,
       errors: [
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 7, endColumn: 8 },
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 11, endColumn: 12 },
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 24, endColumn: 25 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 9, endColumn: 10 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 13, endColumn: 14 },
         { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 26, endColumn: 27 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 3, endLine: 3, column: 28, endColumn: 29 },
 
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 5, endLine: 5, column: 24, endColumn: 25 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 5, endLine: 5, column: 26, endColumn: 27 },
         { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 6, endLine: 6, column: 1, endColumn: 2 },
 
-        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 7, endLine: 7, column: 24, endColumn: 25 },
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 7, endLine: 7, column: 26, endColumn: 27 },
         { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 8, endLine: 8, column: 4, endColumn: 5 },
       ],
     },

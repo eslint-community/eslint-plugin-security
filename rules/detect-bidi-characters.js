@@ -9,14 +9,14 @@
 
 const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069]/gu;
 
-function hasTrojanSource({ sourceText, offsetLine }) {
+function detectBidiCharacters({ sourceText, firstLineOffset }) {
   const sourceTextToSearch = sourceText.toString();
 
   const lines = sourceTextToSearch.split(/\r?\n/);
 
   return lines.reduce((reports, line, lineIndex) => {
     let match;
-    let offset = lineIndex == 0 ? offsetLine : 0;
+    let offset = lineIndex == 0 ? firstLineOffset : 0;
 
     while ((match = dangerousBidiCharsRegexp.exec(line)) !== null) {
       reports.push({ line: lineIndex, column: offset + match.index });
@@ -26,12 +26,12 @@ function hasTrojanSource({ sourceText, offsetLine }) {
   }, []);
 }
 
-function report({ context, node, tokens, message }) {
+function report({ context, node, tokens, message, firstLineOffset }) {
   if (!tokens || !Array.isArray(tokens)) {
     return;
   }
   tokens.forEach((token) => {
-    const reports = hasTrojanSource({ sourceText: token.value, offsetLine: token.loc.start.column });
+    const reports = detectBidiCharacters({ sourceText: token.value, firstLineOffset: token.loc.start.column + firstLineOffset });
 
     reports.forEach((report) => {
       context.report({
@@ -66,14 +66,26 @@ module.exports = {
       description: 'Detects trojan source attacks that employ unicode bidi attacks to inject malicious code.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-trojan-source.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-bidi-characters.md',
     },
   },
   create: function (context) {
     return {
       Program: function (node) {
-        report({ context, node, tokens: node.tokens, message: "Detected potential trojan source attack with unicode bidi introduced in this code: '{{text}}'." });
-        report({ context, node, tokens: node.comments, message: "Detected potential trojan source attack with unicode bidi introduced in this comment: '{{text}}'." });
+        report({
+          context,
+          node,
+          tokens: node.tokens,
+          firstLineOffset: 0,
+          message: "Detected potential trojan source attack with unicode bidi introduced in this code: '{{text}}'.",
+        });
+        report({
+          context,
+          node,
+          tokens: node.comments,
+          firstLineOffset: 2,
+          message: "Detected potential trojan source attack with unicode bidi introduced in this comment: '{{text}}'.",
+        });
       },
     };
   },
