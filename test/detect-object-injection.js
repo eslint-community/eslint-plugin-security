@@ -39,7 +39,7 @@ tester.run(`${ruleName} (Generic)`, Rule, {
   invalid: [
     {
       code: invalidGeneric,
-      errors: [{ message: 'Generic Object Injection Sink' }]
-    }
-  ]
+      errors: [{ message: 'Generic Object Injection Sink' }],
+    },
+  ],
 });

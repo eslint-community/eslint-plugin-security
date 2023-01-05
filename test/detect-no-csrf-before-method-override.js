@@ -10,7 +10,7 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
   invalid: [
     {
       code: 'express.csrf();express.methodOverride()',
-      errors: [{ message: 'express.csrf() middleware found before express.methodOverride()' }]
-    }
-  ]
+      errors: [{ message: 'express.csrf() middleware found before express.methodOverride()' }],
+    },
+  ],
 });
