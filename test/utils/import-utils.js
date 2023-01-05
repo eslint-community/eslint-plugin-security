@@ -1,6 +1,6 @@
 'use strict';
 
-const { getImportAccessPath } = require('../../rules/utils/import-utils');
+const { getImportAccessPath } = require('../../utils/import-utils');
 
 const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester({

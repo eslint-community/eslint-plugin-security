@@ -5,11 +5,11 @@
 
 'use strict';
 
-const fsMetaData = require('./data/fsFunctionData.json');
+const fsMetaData = require('../utils/data/fsFunctionData.json');
 const funcNames = Object.keys(fsMetaData);
 const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'];
 
-const { getImportAccessPath } = require('./utils/import-utils');
+const { getImportAccessPath } = require('../utils/import-utils');
 
 //------------------------------------------------------------------------------
 // Utils
