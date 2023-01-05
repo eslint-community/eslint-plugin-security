@@ -13,11 +13,12 @@
   },
   "rules": {
     "eslint-plugin/prefer-message-ids": "off", // TODO: enable
+    "eslint-plugin/require-meta-docs-description": ["error", { "pattern": "^(Detects|Enforces|Requires|Disallows) .+\\.$" }],
     "eslint-plugin/require-meta-docs-url": [
       "error",
       {
         "pattern":
-          "https://github.com/nodesecurity/eslint-plugin-security#{{name}}",
+          "https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/{{name}}.md",
       },
     ],
     "eslint-plugin/require-meta-schema": "off", // TODO: enable

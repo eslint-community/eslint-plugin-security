@@ -4,10 +4,10 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detect instances of new Buffer(argument) where argument is any non-literal value.',
+      description: 'Detects instances of new Buffer(argument) where argument is any non-literal value.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-new-buffer',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-new-buffer.md',
     },
   },
   create: function (context) {

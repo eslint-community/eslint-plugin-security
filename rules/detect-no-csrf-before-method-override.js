@@ -16,7 +16,7 @@ module.exports = {
       description: 'Detects Express "csrf" middleware setup before "method-override" middleware.',
       category: 'Possible Security Vulnerability',
       recommended: true,
-      url: 'https://github.com/nodesecurity/eslint-plugin-security#detect-no-csrf-before-method-override',
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-no-csrf-before-method-override.md',
     },
   },
   create: function (context) {
