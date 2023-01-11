@@ -11,7 +11,7 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
   invalid: [
     {
       code: invalid,
-      errors: [{ message: 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers' }]
-    }
-  ]
+      errors: [{ message: 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers' }],
+    },
+  ],
 });

@@ -17,10 +17,10 @@ As an example, take the following code where `RLO`, `LRI`, `PDI`, `IRI` are plac
 ```js
 #!/usr/bin/env node
 
-var accessLevel = "user";
+var accessLevel = 'user';
 
-if (accessLevel != "userRLO LRI// Check if adminPDI IRI") {
-  console.log("You are an admin.");
+if (accessLevel != 'userRLO LRI// Check if adminPDI IRI') {
+  console.log('You are an admin.');
 }
 ```
 
@@ -29,11 +29,11 @@ The code above, will be rendered by a text editor as follows:
 ```js
 #!/usr/bin/env node
 
-var accessLevel = "user";
+var accessLevel = 'user';
 
-if (accessLevel != "user") {
+if (accessLevel != 'user') {
   // Check if admin
-  console.log("You are an admin.");
+  console.log('You are an admin.');
 }
 ```
 

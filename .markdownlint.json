@@ -1,4 +1,4 @@
 {
   "line-length": false,
-  "no-inline-html": { "allowed_elements": ["kbd"]}
+  "no-inline-html": { "allowed_elements": ["kbd"] }
 }

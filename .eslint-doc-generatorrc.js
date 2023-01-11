@@ -1,5 +1,5 @@
 const { format } = require('prettier');
-const { prettier: prettierRC } = require('./.prettierrc.json');
+const prettierRC = require('./.prettierrc.json');
 
 /** @type {import('eslint-doc-generator').GenerateOptions} */
 const config = {

@@ -11,17 +11,17 @@ tester.run(ruleName, Rule, {
   invalid: [
     {
       code: '/(x+x+)+y/',
-      errors: [{ message: 'Unsafe Regular Expression' }]
-    }
-  ]
+      errors: [{ message: 'Unsafe Regular Expression' }],
+    },
+  ],
 });
 
 tester.run(`${ruleName} (new RegExp)`, Rule, {
-  valid: [{ code: 'new RegExp(\'^d+1337d+$\')' }],
+  valid: [{ code: "new RegExp('^d+1337d+$')" }],
   invalid: [
     {
-      code: 'new RegExp(\'x+x+)+y\')',
-      errors: [{ message: 'Unsafe Regular Expression (new RegExp)' }]
-    }
-  ]
+      code: "new RegExp('x+x+)+y')",
+      errors: [{ message: 'Unsafe Regular Expression (new RegExp)' }],
+    },
+  ],
 });

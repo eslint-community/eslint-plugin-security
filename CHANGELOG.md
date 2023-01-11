@@ -2,7 +2,7 @@
 
 - 1.5.0
 - Fix avoid crash when exec() is passed no arguments
-  Closes [#82](https://github.com/nodesecurity/eslint-plugin-security/pull/82) with ref as [#23](https://github.com/nodesecurity/eslint-plugin-security/pull/23) 
+  Closes [#82](https://github.com/nodesecurity/eslint-plugin-security/pull/82) with ref as [#23](https://github.com/nodesecurity/eslint-plugin-security/pull/23)
 - Fix incorrect method name in detect-buffer-noassert
   Closes [#63](https://github.com/nodesecurity/eslint-plugin-security/pull/63) and [#80](https://github.com/nodesecurity/eslint-plugin-security/pull/80)
 - Clean up source code formatting
@@ -17,8 +17,8 @@
 - Fix linting errors and step
   [Lint errors](https://github.com/nodesecurity/eslint-plugin-security/commit/1258118c2d07722e9fb388a672b287bb43bc73b3), [Lint step](https://github.com/nodesecurity/eslint-plugin-security/commit/84f3ed3ab88427753c7ac047d0bccbe557f28aa5)
 - Create workflows
-  Check commit message on pull requests, Set up ci on main branch  
-- Update test and lint commands to work cross-platform 
+  Check commit message on pull requests, Set up ci on main branch
+- Update test and lint commands to work cross-platform
   [Commit](https://github.com/nodesecurity/eslint-plugin-security/commit/d3d8e7a27894aa3f83b560f530eb49750e9ee19a)
 - Merge pull request [#47](https://github.com/nodesecurity/eslint-plugin-security/pull/47) from pdehaan/add-docs
   Add old liftsecurity blog posts to docs/ folder
