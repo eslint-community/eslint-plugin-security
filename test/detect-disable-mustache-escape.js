@@ -10,7 +10,7 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
   invalid: [
     {
       code: 'a.escapeMarkup = false',
-      errors: [{ message: 'Markup escaping disabled.' }]
-    }
-  ]
+      errors: [{ message: 'Markup escaping disabled.' }],
+    },
+  ],
 });

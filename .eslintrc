@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "prettier",
-    "plugin:eslint-plugin/recommended"
-  ],
+  "extends": ["eslint:recommended", "prettier", "plugin:eslint-plugin/recommended"],
   "parserOptions": {
     "ecmaVersion": "latest"
   },
@@ -17,12 +13,11 @@
     "eslint-plugin/require-meta-docs-url": [
       "error",
       {
-        "pattern":
-          "https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/{{name}}.md",
-      },
+        "pattern": "https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/{{name}}.md"
+      }
     ],
     "eslint-plugin/require-meta-schema": "off", // TODO: enable
-    "eslint-plugin/require-meta-type": "off"// TODO: enable
+    "eslint-plugin/require-meta-type": "off" // TODO: enable
   },
   "overrides": [
     {
