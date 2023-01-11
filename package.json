@@ -13,7 +13,7 @@
     "lint:js": "eslint .",
     "lint:js:fix": "npm run lint:js -- --fix",
     "release": "npx semantic-release",
-    "test": "mocha test/**/*",
+    "test": "mocha test/**",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "repository": {

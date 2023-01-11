@@ -18,5 +18,14 @@
     ],
     "eslint-plugin/require-meta-schema": "off", // TODO: enable
     "eslint-plugin/require-meta-type": "off" // TODO: enable
-  }
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.js"],
+      "globals": {
+        "describe": "readonly",
+        "it": "readonly"
+      }
+    }
+  ]
 }

@@ -128,5 +128,18 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
       code: "var fs = require('fs');\nfs.readFile(`template with ${filename}`);",
       errors: [{ message: 'Found readFile from package "fs" with non literal argument at index 0' }],
     },
+    // inline
+    {
+      code: "function foo () {\nvar fs = require('fs');\nfs.readFile(filename);\n}",
+      errors: [{ message: 'Found readFile from package "fs" with non literal argument at index 0' }],
+    },
+    {
+      code: "function foo () {\nvar { readFile: something } = require('fs');\nsomething(filename);\n}",
+      errors: [{ message: 'Found readFile from package "fs" with non literal argument at index 0' }],
+    },
+    {
+      code: "var fs = require('fs');\nfunction foo () {\nvar { readFile: something } = fs.promises;\nsomething(filename);\n}",
+      errors: [{ message: 'Found readFile from package "fs" with non literal argument at index 0' }],
+    },
   ],
 });
