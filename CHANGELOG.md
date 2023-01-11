@@ -1,6 +1,7 @@
-# 1.5.0 / 2022-04-14
+# Changelog
 
-- 1.5.0
+## 1.5.0 / 2022-04-14
+
 - Fix avoid crash when exec() is passed no arguments
   Closes [#82](https://github.com/nodesecurity/eslint-plugin-security/pull/82) with ref as [#23](https://github.com/nodesecurity/eslint-plugin-security/pull/23)
 - Fix incorrect method name in detect-buffer-noassert
@@ -27,7 +28,7 @@
 - Fixed typos in README and documentation
   Replaced dead links in README
 
-# 1.4.0 / 2017-06-12
+## 1.4.0 / 2017-06-12
 
 - 1.4.0
 - Stuff and things for 1.4.0 beep boop 🤖
@@ -49,7 +50,7 @@
   The current link leads to a 404 page, the new one is the proper page.
 - Add 'plugin:security/recommended' config to plugin
 
-# 1.3.0 / 2017-02-09
+## 1.3.0 / 2017-02-09
 
 - 1.3.0
 - Merge branch 'scottnonnenberg-update-docs'
@@ -76,17 +77,17 @@
 - A little bit of massage to readme intro
 - Add additional information to README for each rule
 
-# 1.2.0 / 2016-01-21
+## 1.2.0 / 2016-01-21
 
 - 1.2.0
 - updated to check for new RegExp too
 
-# 1.1.0 / 2016-01-06
+## 1.1.0 / 2016-01-06
 
 - 1.1.0
 - adding eslint rule to detect new buffer hotspot
 
-# 1.0.0 / 2015-11-15
+## 1.0.0 / 2015-11-15
 
 - updated desc
 - rules disabled by default
