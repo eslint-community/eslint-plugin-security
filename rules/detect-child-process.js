@@ -27,10 +27,15 @@ module.exports = {
       CallExpression: function (node) {
         if (node.callee.name === 'require') {
           const args = node.arguments[0];
-          if (args && args.type === 'Literal' && childProcessPackageNames.includes(args.value)) {
-            if (node.parent.type !== 'VariableDeclarator' && node.parent.type !== 'AssignmentExpression' && node.parent.type !== 'MemberExpression') {
-              context.report({ node: node, message: 'Found require("' + args.value + '")' });
-            }
+          if (
+            args &&
+            args.type === 'Literal' &&
+            childProcessPackageNames.includes(args.value) &&
+            node.parent.type !== 'VariableDeclarator' &&
+            node.parent.type !== 'AssignmentExpression' &&
+            node.parent.type !== 'MemberExpression'
+          ) {
+            context.report({ node: node, message: 'Found require("' + args.value + '")' });
           }
           return;
         }
@@ -44,10 +49,7 @@ module.exports = {
           scope: context.getScope(),
           packageNames: childProcessPackageNames,
         });
-        if (!pathInfo) {
-          return;
-        }
-        const fnName = pathInfo.path.length === 1 && pathInfo.path[0];
+        const fnName = pathInfo && pathInfo.path.length === 1 && pathInfo.path[0];
         if (fnName !== 'exec') {
           return;
         }
