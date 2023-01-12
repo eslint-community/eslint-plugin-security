@@ -3,7 +3,7 @@
 const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester({
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 13,
     sourceType: 'module',
   },
 });
@@ -23,6 +23,37 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
     {
       code: `var something = require('fs').readFile, readFile = require('foo').readFile;
              readFile(c);`,
+    },
+    {
+      code: `
+            import { promises as fsp } from 'fs';
+            import fs from 'fs';
+            import path from 'path';
+            
+            const index = await fsp.readFile(path.resolve(__dirname, './index.html'), 'utf-8');
+            const key = fs.readFileSync(path.join(__dirname, './ssl.key'));
+            await fsp.writeFile(path.resolve(__dirname, './sitemap.xml'), sitemap);`,
+      globals: {
+        __dirname: 'readonly',
+      },
+    },
+    {
+      code: `
+            import fs from 'fs';
+            import path from 'path';
+            const dirname = path.dirname(__filename)
+            const key = fs.readFileSync(path.resolve(dirname, './index.html'));`,
+      globals: {
+        __filename: 'readonly',
+      },
+    },
+    {
+      code: `
+            import fs from 'fs';
+            const key = fs.readFileSync(\`\${process.cwd()}/path/to/foo.json\`);`,
+      globals: {
+        process: 'readonly',
+      },
     },
   ],
   invalid: [
@@ -140,6 +171,16 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
     {
       code: "var fs = require('fs');\nfunction foo () {\nvar { readFile: something } = fs.promises;\nsomething(filename);\n}",
       errors: [{ message: 'Found readFile from package "fs" with non literal argument at index 0' }],
+    },
+    {
+      code: `
+            import fs from 'fs';
+            import path from 'path';
+            const key = fs.readFileSync(path.resolve(__dirname, foo));`,
+      globals: {
+        __filename: 'readonly',
+      },
+      errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
     },
   ],
 });

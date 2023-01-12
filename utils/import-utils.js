@@ -1,3 +1,5 @@
+const { findVariable } = require('./find-variable');
+
 module.exports.getImportAccessPath = getImportAccessPath;
 
 /**
@@ -181,16 +183,4 @@ function getImportAccessPath({ node, scope, packageNames }) {
   function isImportDeclaration(node) {
     return node && node.type === 'ImportDeclaration' && packageNames.includes(node.source.value);
   }
-}
-
-/** @returns {import("eslint").Scope.Variable | null} */
-function findVariable(scope, name) {
-  while (scope != null) {
-    const variable = scope.set.get(name);
-    if (variable != null) {
-      return variable;
-    }
-    scope = scope.upper;
-  }
-  return null;
 }

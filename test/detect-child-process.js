@@ -50,6 +50,20 @@ tester.run(ruleName, rule, {
     function fn () {
       require('child_process').spawn(str)
     }`,
+    {
+      code: `
+      var {} = require('child_process');
+      var result = /hello/.exec(str);`,
+      parserOptions: { ecmaVersion: 6 },
+    },
+    {
+      code: "var { spawn } = require('child_process'); spawn(str);",
+      parserOptions: { ecmaVersion: 6 },
+    },
+    `
+    var child_process = require('child_process');
+    var FOO = 'ls';
+    child_process.exec(FOO);`,
   ],
   invalid: [
     {
