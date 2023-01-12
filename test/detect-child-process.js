@@ -120,5 +120,17 @@ tester.run(ruleName, rule, {
       }`,
       errors: [{ message: 'Found child_process.exec() with non Literal first argument', line: 3 }],
     },
+    {
+      code: `
+      const {exec} = require('child_process');
+      exec(str)`,
+      errors: [{ message: 'Found child_process.exec() with non Literal first argument', line: 3 }],
+    },
+    {
+      code: `
+      const {exec} = require('node:child_process');
+      exec(str)`,
+      errors: [{ message: 'Found child_process.exec() with non Literal first argument', line: 3 }],
+    },
   ],
 });
