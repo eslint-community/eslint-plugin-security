@@ -5,6 +5,9 @@
 
 'use strict';
 
+const { getImportAccessPath } = require('../utils/import-utils');
+const childProcessPackageNames = ['child_process', 'node:child_process'];
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -20,54 +23,35 @@ module.exports = {
     },
   },
   create: function (context) {
-    /*
-     * Stores variable identifiers pointing to child_process to check (child_process).exec()
-     */
-    const childProcessIdentifiers = new Set();
-
-    /**
-     * Extract identifiers assigned the expression `require("child_process")`.
-     * @param {Pattern} node
-     */
-    function extractChildProcessIdentifiers(node) {
-      if (node.type !== 'Identifier') {
-        return;
-      }
-      const variable = context.getScope().set.get(node.name);
-      if (!variable) {
-        return;
-      }
-      for (const reference of variable.references) {
-        childProcessIdentifiers.add(reference.identifier);
-      }
-    }
-
     return {
       CallExpression: function (node) {
         if (node.callee.name === 'require') {
           const args = node.arguments[0];
-          if (args && args.type === 'Literal' && args.value === 'child_process') {
-            let pattern;
-            if (node.parent.type === 'VariableDeclarator') {
-              pattern = node.parent.id;
-            } else if (node.parent.type === 'AssignmentExpression' && node.parent.operator === '=') {
-              pattern = node.parent.left;
-            }
-            if (pattern) {
-              extractChildProcessIdentifiers(pattern);
-            }
-            if (!pattern || pattern.type === 'Identifier') {
-              return context.report({ node: node, message: 'Found require("child_process")' });
+          if (args && args.type === 'Literal' && childProcessPackageNames.includes(args.value)) {
+            if (node.parent.type !== 'VariableDeclarator' && node.parent.type !== 'AssignmentExpression' && node.parent.type !== 'MemberExpression') {
+              context.report({ node: node, message: 'Found require("' + args.value + '")' });
             }
           }
+          return;
         }
-      },
-      MemberExpression: function (node) {
-        if (node.property.name === 'exec' && childProcessIdentifiers.has(node.object)) {
-          if (node.parent && node.parent.arguments && node.parent.arguments.length && node.parent.arguments[0].type !== 'Literal') {
-            return context.report({ node: node, message: 'Found child_process.exec() with non Literal first argument' });
-          }
+
+        // Reports non-literal `exec()` calls.
+        if (!node.arguments.length || node.arguments[0].type === 'Literal') {
+          return;
         }
+        const pathInfo = getImportAccessPath({
+          node: node.callee,
+          scope: context.getScope(),
+          packageNames: childProcessPackageNames,
+        });
+        if (!pathInfo) {
+          return;
+        }
+        const fnName = pathInfo.path.length === 1 && pathInfo.path[0];
+        if (fnName !== 'exec') {
+          return;
+        }
+        context.report({ node: node, message: 'Found child_process.exec() with non Literal first argument' });
       },
     };
   },
