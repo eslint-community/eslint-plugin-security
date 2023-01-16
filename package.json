@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nodesecurity/eslint-plugin-security.git"
+    "url": "git+https://github.com/eslint-community/eslint-plugin-security.git"
   },
   "keywords": [
     "eslint",
@@ -28,9 +28,9 @@
   "author": "Node Security Project",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/nodesecurity/eslint-plugin-security/issues"
+    "url": "https://github.com/eslint-community/eslint-plugin-security/issues"
   },
-  "homepage": "https://github.com/nodesecurity/eslint-plugin-security#readme",
+  "homepage": "https://github.com/eslint-community/eslint-plugin-security#readme",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
