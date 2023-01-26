@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.6.0...v1.7.0) (2023-01-26)
+
+
+### Features
+
+* improve detect-child-process rule ([#108](https://www.github.com/eslint-community/eslint-plugin-security/issues/108)) ([64ae529](https://www.github.com/eslint-community/eslint-plugin-security/commit/64ae52944a86f9d9daee769acd63ebbdfc5b6631))
+
 ## [1.6.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.5.0...v1.6.0) (2023-01-11)
 
 ### Features
