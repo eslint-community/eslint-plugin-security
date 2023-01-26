@@ -11,7 +11,7 @@ Let's take a look at why this could be a problem.
 ## Issue #1: Bracket object notation with user input grants access to every property available on the object
 
 ```js
-exampleClass[userInput[1]] = userInput[2];
+exampleClass[userInput[0]] = userInput[1];
 ```
 
 I won't spend much time here, as I believe this is fairly well known. If exampleClass contains a sensitive property, the above code will allow it to be edited.
@@ -20,7 +20,7 @@ I won't spend much time here, as I believe this is fairly well known. If example
 
 ```js
 userInput = ['constructor', '{}'];
-exampleClass[userInput[1]] = userInput[2];
+exampleClass[userInput[0]] = userInput[1];
 ```
 
 This looks pretty innocuous, even if it is an uncommon pattern. The problem here is that we can access or overwrite prototypes such as `constructor` or `__defineGetter__`, which may be used later on. The most likely outcome of this scenario would be an application crash, when a string is attempted to be called as a function.
