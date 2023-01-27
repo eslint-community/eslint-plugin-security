@@ -55,6 +55,20 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
         process: 'readonly',
       },
     },
+    `
+    import fs from 'fs';
+    import path from 'path';
+    import url from 'url';
+    const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const html = fs.readFileSync(path.resolve(dirname, './index.html'), 'utf-8');`,
+    {
+      code: `
+      import fs from 'fs';
+      const pkg = fs.readFileSync(require.resolve('eslint/package.json'), 'utf-8');`,
+      globals: {
+        require: 'readonly',
+      },
+    },
   ],
   invalid: [
     /// requires
