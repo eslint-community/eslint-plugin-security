@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.7.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.7.0...v1.7.1) (2023-02-02)
+
+
+### Bug Fixes
+
+* false positives for static expressions in detect-non-literal-fs-filename, detect-child-process, detect-non-literal-regexp, and detect-non-literal-require ([#109](https://www.github.com/eslint-community/eslint-plugin-security/issues/109)) ([56102b5](https://www.github.com/eslint-community/eslint-plugin-security/commit/56102b50aed4bd632dd668770eb37de58788110b))
+
 ## [1.7.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.6.0...v1.7.0) (2023-01-26)
 
 
