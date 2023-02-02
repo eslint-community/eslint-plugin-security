@@ -5,6 +5,8 @@
 
 'use strict';
 
+const { isStaticExpression } = require('../utils/is-static-expression');
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -24,7 +26,14 @@ module.exports = {
       NewExpression: function (node) {
         if (node.callee.name === 'RegExp') {
           const args = node.arguments;
-          if (args && args.length > 0 && args[0].type !== 'Literal') {
+          if (
+            args &&
+            args.length > 0 &&
+            !isStaticExpression({
+              node: args[0],
+              scope: context.getScope(),
+            })
+          ) {
             return context.report({ node: node, message: 'Found non-literal argument to RegExp Constructor' });
           }
         }

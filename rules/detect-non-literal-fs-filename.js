@@ -10,21 +10,7 @@ const funcNames = Object.keys(fsMetaData);
 const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'];
 
 const { getImportAccessPath } = require('../utils/import-utils');
-
-//------------------------------------------------------------------------------
-// Utils
-//------------------------------------------------------------------------------
-
-function getIndices(node, argMeta) {
-  return (argMeta || []).filter((argIndex) => node.arguments[argIndex].type !== 'Literal');
-}
-
-function generateReport({ context, node, packageName, methodName, indices }) {
-  if (!indices || indices.length === 0) {
-    return;
-  }
-  context.report({ node, message: `Found ${methodName} from package "${packageName}" with non literal argument at index ${indices.join(',')}` });
-}
+const { isStaticExpression } = require('../utils/is-static-expression');
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -87,15 +73,23 @@ module.exports = {
         }
         const packageName = pathInfo.packageName;
 
-        const indices = getIndices(node, fsMetaData[fnName]);
-
-        generateReport({
-          context,
-          node,
-          packageName,
-          methodName: fnName,
-          indices,
-        });
+        const indices = [];
+        for (const index of fsMetaData[fnName] || []) {
+          if (index >= node.arguments.length) {
+            continue;
+          }
+          const argument = node.arguments[index];
+          if (isStaticExpression({ node: argument, scope: context.getScope() })) {
+            continue;
+          }
+          indices.push(index);
+        }
+        if (indices.length) {
+          context.report({
+            node,
+            message: `Found ${fnName} from package "${packageName}" with non literal argument at index ${indices.join(',')}`,
+          });
+        }
       },
     };
   },

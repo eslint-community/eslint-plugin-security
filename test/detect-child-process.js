@@ -50,6 +50,14 @@ tester.run(ruleName, rule, {
     function fn () {
       require('child_process').spawn(str)
     }`,
+    `
+    var child_process = require('child_process');
+    var FOO = 'ls';
+    child_process.exec(FOO);`,
+    `
+    import child_process from 'child_process';
+    const FOO = 'ls';
+    child_process.exec(FOO);`,
   ],
   invalid: [
     {

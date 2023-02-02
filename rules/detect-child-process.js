@@ -6,6 +6,7 @@
 'use strict';
 
 const { getImportAccessPath } = require('../utils/import-utils');
+const { isStaticExpression } = require('../utils/is-static-expression');
 const childProcessPackageNames = ['child_process', 'node:child_process'];
 
 //------------------------------------------------------------------------------
@@ -41,7 +42,13 @@ module.exports = {
         }
 
         // Reports non-literal `exec()` calls.
-        if (!node.arguments.length || node.arguments[0].type === 'Literal') {
+        if (
+          !node.arguments.length ||
+          isStaticExpression({
+            node: node.arguments[0],
+            scope: context.getScope(),
+          })
+        ) {
           return;
         }
         const pathInfo = getImportAccessPath({
