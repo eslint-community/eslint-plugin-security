@@ -17,7 +17,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 18
 
       - name: Install Packages
         run: npm install
@@ -30,12 +30,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18.x, 16.x, 14.x, 12.x, '12.22.0']
+        node: [12.22.0, 12, 14, 16, 18, 20]
         include:
           - os: windows-latest
-            node: '16.x'
+            node: 18
           - os: macOS-latest
-            node: '16.x'
+            node: 18
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
