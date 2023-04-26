@@ -6,7 +6,7 @@
   "scripts": {
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "cont-int": "npm test && npm run lint",
-    "format": "prettier --write .",
+    "format": "prettier --write . && npm run lint -- --fix",
     "lint": "npm-run-all \"lint:*\"",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm run update:eslint-docs -- --check",
