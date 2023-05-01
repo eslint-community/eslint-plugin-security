@@ -94,7 +94,7 @@ Well, yes and no. Is this particular vector a widespread problem? No, because cu
 
 Yes, we are talking about some fairly extreme edge cases, but don't make the assumption that your code doesn't have problems because of that - I have seen this issue in production code with some regularity. And, for the majority of node developers, a large portion of application code was not written by them, but rather included through required modules which may contain peculiar flaws like this one.
 
-Edge cases are uncommon, but because they are uncommon the problems with them are not well known, and they frequently go un-noticed during code review. If the code works, these types of problems tend to disappear. If the code works, and the problems are buried in a module nested n-levels deep, it's likely it won't be found until it causes problems, and by then it's too late. A blind require is essentially running untrusted code in your application. Be cognizant of the code you're requiring.
+Edge cases are uncommon, but because they are uncommon the problems with them are not well known, and they frequently go un-noticed during code review. If the code works, these types of problems tend to disappear. If the code works, and the problems are buried in a module nested n-levels deep, it's likely it won't be found until it causes problems, and by then it's too late. A blind require is essentially running untrusted code in your application. Be aware of the code you're requiring.
 
 ## How do I fix it?
 
