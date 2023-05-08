@@ -4,7 +4,13 @@
 
 'use strict';
 
+const pkg = require('./package.json');
+
 module.exports = {
+  meta: {
+    name: pkg.name,
+    version: pkg.version,
+  },
   rules: {
     'detect-unsafe-regex': require('./rules/detect-unsafe-regex'),
     'detect-non-literal-regexp': require('./rules/detect-non-literal-regexp'),
