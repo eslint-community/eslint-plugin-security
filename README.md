@@ -20,12 +20,12 @@ yarn add --dev eslint-plugin-security
 
 ## Usage
 
-Add the following to your `.eslintrc` file:
+Add the following to your `eslint.config.js` file:
 
 ```js
-"extends": [
-  "plugin:security/recommended"
-]
+const pluginSecurity = require('eslint-plugin-security');
+
+module.exports = [pluginSecurity.configs.recommended];
 ```
 
 ## Developer guide
