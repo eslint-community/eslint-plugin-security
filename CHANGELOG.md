@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.7.1...v2.0.0) (2023-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* switch the recommended config to flat (#118)
+
+### Features
+
+* switch the recommended config to flat ([#118](https://www.github.com/eslint-community/eslint-plugin-security/issues/118)) ([e20a366](https://www.github.com/eslint-community/eslint-plugin-security/commit/e20a3664c2f638466286ae9a97515722fc98f97c))
+
 ### [1.7.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.7.0...v1.7.1) (2023-02-02)
 
 
