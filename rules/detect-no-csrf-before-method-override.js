@@ -13,7 +13,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects Express "csrf" middleware setup before "method-override" middleware.',
+      description: 'Detects Express `csrf` middleware setup before `method-override` middleware.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-no-csrf-before-method-override.md',

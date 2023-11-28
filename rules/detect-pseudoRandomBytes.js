@@ -13,7 +13,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects if "pseudoRandomBytes()" is in use, which might not give you the randomness you need and expect.',
+      description: 'Detects if `pseudoRandomBytes()` is in use, which might not give you the randomness you need and expect.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-pseudoRandomBytes.md',

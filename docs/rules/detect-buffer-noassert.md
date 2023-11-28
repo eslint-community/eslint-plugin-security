@@ -1,4 +1,4 @@
-# Detects calls to "buffer" with "noAssert" flag set (`security/detect-buffer-noassert`)
+# Detects calls to `buffer` with `noAssert` flag set (`security/detect-buffer-noassert`)
 
 ⚠️ This rule _warns_ in the ✅ `recommended` config.
 

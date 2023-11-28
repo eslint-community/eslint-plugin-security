@@ -1,5 +1,5 @@
 /**
- * Detect trojan source attacks that employ unicode bidi attacks to inject malicious code
+ * Detect trojan source attacks that employ Unicode bidi attacks to inject malicious code
  * @author Luciamo Mammino
  * @author Simone Sanfratello
  * @author Liran Tal
@@ -72,7 +72,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects trojan source attacks that employ unicode bidi attacks to inject malicious code.',
+      description: 'Detects trojan source attacks that employ Unicode bidi attacks to inject malicious code.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-bidi-characters.md',
@@ -86,14 +86,14 @@ module.exports = {
           node,
           tokens: node.tokens,
           firstLineOffset: 0,
-          message: "Detected potential trojan source attack with unicode bidi introduced in this code: '{{text}}'.",
+          message: "Detected potential trojan source attack with Unicode bidi introduced in this code: '{{text}}'.",
         });
         report({
           context,
           node,
           tokens: node.comments,
           firstLineOffset: 2,
-          message: "Detected potential trojan source attack with unicode bidi introduced in this comment: '{{text}}'.",
+          message: "Detected potential trojan source attack with Unicode bidi introduced in this comment: '{{text}}'.",
         });
       },
     };

@@ -1,4 +1,4 @@
-# Detects "eval(variable)" which can allow an attacker to run arbitrary code inside your process (`security/detect-eval-with-expression`)
+# Detects `eval(variable)` which can allow an attacker to run arbitrary code inside your process (`security/detect-eval-with-expression`)
 
 ⚠️ This rule _warns_ in the ✅ `recommended` config.
 

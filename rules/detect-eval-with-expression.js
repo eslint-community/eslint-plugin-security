@@ -13,7 +13,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects "eval(variable)" which can allow an attacker to run arbitrary code inside your process.',
+      description: 'Detects `eval(variable)` which can allow an attacker to run arbitrary code inside your process.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-eval-with-expression.md',

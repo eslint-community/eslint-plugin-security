@@ -2,15 +2,15 @@
 
 Imagine you are trying to buy a ticket to your favorite JavaScript conference, and instead of getting the ticket page, you instead get `500 Internal Server Error`. For some reason the site is down. You can't do the thing that you want to do most and the conference is losing out on your purchase, all because the application is unavailable.
 
-Availability is not often treated as a security problem, which it is, and it's impacts are immediate, and deeply felt.
+Availability is not often treated as a security problem, which it is, and its impacts are immediate and deeply felt.
 
 The attack surface for Node.js in regards to loss of availability is quite large, as we are dealing with a single event loop. If an attacker can control and block that event loop, then nothing else gets done.
 
-There are many ways to block the event loop, one way an attacker can do that is with [Regular Expression Denial of Service (ReDoS)](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS).
+There are many ways to block the event loop. One way an attacker can do that is with [Regular Expression Denial of Service (ReDoS)](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS).
 
-If user provided input finds it's way into a regular expression, or a regular expression is designed with certain attributes, such as grouping with repetition, you can find yourself in a vulnerable position, as the regular expression match could take a long time to process. [OWASP](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) has a deeper explanation of why this occurs.
+If user-provided input finds its way into a regular expression, or a regular expression is designed with certain attributes, such as grouping with repetition, you can find yourself in a vulnerable position, as the regular expression match could take a long time to process. [OWASP](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) has a deeper explanation of why this occurs.
 
-Let's look at an vulnerable example. Below we are attempting the common task of validating an email address on the server.
+Let's look at a vulnerable example. Below we are attempting the common task of validating an email address on the server.
 
 ```js
 validateEmailFormat: function( string ) {
@@ -53,9 +53,9 @@ false
 [ 8, 487126563 ] <- Added 12 characters and you see it bumps up significantly
 ```
 
-One way you can check regular expressions for badness in an automated way is by using a module from [substack](https://twitter.com/substack) called [safe-regex](https://www.npmjs.org/package/safe-regex). It's prone to false positives, however, it can be useful to point to potentially vulnerable regular expressions you would have otherwise missed in your code.
+One way you can check regular expressions for badness in an automated way is by using a module from [substack](https://twitter.com/substack) called [safe-regex](https://www.npmjs.org/package/safe-regex). It's prone to false positives; however, it can be useful to point to potentially vulnerable regular expressions you would have otherwise missed in your code.
 
-Here is a rule for eslint that you can use to test your JavaScript regular expressions:
+Here is a rule for ESLint that you can use to test your JavaScript regular expressions:
 
 ```js
 var safe = require('safe-regex');
@@ -80,4 +80,4 @@ module.exports = function (context) {
 
 Additionally, OWASP has a [list of regular expressions](https://www.owasp.org/index.php/OWASP_Validation_Regex_Repository) for common validations that might be useful to you.
 
-As part of our ongoing effort to increase the overall security of the Node.js ecosystem, we have conducted automated analysis of every module on npm. We did identify 56 unique vulnerable regular expressions and over 120 modules containing vulnerable regular expressions. Considering that there are now over 100k modules, the results were not alarming. We're working closely with the maintainers of each module to get the issues resolved, once that's done, advisories will be published to the [npm Security advisories](https://www.npmjs.com/advisories) site.
+As part of our ongoing effort to increase the overall security of the Node.js ecosystem, we have conducted automated analyses of every module on NPM. We identified 56 unique vulnerable regular expressions and over 120 modules containing vulnerable regular expressions. Considering that there are now over 100k modules, the results were not alarming. We're working closely with the maintainers of each module to get the issues resolved. Once that's done, advisories will be published to the [NPM security advisories](https://www.npmjs.com/advisories) site.

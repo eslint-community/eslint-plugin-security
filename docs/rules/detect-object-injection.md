@@ -1,4 +1,4 @@
-# Detects "variable[key]" as a left- or right-hand assignment operand (`security/detect-object-injection`)
+# Detects `variable[key]` as a left- or right-hand assignment operand (`security/detect-object-injection`)
 
 ⚠️ This rule _warns_ in the ✅ `recommended` config.
 

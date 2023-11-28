@@ -1,4 +1,4 @@
-# Detects Express "csrf" middleware setup before "method-override" middleware (`security/detect-no-csrf-before-method-override`)
+# Detects Express `csrf` middleware setup before `method-override` middleware (`security/detect-no-csrf-before-method-override`)
 
 ⚠️ This rule _warns_ in the ✅ `recommended` config.
 
@@ -6,4 +6,4 @@
 
 This can allow `GET` requests (which are not checked by `csrf`) to turn into `POST` requests later.
 
-More information: [Bypass Connect CSRF protection by abusing methodOverride Middleware](../bypass-connect-csrf-protection-by-abusing.md)
+More information: [Bypass Connect CSRF Protection by Abusing `methodOverride` Middleware](../bypass-connect-csrf-protection-by-abusing.md)

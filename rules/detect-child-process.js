@@ -17,7 +17,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects instances of "child_process" & non-literal "exec()" calls.',
+      description: 'Detects instances of `child_process` & non-literal `exec()` calls.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-child-process.md',

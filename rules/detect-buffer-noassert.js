@@ -51,7 +51,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects calls to "buffer" with "noAssert" flag set.',
+      description: 'Detects calls to `buffer` with `noAssert` flag set.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-buffer-noassert.md',

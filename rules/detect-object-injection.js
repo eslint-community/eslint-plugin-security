@@ -55,7 +55,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
+      description: 'Detects `variable[key]` as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-object-injection.md',

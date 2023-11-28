@@ -1,4 +1,4 @@
-# Detects instances of "child_process" & non-literal "exec()" calls (`security/detect-child-process`)
+# Detects instances of `child_process` & non-literal `exec()` calls (`security/detect-child-process`)
 
 ⚠️ This rule _warns_ in the ✅ `recommended` config.
 

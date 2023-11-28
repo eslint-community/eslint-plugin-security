@@ -20,7 +20,7 @@ module.exports = {
   meta: {
     type: 'error',
     docs: {
-      description: 'Detects variable in filename argument of "fs" calls, which might allow an attacker to access anything on your system.',
+      description: 'Detects variables in filename arguments of `fs` calls, which might allow an attacker to access anything on your system.',
       category: 'Possible Security Vulnerability',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-non-literal-fs-filename.md',
