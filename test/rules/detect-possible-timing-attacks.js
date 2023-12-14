@@ -4,7 +4,7 @@ const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-possible-timing-attacks';
-const Rule = require(`../rules/${ruleName}`);
+const Rule = require(`../../rules/${ruleName}`);
 
 const valid = 'if (age === 5) {}';
 const invalidLeft = "if (password === 'mypass') {}";

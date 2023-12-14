@@ -66,6 +66,14 @@ const recommended = {
   },
 };
 
-Object.assign(plugin.configs, { recommended });
+const recommendedLegacy = {
+  plugins: ['security'],
+  rules: recommended.rules,
+};
+
+Object.assign(plugin.configs, {
+  recommended,
+  'recommended-legacy': recommendedLegacy
+});
 
 module.exports = plugin;

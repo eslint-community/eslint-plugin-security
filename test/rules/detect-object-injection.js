@@ -5,7 +5,7 @@ const tester = new RuleTester();
 
 const ruleName = 'detect-object-injection';
 
-const Rule = require(`../rules/${ruleName}`);
+const Rule = require(`../../rules/${ruleName}`);
 
 const valid = 'var a = {};';
 // const invalidVariable = "TODO";

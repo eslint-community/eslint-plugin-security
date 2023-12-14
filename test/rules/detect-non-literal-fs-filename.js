@@ -10,7 +10,7 @@ const tester = new RuleTester({
 
 const ruleName = 'detect-non-literal-fs-filename';
 
-tester.run(ruleName, require(`../rules/${ruleName}`), {
+tester.run(ruleName, require(`../../rules/${ruleName}`), {
   valid: [
     {
       code: `var fs = require('fs');
@@ -29,7 +29,7 @@ tester.run(ruleName, require(`../rules/${ruleName}`), {
             import { promises as fsp } from 'fs';
             import fs from 'fs';
             import path from 'path';
-            
+
             const index = await fsp.readFile(path.resolve(__dirname, './index.html'), 'utf-8');
             const key = fs.readFileSync(path.join(__dirname, './ssl.key'));
             await fsp.writeFile(path.resolve(__dirname, './sitemap.xml'), sitemap);`,

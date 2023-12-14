@@ -4,7 +4,7 @@ const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-bidi-characters';
-const Rule = require(`../rules/${ruleName}`);
+const Rule = require(`../../rules/${ruleName}`);
 
 tester.run(ruleName, Rule, {
   valid: [
@@ -54,7 +54,7 @@ tester.run(`${ruleName} in comment-line`, Rule, {
           console.log("You are an admin.");
       /* end admins only ‮
 ⁦*/
-      /* end admins only ‮ 
+      /* end admins only ‮
  { ⁦*/
         `,
       errors: [

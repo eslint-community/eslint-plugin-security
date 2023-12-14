@@ -4,7 +4,7 @@ const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-buffer-noassert';
-const rule = require(`../rules/${ruleName}`);
+const rule = require(`../../rules/${ruleName}`);
 
 const allMethodNames = [...rule.meta.__methodsToCheck.read, ...rule.meta.__methodsToCheck.write];
 
