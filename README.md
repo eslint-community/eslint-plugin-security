@@ -34,12 +34,11 @@ module.exports = [pluginSecurity.configs.recommended];
 
 Add the following to your `.eslintrc` file:
 
-````js
+```js
 module.exports = {
-  "extends": [
-    "plugin:security/recommended-legacy"
-  ]
-}
+  extends: ['plugin:security/recommended-legacy'],
+};
+```
 
 ## Developer guide
 
@@ -65,8 +64,8 @@ npm test
 ⚠️ Configurations set to warn in.\
 ✅ Set in the `recommended` configuration.
 
-| Name                                                                                         | Description                                                                                                                   | ⚠️ |
-| :------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :- |
+| Name                                                                                         | Description                                                                                                                   | ⚠️  |
+| :------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :-- |
 | [detect-bidi-characters](docs/rules/detect-bidi-characters.md)                               | Detects trojan source attacks that employ unicode bidi attacks to inject malicious code.                                      | ✅  |
 | [detect-buffer-noassert](docs/rules/detect-buffer-noassert.md)                               | Detects calls to "buffer" with "noAssert" flag set.                                                                           | ✅  |
 | [detect-child-process](docs/rules/detect-child-process.md)                                   | Detects instances of "child_process" & non-literal "exec()" calls.                                                            | ✅  |
@@ -83,4 +82,3 @@ npm test
 | [detect-unsafe-regex](docs/rules/detect-unsafe-regex.md)                                     | Detects potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.              | ✅  |
 
 <!-- end auto-generated rules list -->
-````
