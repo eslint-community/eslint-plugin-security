@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v2.0.0...v2.1.0) (2023-12-15)
+
+
+### Features
+
+* add config recommended-legacy ([#132](https://www.github.com/eslint-community/eslint-plugin-security/issues/132)) ([13d3f2f](https://www.github.com/eslint-community/eslint-plugin-security/commit/13d3f2fc6ba327c894959db30462f3fda0272f0c))
+
 ## [2.0.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v1.7.1...v2.0.0) (2023-10-17)
 
 
