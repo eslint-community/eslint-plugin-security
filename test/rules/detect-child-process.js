@@ -9,7 +9,7 @@ const tester = new RuleTester({
 });
 
 const ruleName = 'detect-child-process';
-const rule = require(`../rules/${ruleName}`);
+const rule = require(`../../rules/${ruleName}`);
 
 tester.run(ruleName, rule, {
   valid: [

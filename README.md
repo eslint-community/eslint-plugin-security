@@ -20,12 +20,24 @@ yarn add --dev eslint-plugin-security
 
 ## Usage
 
+### Flat config (requires eslint >= v8.23.0)
+
 Add the following to your `eslint.config.js` file:
 
 ```js
 const pluginSecurity = require('eslint-plugin-security');
 
 module.exports = [pluginSecurity.configs.recommended];
+```
+
+### eslintrc config (deprecated)
+
+Add the following to your `.eslintrc` file:
+
+```js
+module.exports = {
+  extends: ['plugin:security/recommended-legacy'],
+};
 ```
 
 ## Developer guide

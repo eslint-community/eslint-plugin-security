@@ -6,7 +6,7 @@ const tester = new RuleTester();
 const ruleName = 'detect-pseudoRandomBytes';
 const invalid = 'crypto.pseudoRandomBytes';
 
-tester.run(ruleName, require(`../rules/${ruleName}`), {
+tester.run(ruleName, require(`../../rules/${ruleName}`), {
   valid: [{ code: 'crypto.randomBytes' }],
   invalid: [
     {
