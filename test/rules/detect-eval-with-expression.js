@@ -6,7 +6,7 @@ const tester = new RuleTester();
 const ruleName = 'detect-eval-with-expression';
 
 tester.run(ruleName, require(`../../rules/${ruleName}`), {
-  valid: [{ code: "eval('alert()')" }],
+  valid: [{ code: "eval('alert()')" }, { code: 'eval("some nefarious code");' }, { code: 'eval()' }],
   invalid: [
     {
       code: 'eval(a);',
