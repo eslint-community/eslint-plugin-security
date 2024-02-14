@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.1.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v2.1.0...v2.1.1) (2024-02-14)
+
+
+### Bug Fixes
+
+* Ensure empty eval() doesn't crash detect-eval-with-expression ([#139](https://www.github.com/eslint-community/eslint-plugin-security/issues/139)) ([8a7c7db](https://www.github.com/eslint-community/eslint-plugin-security/commit/8a7c7db1e2b49e2831d510b8dc1db235dee0edf0))
+
 ## [2.1.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v2.0.0...v2.1.0) (2023-12-15)
 
 
