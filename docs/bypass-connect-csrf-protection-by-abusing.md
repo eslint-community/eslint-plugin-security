@@ -18,9 +18,9 @@ Considering the following code:
 
 ```js
 ...
-app.use express.csrf()
+app.use(express.csrf())
 ...
-app.use express.methodOverride()
+app.use(express.methodOverride())
 ```
 
 Connect's CSRF middleware does not check csrf tokens in case of idempotent verbs (GET/HEAD/OPTIONS, see lib/middleware/csrf.js). As a result, it is possible to bypass this security control by sending a GET request with a POST MethodOverride header or key.
