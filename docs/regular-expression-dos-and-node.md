@@ -2,13 +2,13 @@
 
 Imagine you are trying to buy a ticket to your favorite JavaScript conference, and instead of getting the ticket page, you instead get `500 Internal Server Error`. For some reason the site is down. You can't do the thing that you want to do most and the conference is losing out on your purchase, all because the application is unavailable.
 
-Availability is not often treated as a security problem, which it is, and it's impacts are immediate, and deeply felt.
+Availability is not often treated as a security problem, which it is, and its impacts are immediate, and deeply felt.
 
 The attack surface for Node.js in regards to loss of availability is quite large, as we are dealing with a single event loop. If an attacker can control and block that event loop, then nothing else gets done.
 
 There are many ways to block the event loop, one way an attacker can do that is with [Regular Expression Denial of Service (ReDoS)](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS).
 
-If user provided input finds it's way into a regular expression, or a regular expression is designed with certain attributes, such as grouping with repetition, you can find yourself in a vulnerable position, as the regular expression match could take a long time to process. [OWASP](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) has a deeper explanation of why this occurs.
+If user provided input finds its way into a regular expression, or a regular expression is designed with certain attributes, such as grouping with repetition, you can find yourself in a vulnerable position, as the regular expression match could take a long time to process. [OWASP](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) has a deeper explanation of why this occurs.
 
 Let's look at an vulnerable example. Below we are attempting the common task of validating an email address on the server.
 
