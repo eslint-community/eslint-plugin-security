@@ -10,7 +10,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-new-buffer.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       NewExpression: function (node) {
         if (node.callee.name === 'Buffer' && node.arguments[0] && node.arguments[0].type !== 'Literal') {

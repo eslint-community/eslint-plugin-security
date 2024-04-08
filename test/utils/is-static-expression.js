@@ -12,7 +12,7 @@ const Linter = require('eslint').Linter;
 function getIsStaticExpressionResult(code) {
   const linter = new Linter();
   const result = [];
-  linter.defineRule('test-rule', {
+  const testRule = {
     create(context) {
       return {
         'CallExpression[callee.name = target]'(node) {
@@ -20,27 +20,33 @@ function getIsStaticExpressionResult(code) {
             ...node.arguments.map((expr) =>
               isStaticExpression({
                 node: expr,
-                scope: context.getScope(),
+                scope: context.sourceCode.getScope(expr),
               })
             )
           );
         },
       };
     },
-  });
+  };
 
   const linterResult = linter.verify(code, {
-    parserOptions: {
-      ecmaVersion: 11,
-      sourceType: 'module',
+    plugins: {
+      test: {
+        rules: {
+          'test-rule': testRule,
+        },
+      },
     },
-    globals: {
-      __dirname: 'readonly',
-      __filename: 'readonly',
-      require: 'readonly',
+    languageOptions: {
+      sourceType: 'module',
+      globals: {
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        require: 'readonly',
+      },
     },
     rules: {
-      'test-rule': 'error',
+      'test/test-rule': 'error',
     },
   });
   deepStrictEqual(linterResult, []);

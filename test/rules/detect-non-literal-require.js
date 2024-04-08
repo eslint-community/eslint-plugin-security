@@ -2,7 +2,7 @@
 
 const RuleTester = require('eslint').RuleTester;
 
-const tester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const tester = new RuleTester({ languageOptions: { sourceType: 'commonjs' } });
 
 const ruleName = 'detect-non-literal-require';
 
@@ -17,8 +17,10 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
     },
     {
       code: "const utils = require(__dirname + '/utils');",
-      globals: {
-        __dirname: 'readonly',
+      languageOptions: {
+        globals: {
+          __dirname: 'readonly',
+        },
       },
     },
   ],

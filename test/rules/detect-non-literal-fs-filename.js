@@ -1,12 +1,7 @@
 'use strict';
 
 const RuleTester = require('eslint').RuleTester;
-const tester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 13,
-    sourceType: 'module',
-  },
-});
+const tester = new RuleTester();
 
 const ruleName = 'detect-non-literal-fs-filename';
 
@@ -33,8 +28,10 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
             const index = await fsp.readFile(path.resolve(__dirname, './index.html'), 'utf-8');
             const key = fs.readFileSync(path.join(__dirname, './ssl.key'));
             await fsp.writeFile(path.resolve(__dirname, './sitemap.xml'), sitemap);`,
-      globals: {
-        __dirname: 'readonly',
+      languageOptions: {
+        globals: {
+          __dirname: 'readonly',
+        },
       },
     },
     {
@@ -43,16 +40,20 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
             import path from 'path';
             const dirname = path.dirname(__filename)
             const key = fs.readFileSync(path.resolve(dirname, './index.html'));`,
-      globals: {
-        __filename: 'readonly',
+      languageOptions: {
+        globals: {
+          __filename: 'readonly',
+        },
       },
     },
     {
       code: `
             import fs from 'fs';
             const key = fs.readFileSync(\`\${process.cwd()}/path/to/foo.json\`);`,
-      globals: {
-        process: 'readonly',
+      languageOptions: {
+        globals: {
+          process: 'readonly',
+        },
       },
     },
     `
@@ -65,8 +66,10 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
       code: `
       import fs from 'fs';
       const pkg = fs.readFileSync(require.resolve('eslint/package.json'), 'utf-8');`,
-      globals: {
-        require: 'readonly',
+      languageOptions: {
+        globals: {
+          require: 'readonly',
+        },
       },
     },
   ],
@@ -191,8 +194,10 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
             import fs from 'fs';
             import path from 'path';
             const key = fs.readFileSync(path.resolve(__dirname, foo));`,
-      globals: {
-        __filename: 'readonly',
+      languageOptions: {
+        globals: {
+          __filename: 'readonly',
+        },
       },
       errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
     },

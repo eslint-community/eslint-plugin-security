@@ -21,7 +21,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-non-literal-regexp.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       NewExpression: function (node) {
         if (node.callee.name === 'RegExp') {
@@ -31,7 +31,7 @@ module.exports = {
             args.length > 0 &&
             !isStaticExpression({
               node: args[0],
-              scope: context.getScope(),
+              scope: context.sourceCode.getScope(args[0]),
             })
           ) {
             return context.report({ node: node, message: 'Found non-literal argument to RegExp Constructor' });

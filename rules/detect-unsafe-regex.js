@@ -25,7 +25,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-unsafe-regex.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       Literal: function (node) {
         const token = context.getSourceCode().getTokens(node)[0];

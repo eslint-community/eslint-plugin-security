@@ -61,7 +61,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-object-injection.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       MemberExpression: function (node) {
         if (node.computed === true) {

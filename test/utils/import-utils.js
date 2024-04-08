@@ -8,7 +8,7 @@ const Linter = require('eslint').Linter;
 function getGetImportAccessPathResult(code) {
   const linter = new Linter();
   const result = [];
-  linter.defineRule('test-rule', {
+  const testRule = {
     create(context) {
       return {
         'Identifier[name = target]'(node) {
@@ -18,7 +18,7 @@ function getGetImportAccessPathResult(code) {
           }
           const info = getImportAccessPath({
             node: expr,
-            scope: context.getScope(),
+            scope: context.sourceCode.getScope(expr),
             packageNames: ['target', 'target-foo', 'target-bar'],
           });
           if (!info) return;
@@ -30,15 +30,18 @@ function getGetImportAccessPathResult(code) {
         },
       };
     },
-  });
+  };
 
   const linterResult = linter.verify(code, {
-    parserOptions: {
-      ecmaVersion: 6,
-      sourceType: 'module',
+    plugins: {
+      test: {
+        rules: {
+          'test-rule': testRule,
+        },
+      },
     },
     rules: {
-      'test-rule': 'error',
+      'test/test-rule': 'error',
     },
   });
   deepStrictEqual(linterResult, []);

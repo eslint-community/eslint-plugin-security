@@ -1,12 +1,7 @@
 'use strict';
 
 const RuleTester = require('eslint').RuleTester;
-const tester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-  },
-});
+const tester = new RuleTester();
 
 const ruleName = 'detect-child-process';
 const rule = require(`../../rules/${ruleName}`);

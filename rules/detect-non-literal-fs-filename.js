@@ -26,7 +26,8 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-non-literal-fs-filename.md',
     },
   },
-  create: function (context) {
+  create(context) {
+    const sourceCode = context.sourceCode;
     return {
       CallExpression: function (node) {
         // don't check require. If all arguments are Literals, it's surely safe!
@@ -36,7 +37,7 @@ module.exports = {
 
         const pathInfo = getImportAccessPath({
           node: node.callee,
-          scope: context.getScope(),
+          scope: sourceCode.getScope(node.callee),
           packageNames: fsPackageNames,
         });
         if (!pathInfo) {
@@ -79,7 +80,7 @@ module.exports = {
             continue;
           }
           const argument = node.arguments[index];
-          if (isStaticExpression({ node: argument, scope: context.getScope() })) {
+          if (isStaticExpression({ node: argument, scope: sourceCode.getScope(argument) })) {
             continue;
           }
           indices.push(index);

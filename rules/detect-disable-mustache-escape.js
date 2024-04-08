@@ -10,7 +10,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-disable-mustache-escape.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       AssignmentExpression: function (node) {
         if (node.operator === '=') {
