@@ -27,17 +27,18 @@ module.exports = {
     },
   },
   create(context) {
-    const sourceCode = context.sourceCode;
+    const sourceCode = context.sourceCode || context.getSourceCode();
     return {
-      CallExpression: function (node) {
+      CallExpression(node) {
         // don't check require. If all arguments are Literals, it's surely safe!
         if ((node.callee.type === 'Identifier' && node.callee.name === 'require') || node.arguments.every((argument) => argument.type === 'Literal')) {
           return;
         }
 
+        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
         const pathInfo = getImportAccessPath({
           node: node.callee,
-          scope: sourceCode.getScope(node.callee),
+          scope,
           packageNames: fsPackageNames,
         });
         if (!pathInfo) {
@@ -80,7 +81,8 @@ module.exports = {
             continue;
           }
           const argument = node.arguments[index];
-          if (isStaticExpression({ node: argument, scope: sourceCode.getScope(argument) })) {
+
+          if (isStaticExpression({ node: argument, scope })) {
             continue;
           }
           indices.push(index);

@@ -22,16 +22,20 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode || context.getSourceCode();
+
     return {
-      NewExpression: function (node) {
+      NewExpression(node) {
         if (node.callee.name === 'RegExp') {
           const args = node.arguments;
+          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+
           if (
             args &&
             args.length > 0 &&
             !isStaticExpression({
               node: args[0],
-              scope: context.sourceCode.getScope(args[0]),
+              scope,
             })
           ) {
             return context.report({ node: node, message: 'Found non-literal argument to RegExp Constructor' });

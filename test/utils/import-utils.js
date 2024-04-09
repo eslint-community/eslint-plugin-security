@@ -10,15 +10,18 @@ function getGetImportAccessPathResult(code) {
   const result = [];
   const testRule = {
     create(context) {
+      const sourceCode = context.sourceCode || context.getSourceCode();
       return {
         'Identifier[name = target]'(node) {
           let expr = node;
           if (node.parent.type === 'MemberExpression' && node.parent.property === node) {
             expr = node.parent;
           }
+          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+
           const info = getImportAccessPath({
             node: expr,
-            scope: context.sourceCode.getScope(expr),
+            scope,
             packageNames: ['target', 'target-foo', 'target-bar'],
           });
           if (!info) return;

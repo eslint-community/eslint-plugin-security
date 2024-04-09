@@ -24,7 +24,7 @@ module.exports = {
     },
   },
   create(context) {
-    const sourceCode = context.sourceCode;
+    const sourceCode = context.sourceCode || context.getSourceCode();
     return {
       CallExpression: function (node) {
         if (node.callee.name === 'require') {
@@ -42,19 +42,21 @@ module.exports = {
           return;
         }
 
+        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+
         // Reports non-literal `exec()` calls.
         if (
           !node.arguments.length ||
           isStaticExpression({
             node: node.arguments[0],
-            scope: sourceCode.getScope(node.arguments[0]),
+            scope,
           })
         ) {
           return;
         }
         const pathInfo = getImportAccessPath({
           node: node.callee,
-          scope: sourceCode.getScope(node.callee),
+          scope,
           packageNames: childProcessPackageNames,
         });
         const fnName = pathInfo && pathInfo.path.length === 1 && pathInfo.path[0];
