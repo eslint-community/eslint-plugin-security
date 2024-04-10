@@ -23,7 +23,8 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-child-process.md',
     },
   },
-  create: function (context) {
+  create(context) {
+    const sourceCode = context.sourceCode || context.getSourceCode();
     return {
       CallExpression: function (node) {
         if (node.callee.name === 'require') {
@@ -41,19 +42,21 @@ module.exports = {
           return;
         }
 
+        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+
         // Reports non-literal `exec()` calls.
         if (
           !node.arguments.length ||
           isStaticExpression({
             node: node.arguments[0],
-            scope: context.getScope(),
+            scope,
           })
         ) {
           return;
         }
         const pathInfo = getImportAccessPath({
           node: node.callee,
-          scope: context.getScope(),
+          scope,
           packageNames: childProcessPackageNames,
         });
         const fnName = pathInfo && pathInfo.path.length === 1 && pathInfo.path[0];

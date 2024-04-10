@@ -19,7 +19,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-no-csrf-before-method-override.md',
     },
   },
-  create: function (context) {
+  create(context) {
     let csrf = false;
 
     return {

@@ -32,7 +32,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-possible-timing-attacks.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       IfStatement: function (node) {
         if (node.test && node.test.type === 'BinaryExpression') {

@@ -61,7 +61,7 @@ module.exports = {
       write,
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       MemberExpression: function (node) {
         let index;

@@ -19,7 +19,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-pseudoRandomBytes.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       MemberExpression: function (node) {
         if (node.property.name === 'pseudoRandomBytes') {

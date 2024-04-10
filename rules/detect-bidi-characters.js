@@ -78,7 +78,7 @@ module.exports = {
       url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-bidi-characters.md',
     },
   },
-  create: function (context) {
+  create(context) {
     return {
       Program: function (node) {
         report({
