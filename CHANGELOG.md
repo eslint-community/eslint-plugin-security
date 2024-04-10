@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://www.github.com/eslint-community/eslint-plugin-security/compare/v2.1.1...v3.0.0) (2024-04-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires node ^18.18.0 || ^20.9.0 || >=21.1.0 (#146)
+
+### Features
+
+* requires node ^18.18.0 || ^20.9.0 || >=21.1.0 ([#146](https://www.github.com/eslint-community/eslint-plugin-security/issues/146)) ([df1b606](https://www.github.com/eslint-community/eslint-plugin-security/commit/df1b6063c1224e1163dfdc37c96b64bb52d816bb))
+
+
+### Bug Fixes
+
+* Ensure everything works with ESLint v9 ([#145](https://www.github.com/eslint-community/eslint-plugin-security/issues/145)) ([ac50ab4](https://www.github.com/eslint-community/eslint-plugin-security/commit/ac50ab481ed63d7262513186136ca1429d3b8290))
+
 ### [2.1.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v2.1.0...v2.1.1) (2024-02-14)
 
 
