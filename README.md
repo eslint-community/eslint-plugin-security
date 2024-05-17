@@ -82,3 +82,15 @@ npm test
 | [detect-unsafe-regex](docs/rules/detect-unsafe-regex.md)                                     | Detects potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.              | ✅  |
 
 <!-- end auto-generated rules list -->
+
+## TypeScript support
+
+Type definitions for this package are managed by [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Use [@types/eslint-plugin-security](https://www.npmjs.com/package/@types/eslint-plugin-security) for type checking.
+
+```sh
+npm install --save-dev @types/eslint-plugin-security
+
+# OR
+
+yarn add --dev @types/eslint-plugin-security
+```
