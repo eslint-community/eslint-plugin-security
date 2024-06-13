@@ -47,6 +47,7 @@ const plugin = {
 };
 
 const recommended = {
+  name: 'security/recommended',
   plugins: { security: plugin },
   rules: {
     'security/detect-buffer-noassert': 'warn',
