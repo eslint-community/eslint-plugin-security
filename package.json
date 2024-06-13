@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-security",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Security rules for eslint",
   "main": "index.js",
   "scripts": {
