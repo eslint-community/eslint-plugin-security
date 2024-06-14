@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v3.0.0...v3.0.1) (2024-06-14)
+
+
+### Bug Fixes
+
+* add name to recommended flat config ([#161](https://www.github.com/eslint-community/eslint-plugin-security/issues/161)) ([aa1c8c5](https://www.github.com/eslint-community/eslint-plugin-security/commit/aa1c8c57a2df4ce64a202808c5642a41b47d4519))
+
 ### [3.0.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v3.0.0...v3.0.1) (2024-06-13)
 
 
