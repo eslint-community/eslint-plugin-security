@@ -12,8 +12,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: actions/setup-node@v3
-      - uses: beemojs/conventional-pr-action@v2
+      - uses: beemojs/conventional-pr-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          config-preset: angular
+          config-preset: conventional-changelog-conventionalcommits
