@@ -3,6 +3,10 @@ on:
     branches:
       - main
 name: release-please
+
+permissions:
+  id-token: write # to enable use of OIDC for npm provenance
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -24,7 +28,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
+      - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
