@@ -3,6 +3,7 @@
   "version": "3.0.1",
   "description": "Security rules for eslint",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "cont-int": "npm test && npm run lint",
