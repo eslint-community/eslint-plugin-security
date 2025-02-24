@@ -30,7 +30,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18.18.0, 18.x, 20.x, 21.x]
+        node: [18.18.0, 18.x, 20.x, 22.x]
         include:
           - os: windows-latest
             node: lts/*

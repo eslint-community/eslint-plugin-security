@@ -17,13 +17,13 @@ jobs:
           release-type: node
           package-name: test-release-please
       # The logic below handles the npm publication:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         # these if statements ensure that a publication only occurs when
         # a new release is created:
         if: ${{ steps.release.outputs.release_created }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
       - run: npm ci
