@@ -3,6 +3,7 @@
 	"release-type": "node",
 	"prerelease": false,
 	"include-component-in-tag": false,
+	"bootstrap-sha": "aa33cf5a1dcd5794772d38e1c5ba5a421c8156b7",
 	"changelog-sections": [
 		{ "type": "feat", "section": "🌟 Features", "hidden": false },
 		{ "type": "fix", "section": "🩹 Fixes", "hidden": false },
