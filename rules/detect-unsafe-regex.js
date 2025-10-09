@@ -28,7 +28,7 @@ module.exports = {
   create(context) {
     return {
       Literal: function (node) {
-        const token = context.getSourceCode().getTokens(node)[0];
+        const token = context.sourceCode.getTokens(node)[0];
         const nodeType = token.type;
         const nodeValue = token.value;
 

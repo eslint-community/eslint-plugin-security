@@ -14,11 +14,11 @@ function getIsStaticExpressionResult(code) {
   const result = [];
   const testRule = {
     create(context) {
-      const sourceCode = context.sourceCode || context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       return {
         'CallExpression[callee.name = target]'(node) {
-          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+          const scope = sourceCode.getScope(node);
 
           result.push(
             ...node.arguments.map((expr) =>

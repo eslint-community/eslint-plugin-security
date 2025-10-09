@@ -24,7 +24,7 @@ module.exports = {
     },
   },
   create(context) {
-    const sourceCode = context.sourceCode || context.getSourceCode();
+    const sourceCode = context.sourceCode;
     return {
       CallExpression: function (node) {
         if (node.callee.name === 'require') {
@@ -42,7 +42,7 @@ module.exports = {
           return;
         }
 
-        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+        const scope = sourceCode.getScope(node);
 
         // Reports non-literal `exec()` calls.
         if (

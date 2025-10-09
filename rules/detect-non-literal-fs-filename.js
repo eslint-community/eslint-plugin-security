@@ -27,7 +27,7 @@ module.exports = {
     },
   },
   create(context) {
-    const sourceCode = context.sourceCode || context.getSourceCode();
+    const sourceCode = context.sourceCode;
     return {
       CallExpression(node) {
         // don't check require. If all arguments are Literals, it's surely safe!
@@ -35,7 +35,7 @@ module.exports = {
           return;
         }
 
-        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+        const scope = sourceCode.getScope(node);
         const pathInfo = getImportAccessPath({
           node: node.callee,
           scope,

@@ -24,7 +24,7 @@ module.exports = {
 
     return {
       CallExpression: function (node) {
-        const token = context.getSourceCode().getTokens(node)[0];
+        const token = context.sourceCode.getTokens(node)[0];
         const nodeValue = token.value;
 
         if (nodeValue === 'express') {

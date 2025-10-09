@@ -22,13 +22,13 @@ module.exports = {
     },
   },
   create(context) {
-    const sourceCode = context.sourceCode || context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       CallExpression(node) {
         if (node.callee.name === 'require') {
           const args = node.arguments;
-          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+          const scope = sourceCode.getScope(node);
 
           if (
             args &&
