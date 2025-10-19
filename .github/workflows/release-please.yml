@@ -46,9 +46,11 @@ jobs:
               node-version: lts/*
               registry-url: https://registry.npmjs.org
 
+        # npm 11.5.1 or later is required so update to latest to be sure
+        - name: Update npm
+          run: npm install -g npm@latest
+
         - name: Publish to NPM
-          env:
-              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           run: npm publish --access public --provenance
 
         # Tweets out release announcement
