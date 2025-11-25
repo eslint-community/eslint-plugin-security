@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": false,
+    "outDir": "./dist"
+  },
+  "extends": "./tsconfig.json",
+  "include": ["lib", "configs.ts", "index.ts"]
+}
