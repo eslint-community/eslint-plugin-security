@@ -3,13 +3,13 @@
  * @author Adam Baldwin
  */
 
-'use strict';
+import type { Rule } from 'eslint';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectEvalWithExpressionRule = {
   meta: {
     type: 'error',
     docs: {
@@ -28,4 +28,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

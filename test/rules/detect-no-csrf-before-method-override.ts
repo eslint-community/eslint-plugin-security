@@ -1,11 +1,11 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectNoCsrfBeforeMethodOverrideRule } from '../../rules/detect-no-csrf-before-method-override.js';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-no-csrf-before-method-override';
 
-tester.run(ruleName, require(`../../rules/${ruleName}`), {
+tester.run(ruleName, detectNoCsrfBeforeMethodOverrideRule, {
   valid: [{ code: 'express.methodOverride();express.csrf()' }],
   invalid: [
     {

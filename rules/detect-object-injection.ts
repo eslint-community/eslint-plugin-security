@@ -3,7 +3,7 @@
  * @author Jon Lamendola
  */
 
-'use strict';
+import type { Rule } from 'eslint';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -51,7 +51,7 @@ const stringify = (obj, fn, spaces, decycle) => {
 };
 
 stringify.getSerialize = getSerialize;
-module.exports = {
+export const detectObjectInjectionRule = {
   meta: {
     type: 'error',
     docs: {
@@ -63,7 +63,7 @@ module.exports = {
   },
   create(context) {
     return {
-      MemberExpression: function (node) {
+      MemberExpression(node) {
         if (node.computed === true) {
           if (node.property.type === 'Identifier') {
             if (node.parent.type === 'VariableDeclarator') {
@@ -78,4 +78,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

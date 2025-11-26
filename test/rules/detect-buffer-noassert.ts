@@ -1,22 +1,20 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectBufferNoAssertRule } from '../../rules/detect-buffer-noassert.js';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
-
 const ruleName = 'detect-buffer-noassert';
-const rule = require(`../../rules/${ruleName}`);
 
-const allMethodNames = [...rule.meta.__methodsToCheck.read, ...rule.meta.__methodsToCheck.write];
+const allMethodNames = [...detectBufferNoAssertRule.meta.__methodsToCheck.read, ...detectBufferNoAssertRule.meta.__methodsToCheck.write];
 
-tester.run(ruleName, rule, {
+tester.run(ruleName, detectBufferNoAssertRule, {
   valid: [...allMethodNames.map((methodName) => `a.${methodName}(0)`), ...allMethodNames.map((methodName) => `a.${methodName}(0, false)`)],
   invalid: [
-    ...rule.meta.__methodsToCheck.read.map((methodName) => ({
+    ...detectBufferNoAssertRule.meta.__methodsToCheck.read.map((methodName) => ({
       code: `a.${methodName}(0, true)`,
       errors: [{ message: `Found Buffer.${methodName} with noAssert flag set true` }],
     })),
 
-    ...rule.meta.__methodsToCheck.write.map((methodName) => ({
+    ...detectBufferNoAssertRule.meta.__methodsToCheck.write.map((methodName) => ({
       code: `a.${methodName}(0, 0, true)`,
       errors: [{ message: `Found Buffer.${methodName} with noAssert flag set true` }],
     })),

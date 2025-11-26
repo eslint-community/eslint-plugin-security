@@ -3,17 +3,17 @@
  * @author Adam Baldwin
  */
 
-'use strict';
+import { getImportAccessPath } from '../utils/import-utils.js';
+import { isStaticExpression } from '../utils/is-static-expression.js';
+import { Rule } from "eslint";
 
-const { getImportAccessPath } = require('../utils/import-utils');
-const { isStaticExpression } = require('../utils/is-static-expression');
-const childProcessPackageNames = ['child_process', 'node:child_process'];
+const childProcessPackageNames = ['child_process', 'node:child_process'] as const satisfies string[];
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectChildProcess  = {
   meta: {
     type: 'error',
     docs: {
@@ -26,7 +26,7 @@ module.exports = {
   create(context) {
     const sourceCode = context.sourceCode || context.getSourceCode();
     return {
-      CallExpression: function (node) {
+      CallExpression(node) {
         if (node.callee.name === 'require') {
           const args = node.arguments[0];
           if (
@@ -67,4 +67,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

@@ -1,12 +1,13 @@
-'use strict';
+import type { GenerateOptions } from 'eslint-doc-generator';
+import * as path from 'node:path';
+import { format, resolveConfig } from 'prettier';
 
-const { format } = require('prettier');
-const prettierRC = require('./.prettierrc.json');
-
-/** @type {import('eslint-doc-generator').GenerateOptions} */
 const config = {
   ignoreConfig: ['recommended-legacy'],
-  postprocess: (doc) => format(doc, { ...prettierRC, parser: 'markdown' }),
-};
+  postprocess: async (doc, pathToFile) => {
+    const prettierConfig = (await resolveConfig(pathToFile, { config: path.join(import.meta.dirname, '.prettierrc.json') })) ?? {};
+    return await format(doc, { ...prettierConfig, filepath: pathToFile, parser: 'markdown' });
+  },
+} as const satisfies GenerateOptions;
 
-module.exports = config;
+export default config;

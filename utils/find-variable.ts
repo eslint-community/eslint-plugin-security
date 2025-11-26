@@ -1,4 +1,4 @@
-module.exports.findVariable = findVariable;
+import type { Scope } from 'eslint';
 
 /**
  * Find the variable of a given name.
@@ -6,7 +6,7 @@ module.exports.findVariable = findVariable;
  * @param {string} name the variable name to find.
  * @returns {import("eslint").Scope.Variable | null}
  */
-function findVariable(scope, name) {
+export function findVariable(scope: Scope.Scope | null, name: string): Scope.Variable | null {
   while (scope != null) {
     const variable = scope.set.get(name);
     if (variable != null) {

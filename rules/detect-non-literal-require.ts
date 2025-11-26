@@ -3,15 +3,14 @@
  * @author Adam Baldwin
  */
 
-'use strict';
-
-const { isStaticExpression } = require('../utils/is-static-expression');
+import type { Rule } from 'eslint';
+import { isStaticExpression } from '../utils/is-static-expression.js';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectNonLiteralRequireRule = {
   meta: {
     type: 'error',
     docs: {
@@ -44,4 +43,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

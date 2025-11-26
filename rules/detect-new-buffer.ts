@@ -1,6 +1,6 @@
-'use strict';
+import type { Rule } from 'eslint';
 
-module.exports = {
+export const detectNewBufferRule = {
   meta: {
     type: 'error',
     docs: {
@@ -12,11 +12,11 @@ module.exports = {
   },
   create(context) {
     return {
-      NewExpression: function (node) {
+      NewExpression(node) {
         if (node.callee.name === 'Buffer' && node.arguments[0] && node.arguments[0].type !== 'Literal') {
           return context.report({ node: node, message: 'Found new Buffer' });
         }
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

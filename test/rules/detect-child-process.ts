@@ -1,12 +1,11 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectChildProcess } from '../../rules/detect-child-process.js';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-child-process';
-const rule = require(`../../rules/${ruleName}`);
 
-tester.run(ruleName, rule, {
+tester.run(ruleName, detectChildProcess, {
   valid: [
     "child_process.exec('ls')",
     `

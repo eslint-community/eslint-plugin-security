@@ -1,11 +1,11 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectEvalWithExpressionRule } from '../../rules/detect-eval-with-expression.js';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-eval-with-expression';
 
-tester.run(ruleName, require(`../../rules/${ruleName}`), {
+tester.run(ruleName, detectEvalWithExpressionRule, {
   valid: [{ code: "eval('alert()')" }, { code: 'eval("some nefarious code");' }, { code: 'eval()' }],
   invalid: [
     {

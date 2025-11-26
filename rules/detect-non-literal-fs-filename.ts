@@ -3,20 +3,20 @@
  * @author Adam Baldwin
  */
 
-'use strict';
-
-const fsMetaData = require('../utils/data/fsFunctionData.json');
+import type { Rule } from 'eslint';
+import fsMetaData from '../utils/data/fsFunctionData.json' with { type: 'json' };
 const funcNames = Object.keys(fsMetaData);
-const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'];
 
-const { getImportAccessPath } = require('../utils/import-utils');
-const { isStaticExpression } = require('../utils/is-static-expression');
+const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'] as const satisfies string[];
+
+import { getImportAccessPath } from '../utils/import-utils.js';
+import { isStaticExpression } from '../utils/is-static-expression.js';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectNonLiteralFsFilenameRule = {
   meta: {
     type: 'error',
     docs: {
@@ -44,7 +44,7 @@ module.exports = {
         if (!pathInfo) {
           return;
         }
-        let fnName;
+        let fnName: string | undefined;
         if (pathInfo.path.length === 1) {
           // Check for:
           // | var something = require('fs').readFile;
@@ -96,4 +96,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

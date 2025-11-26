@@ -1,12 +1,11 @@
-'use strict';
-
-const RuleTester = require('eslint').RuleTester;
+import { RuleTester } from 'eslint';
+import { detectNonLiteralRequireRule } from '../../rules/detect-non-literal-require.js';
 
 const tester = new RuleTester({ languageOptions: { sourceType: 'commonjs' } });
 
 const ruleName = 'detect-non-literal-require';
 
-tester.run(ruleName, require(`../../rules/${ruleName}`), {
+tester.run(ruleName, detectNonLiteralRequireRule, {
   valid: [
     { code: "var a = require('b')" },
     { code: 'var a = require(`b`)' },

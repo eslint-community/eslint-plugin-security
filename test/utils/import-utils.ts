@@ -1,9 +1,6 @@
-'use strict';
-
-const { getImportAccessPath } = require('../../utils/import-utils');
-const { deepStrictEqual } = require('assert');
-
-const Linter = require('eslint').Linter;
+import { Linter } from 'eslint';
+import { deepStrictEqual } from 'node:assert/strict';
+import { getImportAccessPath } from '../../utils/import-utils.js';
 
 function getGetImportAccessPathResult(code) {
   const linter = new Linter();

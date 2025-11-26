@@ -1,6 +1,5 @@
-'use strict';
-const plugin = require('../../index.js');
-const assert = require('assert').strict;
+import assert from 'node:assert/strict';
+import plugin from '../../index.js';
 
 describe('export plugin object', () => {
   it('should export rules', () => {

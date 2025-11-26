@@ -3,19 +3,18 @@
  * @author Adam Baldwin
  */
 
-'use strict';
-
 //-----------------------------------------------------------------------------
 // Requirements
 //-----------------------------------------------------------------------------
 
-const safe = require('safe-regex');
+import type { Rule } from 'eslint';
+import safe from 'safe-regex';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectUnsafeRegexRule = {
   meta: {
     type: 'error',
     docs: {
@@ -27,7 +26,7 @@ module.exports = {
   },
   create(context) {
     return {
-      Literal: function (node) {
+      Literal(node) {
         const token = context.getSourceCode().getTokens(node)[0];
         const nodeType = token.type;
         const nodeValue = token.value;
@@ -38,7 +37,7 @@ module.exports = {
           }
         }
       },
-      NewExpression: function (node) {
+      NewExpression(node) {
         if (node.callee.name === 'RegExp' && node.arguments && node.arguments.length > 0 && node.arguments[0].type === 'Literal') {
           if (!safe(node.arguments[0].value)) {
             context.report({ node: node, message: 'Unsafe Regular Expression (new RegExp)' });
@@ -47,4 +46,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

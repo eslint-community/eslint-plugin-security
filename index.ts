@@ -2,9 +2,21 @@
  * eslint-plugin-security - ESLint plugin for Node Security
  */
 
-'use strict';
-
-const pkg = require('./package.json');
+import pkg from './package.json' with { type: 'json' };
+import {} from './rules/detect-unsafe-regex.js'
+import {} from './rules/detect-non-literal-regexp.js'
+import {} from './rules/detect-non-literal-require.js'
+import {} from './rules/detect-non-literal-fs-filename.js'
+import {} from './rules/detect-eval-with-expression.js'
+import {} from './rules/detect-pseudoRandomBytes.js'
+import {} from './rules/detect-possible-timing-attacks.js'
+import {} from './rules/detect-no-csrf-before-method-override.js'
+import {} from './rules/detect-buffer-noassert.js'
+import {} from './rules/detect-child-process.js'
+import {} from './rules/detect-disable-mustache-escape.js'
+import {} from './rules/detect-object-injection.js'
+import {} from './rules/detect-new-buffer.js'
+import {} from './rules/detect-bidi-characters.js'
 
 const plugin = {
   meta: {
@@ -74,7 +86,7 @@ const recommendedLegacy = {
 
 Object.assign(plugin.configs, {
   recommended,
-  'recommended-legacy': recommendedLegacy
+  'recommended-legacy': recommendedLegacy,
 });
 
 module.exports = plugin;

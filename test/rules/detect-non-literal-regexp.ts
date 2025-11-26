@@ -1,12 +1,12 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectNonLiteralRegExpRule } from '../../rules/detect-non-literal-regexp.ts';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-non-literal-regexp';
 const invalid = "var a = new RegExp(c, 'i')";
 
-tester.run(ruleName, require(`../../rules/${ruleName}`), {
+tester.run(ruleName, detectNonLiteralRegExpRule, {
   valid: [
     { code: "var a = new RegExp('ab+c', 'i')" },
     {

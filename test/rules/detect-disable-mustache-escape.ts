@@ -1,11 +1,11 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectDisableMustacheEscapeRule } from '../../rules/detect-disable-mustache-escape.js';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
 
 const ruleName = 'detect-disable-mustache-escape';
 
-tester.run(ruleName, require(`../../rules/${ruleName}`), {
+tester.run(ruleName, detectDisableMustacheEscapeRule, {
   valid: [{ code: 'escapeMarkup = false' }],
   invalid: [
     {

@@ -1,11 +1,10 @@
-'use strict';
+import jsPlugin from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
+import eslintPluginRecommendedConfig from 'eslint-plugin-eslint-plugin';
+import { defineConfig } from 'eslint/config';
 
-const jsPlugin = require('@eslint/js');
-const prettierConfig = require('eslint-config-prettier');
-const eslintPluginRecommendedConfig = require('eslint-plugin-eslint-plugin/configs/recommended');
-
-const eslintPluginConfigs = [
-  eslintPluginRecommendedConfig,
+const eslintPluginConfigs = defineConfig([
+  eslintPluginRecommendedConfig.configs.recommended,
   {
     rules: {
       'eslint-plugin/prefer-message-ids': 'off', // TODO: enable
@@ -20,9 +19,9 @@ const eslintPluginConfigs = [
       'eslint-plugin/require-meta-type': 'off', // TODO: enable
     },
   },
-];
+]);
 
-module.exports = [
+export default defineConfig([
   jsPlugin.configs.recommended,
   prettierConfig,
   ...eslintPluginConfigs,
@@ -40,4 +39,4 @@ module.exports = [
       },
     },
   },
-];
+]);

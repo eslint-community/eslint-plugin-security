@@ -1,14 +1,34 @@
-const { findVariable } = require('./find-variable');
+import type { Scope } from 'eslint';
+import type {
+  Expression,
+  Identifier,
+  ImportDeclaration,
+  ImportDefaultSpecifier,
+  ImportNamespaceSpecifier,
+  ImportSpecifier,
+  Literal,
+  Node,
+  SimpleCallExpression,
+  Super,
+  VariableDeclarator,
+} from 'estree';
+import { findVariable } from './find-variable.js';
 
-module.exports.getImportAccessPath = getImportAccessPath;
+export type AnyNonNullishValue = NonNullable<unknown>;
 
-/**
- * @typedef {Object} ImportAccessPathInfo
- * @property {string[]} path
- * @property {boolean} [defaultImport]
- * @property {string} packageName
- * @property {import("estree").SimpleCallExpression | import("estree").ImportDeclaration} node
- */
+export type Simplify<BaseType> = BaseType extends BaseType
+  ? AnyNonNullishValue & {
+      [KeyType in keyof BaseType]: BaseType[KeyType];
+    }
+  : never;
+
+type ImportAccessPathInfo = {
+  path: string[];
+  defaultImport?: boolean;
+  packageName: string;
+  node: SimpleCallExpression | ImportDeclaration;
+};
+
 /**
  * Returns the access path information from a require or import
  *
@@ -18,15 +38,15 @@ module.exports.getImportAccessPath = getImportAccessPath;
  * @param {string[]} params.packageNames The interesting packages the method is imported from
  * @returns {ImportAccessPathInfo | null}
  */
-function getImportAccessPath({ node, scope, packageNames }) {
-  const tracked = new Set();
+export function getImportAccessPath({ node, scope, packageNames }: { node: Expression | Super; scope: Scope.Scope; packageNames: string[] }): ImportAccessPathInfo | null {
+  const tracked = new Set<Expression | Super>();
   return getImportAccessPathInternal(node);
 
   /**
    * @param {import("estree").Expression} node
    * @returns {ImportAccessPathInfo | null}
    */
-  function getImportAccessPathInternal(node) {
+  function getImportAccessPathInternal(node: Expression | Super): ImportAccessPathInfo | null {
     if (tracked.has(node)) {
       // Guard infinite loops.
       return null;
@@ -42,13 +62,16 @@ function getImportAccessPath({ node, scope, packageNames }) {
       // Check variables defined in `var foo = ...`.
       const declDef = variable.defs.find(
         /** @returns {def is import("eslint").Scope.Definition & {type: 'Variable'}} */
-        (def) => def.type === 'Variable' && def.node.type === 'VariableDeclarator' && def.node.init
+        (
+          def
+        ): def is Simplify<Extract<Scope.Definition, { type: 'Variable'; node: Omit<VariableDeclarator, 'init'> }> & { node: { init: NonNullable<VariableDeclarator['init']> } }> =>
+          def.type === 'Variable' && def.node.type === 'VariableDeclarator' && !!def.node.init
       );
       if (declDef) {
-        let propName = null;
+        let propName: string | null = null;
         if (declDef.node.id.type === 'ObjectPattern') {
           const property = declDef.node.id.properties.find((property) => property.type === 'Property' && property.value.type === 'Identifier' && property.value.name === node.name);
-          if (property && !property.computed) {
+          if (property && 'computed' in property && !property.computed && 'name' in property.key) {
             propName = property.key.name;
           }
         } else if (declDef.node.id.type !== 'Identifier') {
@@ -77,15 +100,33 @@ function getImportAccessPath({ node, scope, packageNames }) {
       // Check variables defined in `import foo from ...`.
       const importDef = variable.defs.find(
         /** @returns {def is import("eslint").Scope.Definition & {type: 'ImportBinding'}} */
-        (def) =>
+        (
+          def
+        ): def is Simplify<
+          Extract<
+            Scope.Definition,
+            {
+              type: 'ImportBinding';
+              node: ImportDefaultSpecifier | ImportNamespaceSpecifier | ImportSpecifier;
+              parent: ImportDeclaration;
+            }
+          > & {
+            parent: {
+              source: {
+                value: string;
+              };
+            };
+          }
+        > =>
           def.type === 'ImportBinding' &&
           (def.node.type === 'ImportDefaultSpecifier' || def.node.type === 'ImportNamespaceSpecifier' || def.node.type === 'ImportSpecifier') &&
-          isImportDeclaration(def.node.parent)
+          // TODO: Is this supposed to be `def.parent` instead?
+          isImportDeclaration((def.node as unknown as typeof def).parent)
       );
       if (importDef) {
-        let propName = null;
-        let defaultImport;
-        if (importDef.node.type === 'ImportSpecifier') {
+        let propName: string | null = null;
+        let defaultImport: boolean | undefined;
+        if (importDef.node.type === 'ImportSpecifier' && 'name' in importDef.node.imported) {
           propName = importDef.node.imported.name;
         } else if (importDef.node.type === 'ImportDefaultSpecifier') {
           defaultImport = true;
@@ -107,8 +148,9 @@ function getImportAccessPath({ node, scope, packageNames }) {
         return {
           path: propName ? [propName] : [],
           defaultImport: defaultImport,
-          packageName: importDef.node.parent.source.value,
-          node: importDef.node.parent,
+          // TODO: Is this supposed to be `importDef.parent` instead?
+          packageName: (importDef.node as unknown as typeof importDef).parent.source.value,
+          node: (importDef.node as unknown as typeof importDef).parent,
         };
       }
       return null;
@@ -138,7 +180,7 @@ function getImportAccessPath({ node, scope, packageNames }) {
        * | something.propName(c);
        */
       return {
-        path: [...nesting.path, node.property.name],
+        path: [...nesting.path, ...('name' in node.property ? [node.property.name] : [])],
         defaultImport: nesting.defaultImport,
         packageName: nesting.packageName,
         node: nesting.node,
@@ -165,13 +207,22 @@ function getImportAccessPath({ node, scope, packageNames }) {
    * Checks whether the given expression node is a require based import, or not
    * @param {import("estree").Expression} expression
    */
-  function isRequireBasedImport(expression) {
+  function isRequireBasedImport(expression: Expression | Super): expression is Simplify<
+    SimpleCallExpression & {
+      callee: Identifier & {
+        name: 'require';
+      };
+      arguments: [Simplify<Extract<SimpleCallExpression['arguments'][number], { type: 'Literal' }> & { value: string }>, ...SimpleCallExpression['arguments']];
+    }
+  > {
     return (
       expression &&
       expression.type === 'CallExpression' &&
+      expression.callee.type === 'Identifier' &&
       expression.callee.name === 'require' &&
-      expression.arguments.length &&
+      !!expression.arguments.length &&
       expression.arguments[0].type === 'Literal' &&
+      typeof expression.arguments[0].value === 'string' &&
       packageNames.includes(expression.arguments[0].value)
     );
   }
@@ -180,7 +231,11 @@ function getImportAccessPath({ node, scope, packageNames }) {
    * Checks whether the given node is a import, or not
    * @param {import("estree").Node} node
    */
-  function isImportDeclaration(node) {
-    return node && node.type === 'ImportDeclaration' && packageNames.includes(node.source.value);
+  function isImportDeclaration(node: Node | null): node is Simplify<
+    ImportDeclaration & {
+      source: Extract<Literal, { value: string }>;
+    }
+  > {
+    return !!node && node.type === 'ImportDeclaration' && typeof node.source.value === 'string' && packageNames.includes(node.source.value);
   }
 }

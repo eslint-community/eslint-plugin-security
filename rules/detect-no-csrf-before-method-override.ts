@@ -3,13 +3,13 @@
  * @author Adam Baldwin
  */
 
-'use strict';
+import type { Rule } from 'eslint';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectNoCsrfBeforeMethodOverrideRule = {
   meta: {
     type: 'error',
     docs: {
@@ -23,7 +23,7 @@ module.exports = {
     let csrf = false;
 
     return {
-      CallExpression: function (node) {
+      CallExpression(node) {
         const token = context.getSourceCode().getTokens(node)[0];
         const nodeValue = token.value;
 
@@ -43,4 +43,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

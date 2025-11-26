@@ -1,6 +1,6 @@
-'use strict';
+import type { Rule } from 'eslint';
 
-module.exports = {
+export const detectDisableMustacheEscapeRule = {
   meta: {
     type: 'error',
     docs: {
@@ -12,7 +12,7 @@ module.exports = {
   },
   create(context) {
     return {
-      AssignmentExpression: function (node) {
+      AssignmentExpression(node) {
         if (node.operator === '=') {
           if (node.left.property) {
             if (node.left.property.name === 'escapeMarkup') {
@@ -25,4 +25,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

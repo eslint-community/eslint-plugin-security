@@ -1,9 +1,6 @@
-'use strict';
-
-const { isStaticExpression } = require('../../utils/is-static-expression');
-const { deepStrictEqual } = require('assert');
-
-const Linter = require('eslint').Linter;
+import { Linter } from 'eslint';
+import { deepStrictEqual } from 'node:assert/strict';
+import { isStaticExpression } from '../../utils/is-static-expression.js';
 
 /**
  * Get the return value using `isStaticExpression()`.

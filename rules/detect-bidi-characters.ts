@@ -5,7 +5,9 @@
  * @author Liran Tal
  */
 
-'use strict';
+import type { AST, Linter, Rule } from 'eslint';
+import type { Comment } from 'estree';
+import type { Simplify } from '../utils/import-utils.ts';
 
 const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069]/gu;
 
@@ -18,14 +20,14 @@ const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u2
  * @returns {Array<{line: number, column: number}>} - An array of reports, each report is an
  *    object with the line and column of the dangerous character
  */
-function detectBidiCharacters({ sourceText, firstLineOffset }) {
+function detectBidiCharacters({ sourceText, firstLineOffset }: { sourceText: string; firstLineOffset: number }): { line: number; column: number }[] {
   const sourceTextToSearch = sourceText.toString();
 
   const lines = sourceTextToSearch.split(/\r?\n/);
 
-  return lines.reduce((reports, line, lineIndex) => {
+  return lines.reduce<{ line: number; column: number }[]>((reports, line, lineIndex) => {
     let match;
-    let offset = lineIndex == 0 ? firstLineOffset : 0;
+    const offset = lineIndex == 0 ? firstLineOffset : 0;
 
     while ((match = dangerousBidiCharsRegexp.exec(line)) !== null) {
       reports.push({ line: lineIndex, column: offset + match.index });
@@ -35,7 +37,22 @@ function detectBidiCharacters({ sourceText, firstLineOffset }) {
   }, []);
 }
 
-function report({ context, node, tokens, message, firstLineOffset }) {
+type CommentOrToken = Simplify<AST.Token | (Omit<Comment, 'loc'> & { loc: NonNullable<Required<Pick<Comment, 'loc'>>['loc']> })>;
+
+function report({
+  context,
+  node,
+  tokens,
+  message,
+  firstLineOffset,
+}: Simplify<
+  {
+    tokens: CommentOrToken[];
+    node: AST.Program;
+    context: Rule.RuleContext;
+    firstLineOffset: number;
+  } & Pick<Linter.LintMessage, 'message'>
+>) {
   if (!tokens || !Array.isArray(tokens)) {
     return;
   }
@@ -68,7 +85,7 @@ function report({ context, node, tokens, message, firstLineOffset }) {
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectBidiCharactersRule = {
   meta: {
     type: 'error',
     docs: {
@@ -80,7 +97,7 @@ module.exports = {
   },
   create(context) {
     return {
-      Program: function (node) {
+      Program(node) {
         report({
           context,
           node,
@@ -98,4 +115,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

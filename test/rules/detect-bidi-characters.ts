@@ -1,12 +1,10 @@
-'use strict';
+import { RuleTester } from 'eslint';
+import { detectBidiCharactersRule } from '../../rules/detect-bidi-characters.js';
 
-const RuleTester = require('eslint').RuleTester;
 const tester = new RuleTester();
-
 const ruleName = 'detect-bidi-characters';
-const Rule = require(`../../rules/${ruleName}`);
 
-tester.run(ruleName, Rule, {
+tester.run(ruleName, detectBidiCharactersRule, {
   valid: [
     {
       code: `
@@ -35,7 +33,7 @@ tester.run(ruleName, Rule, {
   ],
 });
 
-tester.run(`${ruleName} in comment-line`, Rule, {
+tester.run(`${ruleName} in comment-line`, detectBidiCharactersRule, {
   valid: [
     {
       code: `

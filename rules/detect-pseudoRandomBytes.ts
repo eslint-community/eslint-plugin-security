@@ -3,13 +3,13 @@
  * @author Adam Baldwin
  */
 
-'use strict';
+import type { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+export const detectPseudoRandomBytesRule = {
   meta: {
     type: 'error',
     docs: {
@@ -21,11 +21,11 @@ module.exports = {
   },
   create(context) {
     return {
-      MemberExpression: function (node) {
+      MemberExpression(node) {
         if (node.property.name === 'pseudoRandomBytes') {
           return context.report({ node: node, message: 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers' });
         }
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;

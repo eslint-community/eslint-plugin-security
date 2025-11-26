@@ -3,7 +3,7 @@
  * @author Adam Baldwin / Jon Lamendola
  */
 
-'use strict';
+import type { Rule } from 'eslint';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -22,7 +22,7 @@ const containsKeyword = (node) => {
   return;
 };
 
-module.exports = {
+export const detectPossibleTimingAttacksRule = {
   meta: {
     type: 'error',
     docs: {
@@ -34,7 +34,7 @@ module.exports = {
   },
   create(context) {
     return {
-      IfStatement: function (node) {
+      IfStatement(node) {
         if (node.test && node.test.type === 'BinaryExpression') {
           if (node.test.operator === '==' || node.test.operator === '===' || node.test.operator === '!=' || node.test.operator === '!==') {
             if (node.test.left) {
@@ -55,4 +55,4 @@ module.exports = {
       },
     };
   },
-};
+} as const satisfies Rule.RuleModule;
