@@ -10,7 +10,6 @@ const tsdownConfig = defineConfig((cliOptions) => {
   const commonOptions = {
     clean: false,
     cwd: __dirname,
-    debug: {},
     dts: {
       emitJs: false,
       newContext: true,

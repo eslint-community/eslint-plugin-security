@@ -1,7 +1,7 @@
 import { Linter } from 'eslint';
 import { deepStrictEqual } from 'node:assert/strict';
 import { isStaticExpression } from '../../utils/is-static-expression.ts';
-import type { DistributedOmit, NodeParentExtension, RuleModule, SimpleCallExpression, Simplify } from '../../utils/typeHelpers.ts';
+import type { DistributedOmit, Expression, NodeParentExtension, RuleModule, SimpleCallExpression, Simplify } from '../../utils/typeHelpers.ts';
 
 /**
  * Get the return value using `isStaticExpression()`.
