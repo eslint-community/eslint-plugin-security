@@ -106,7 +106,7 @@
     "semantic-release": "^19.0.2",
     "tsdown": "^0.17.0-beta.5",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.0",
+    "typescript-eslint": "^8.48.1",
     "yorkie": "^2.0.0"
   },
   "engines": {
