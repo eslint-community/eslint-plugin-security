@@ -50,7 +50,7 @@
     "lint:js:fix": "npm run lint:js -- --fix",
     "prepack": "npm run build",
     "release": "npx semantic-release",
-    "test": "mocha --node-option=\"experimental-strip-types\" \"test/**/*.ts\"",
+    "test": "mocha --node-option=\"experimental-strip-types\" \"test/**/*.test.ts\"",
     "typecheck": "tsc -p tsconfig.json",
     "update:eslint-docs": "eslint-doc-generator"
   },
