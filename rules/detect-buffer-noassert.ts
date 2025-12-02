@@ -3,8 +3,7 @@
  * @author Adam Baldwin
  */
 
-import type { Rule } from 'eslint';
-import type { BufferReadMethodKeys, BufferWriteMethodKeys } from '../utils/typeHelpers.ts';
+import type { BufferReadMethodKeys, BufferWriteMethodKeys, RuleModule } from '../utils/typeHelpers.ts';
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -122,4 +121,4 @@ export const detectBufferNoAssertRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

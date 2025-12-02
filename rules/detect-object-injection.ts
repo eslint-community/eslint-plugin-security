@@ -3,8 +3,7 @@
  * @author Jon Lamendola
  */
 
-import type { Rule } from 'eslint';
-import type { Simplify } from '../utils/typeHelpers.ts';
+import type { RuleModule, Simplify } from '../utils/typeHelpers.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -104,4 +103,4 @@ export const detectObjectInjectionRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

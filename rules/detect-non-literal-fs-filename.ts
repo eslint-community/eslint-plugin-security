@@ -3,10 +3,10 @@
  * @author Adam Baldwin
  */
 
-import type { Rule } from 'eslint';
 import fsMetaData from '../utils/data/fsFunctionData.json' with { type: 'json' };
 import { getImportAccessPath } from '../utils/import-utils.ts';
 import { isStaticExpression } from '../utils/is-static-expression.ts';
+import type { RuleModule } from '../utils/typeHelpers.ts';
 
 const funcNames = Object.keys(fsMetaData) as (keyof typeof fsMetaData)[];
 
@@ -99,4 +99,4 @@ export const detectNonLiteralFsFilenameRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

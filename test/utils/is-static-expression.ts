@@ -1,9 +1,7 @@
-import type { Rule } from 'eslint';
 import { Linter } from 'eslint';
-import type { Expression, SimpleCallExpression } from 'estree';
 import { deepStrictEqual } from 'node:assert/strict';
 import { isStaticExpression } from '../../utils/is-static-expression.ts';
-import type { DistributedOmit, Simplify } from '../../utils/typeHelpers.ts';
+import type { DistributedOmit, NodeParentExtension, RuleModule, SimpleCallExpression, Simplify } from '../../utils/typeHelpers.ts';
 
 /**
  * Get the return value using `isStaticExpression()`.
@@ -17,7 +15,7 @@ function getIsStaticExpressionResult(code: string): boolean[] {
       const sourceCode = context.sourceCode || context.getSourceCode();
 
       return {
-        'CallExpression[callee.name = target]'(node: Simplify<DistributedOmit<SimpleCallExpression & Rule.NodeParentExtension, 'arguments'> & { arguments: Expression[] }>) {
+        'CallExpression[callee.name = target]'(node: Simplify<DistributedOmit<SimpleCallExpression & NodeParentExtension, 'arguments'> & { arguments: Expression[] }>) {
           // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
@@ -32,7 +30,7 @@ function getIsStaticExpressionResult(code: string): boolean[] {
         },
       };
     },
-  } as const satisfies Rule.RuleModule;
+  } as const satisfies RuleModule;
 
   const linterResult = linter.verify(code, {
     plugins: {

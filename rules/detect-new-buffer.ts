@@ -1,4 +1,4 @@
-import type { Rule } from 'eslint';
+import type { RuleModule } from '../utils/typeHelpers.ts';
 
 export const detectNewBufferRuleName = 'detect-new-buffer' as const;
 
@@ -21,4 +21,4 @@ export const detectNewBufferRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

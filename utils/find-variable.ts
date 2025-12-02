@@ -1,4 +1,4 @@
-import type { Scope } from 'eslint';
+import type { Scope, Variable } from './typeHelpers.ts';
 
 /**
  * Find the variable of a given name.
@@ -6,7 +6,7 @@ import type { Scope } from 'eslint';
  * @param {string} name the variable name to find.
  * @returns {import("eslint").Scope.Variable | null}
  */
-export function findVariable(scope: Scope.Scope | null, name: string): Scope.Variable | null {
+export function findVariable(scope: Scope | null, name: string): Variable | null {
   while (scope != null) {
     const variable = scope.set.get(name);
     if (variable != null) {

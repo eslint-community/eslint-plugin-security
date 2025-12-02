@@ -7,8 +7,8 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import type { Rule } from 'eslint';
 import safe from 'safe-regex';
+import type { RuleModule } from '../utils/typeHelpers.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -41,11 +41,11 @@ export const detectUnsafeRegexRule = {
       },
       NewExpression(node) {
         if ('name' in node.callee && node.callee.name === 'RegExp' && node.arguments && node.arguments.length > 0 && node.arguments[0].type === 'Literal') {
-          if (typeof node.arguments[0].value === 'string' && !safe(node.arguments[0].value)) {
+          if ((typeof node.arguments[0].value === 'string' || node.arguments[0].value instanceof RegExp) && !safe(node.arguments[0].value)) {
             context.report({ node: node, message: 'Unsafe Regular Expression (new RegExp)' });
           }
         }
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

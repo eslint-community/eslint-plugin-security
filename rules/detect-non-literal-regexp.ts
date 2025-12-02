@@ -3,8 +3,8 @@
  * @author Jon Lamendola
  */
 
-import type { Rule } from 'eslint';
 import { isStaticExpression } from '../utils/is-static-expression.ts';
+import type { RuleModule } from '../utils/typeHelpers.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -47,4 +47,4 @@ export const detectNonLiteralRegExpRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

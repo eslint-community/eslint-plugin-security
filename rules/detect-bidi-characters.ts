@@ -5,9 +5,7 @@
  * @author Liran Tal
  */
 
-import type { AST, Linter, Rule } from 'eslint';
-import type { Position } from 'estree';
-import type { CommentOrToken, Simplify } from '../utils/typeHelpers.ts';
+import type { CommentOrToken, LintMessage, Position, Program, RuleContext, RuleModule, Simplify } from '../utils/typeHelpers.ts';
 
 const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069]/gu;
 
@@ -25,7 +23,7 @@ function detectBidiCharacters({ sourceText, firstLineOffset }: { sourceText: str
 
   const lines = sourceTextToSearch.split(/\r?\n/);
 
-  return lines.reduce<{ line: number; column: number }[]>((reports, line, lineIndex) => {
+  return lines.reduce<Position[]>((reports, line, lineIndex) => {
     let match;
     const offset = lineIndex == 0 ? firstLineOffset : 0;
 
@@ -37,20 +35,9 @@ function detectBidiCharacters({ sourceText, firstLineOffset }: { sourceText: str
   }, []);
 }
 
-function report({
-  context,
-  node,
-  tokens,
-  message,
-  firstLineOffset,
-}: Simplify<
-  {
-    tokens?: CommentOrToken[];
-    node: AST.Program;
-    context: Rule.RuleContext;
-    firstLineOffset: number;
-  } & Pick<Linter.LintMessage, 'message'>
->): void {
+type ReportOptions = Simplify<{ tokens?: CommentOrToken[]; node: Program; context: RuleContext; firstLineOffset: number } & Pick<LintMessage, 'message'>>;
+
+function report({ context, node, tokens, message, firstLineOffset }: ReportOptions): void {
   if (!tokens || !Array.isArray(tokens)) {
     return;
   }
@@ -115,4 +102,4 @@ export const detectBidiCharactersRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

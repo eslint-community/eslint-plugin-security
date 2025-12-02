@@ -1,10 +1,9 @@
-import type { AST } from 'eslint';
-import type { Comment, ImportDeclaration, SimpleCallExpression } from 'estree';
+import type { AST, Linter, Rule, Scope } from 'eslint';
+import type * as ESTree from 'estree';
 import type { Buffer } from 'node:buffer';
+import type * as childProcess from 'node:child_process';
 import type * as path from 'node:path';
 import type { getImportAccessPath } from './import-utils.ts';
-
-export type PathType = typeof path;
 
 /**
  * Any function with **`unknown`** arguments.
@@ -178,25 +177,63 @@ export type ExcludeStrict<
     : BaseType,
 > = Exclude<BaseType, TypesToExclude>;
 
+export type PathModuleType = Simplify<typeof path>;
+export type PathModuleKeys = Simplify<keyof PathModuleType>;
+
+export type ChildProcessModuleType = Simplify<typeof childProcess>;
+export type ChildProcessModuleKeys = Simplify<keyof ChildProcessModuleType>;
+
 export type PathConstructionMethodNames = {
-  [Key in keyof PathType]: PathType[Key] extends ((firstArgument: string, ...args: unknown[]) => string) | ((...args: string[]) => string) ? Key : never;
-}[keyof PathType];
+  [Key in PathModuleKeys]: PathModuleType[Key] extends ((firstArgument: string, ...args: unknown[]) => string) | ((...args: string[]) => string) ? Key : never;
+}[PathModuleKeys];
 
 export type PathStaticMemberNames = {
-  [Key in keyof PathType]: PathType[Key] extends PropertyKey ? Key : never;
-}[keyof PathType];
+  [Key in PathModuleKeys]: PathModuleType[Key] extends PropertyKey ? Key : never;
+}[PathModuleKeys];
 
 export type ImportAccessPathInfo<T extends string = PathConstructionMethodNames> = {
   path: T[];
   defaultImport?: boolean;
   packageName: string;
-  node: SimpleCallExpression | ImportDeclaration;
+  node: Simplify<SimpleCallExpression | ImportDeclaration>;
 };
 
-export type CommentOrToken = Simplify<AST.Token | Comment>;
+export type BufferReadMethodKeys = Simplify<ExtractStrict<keyof Buffer, `read${string}`>>;
 
-export type BufferReadMethodKeys = Simplify<Extract<keyof Buffer, `read${string}`>>;
-
-export type BufferWriteMethodKeys = Simplify<Exclude<Extract<keyof Buffer, `write${string}`>, 'write'>>;
+export type BufferWriteMethodKeys = Simplify<ExcludeStrict<ExtractStrict<keyof Buffer, `write${string}`>, 'write'>>;
 
 export type ImportAccessInfo = Simplify<Pick<NonNullable<ReturnType<typeof getImportAccessPath>>, 'path' | 'packageName'> & ({ defaultImport: true } | { defaultImport?: never })>;
+
+// ESLint Types
+
+export type Token = Simplify<AST.Token>;
+export type Program = Simplify<AST.Program>;
+export type CommentOrToken = Simplify<Token | Comment>;
+
+export type RuleModule = Simplify<Rule.RuleModule>;
+export type RuleContext = Simplify<Rule.RuleContext>;
+export type NodeParentExtension = Simplify<Rule.NodeParentExtension>;
+
+export type LintMessage = Simplify<Linter.LintMessage>;
+
+export type Scope = Simplify<Scope.Scope>;
+export type Variable = Simplify<Scope.Variable>;
+export type Definition = Simplify<Scope.Definition>;
+
+// ESTree Types
+
+export type SimpleCallExpression = Simplify<ESTree.SimpleCallExpression>;
+export type ImportDeclaration = Simplify<ESTree.ImportDeclaration>;
+export type Comment = Simplify<ESTree.Comment>;
+export type Position = Simplify<ESTree.Position>;
+export type Expression = Simplify<ESTree.Expression>;
+export type Identifier = Simplify<ESTree.Identifier>;
+export type ImportDefaultSpecifier = Simplify<ESTree.ImportDefaultSpecifier>;
+export type ImportNamespaceSpecifier = Simplify<ESTree.ImportNamespaceSpecifier>;
+export type ImportSpecifier = Simplify<ESTree.ImportSpecifier>;
+export type Literal = Simplify<ESTree.Literal>;
+export type Node = Simplify<ESTree.Node>;
+export type Super = Simplify<ESTree.Super>;
+export type VariableDeclarator = Simplify<ESTree.VariableDeclarator>;
+export type BinaryExpression = Simplify<ESTree.BinaryExpression>;
+export type MemberExpression = Simplify<ESTree.MemberExpression>;

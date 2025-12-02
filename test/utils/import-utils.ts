@@ -1,9 +1,7 @@
-import type { Rule } from 'eslint';
 import { Linter } from 'eslint';
-import type { Identifier, MemberExpression } from 'estree';
 import { deepStrictEqual } from 'node:assert/strict';
 import { getImportAccessPath } from '../../utils/import-utils.ts';
-import type { ImportAccessInfo } from '../../utils/typeHelpers.ts';
+import type { Identifier, ImportAccessInfo, MemberExpression, NodeParentExtension, RuleModule } from '../../utils/typeHelpers.ts';
 
 function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
   const linter = new Linter();
@@ -12,8 +10,8 @@ function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
     create(context) {
       const sourceCode = context.sourceCode || context.getSourceCode();
       return {
-        'Identifier[name = target]'(node: Identifier & Rule.NodeParentExtension) {
-          let expr: (Identifier & Rule.NodeParentExtension) | (MemberExpression & Rule.NodeParentExtension) = node;
+        'Identifier[name = target]'(node: Identifier & NodeParentExtension) {
+          let expr: (Identifier & NodeParentExtension) | (MemberExpression & NodeParentExtension) = node;
           if (node.parent.type === 'MemberExpression' && node.parent.property === node) {
             expr = node.parent;
           }
@@ -34,7 +32,7 @@ function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
         },
       };
     },
-  } as const satisfies Rule.RuleModule;
+  } as const satisfies RuleModule;
 
   const linterResult = linter.verify(code, {
     plugins: {

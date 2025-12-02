@@ -1,4 +1,4 @@
-import type { Rule } from 'eslint';
+import type { RuleModule } from '../utils/typeHelpers.ts';
 
 export const detectDisableMustacheEscapeRuleName = 'detect-disable-mustache-escape' as const;
 
@@ -27,4 +27,4 @@ export const detectDisableMustacheEscapeRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

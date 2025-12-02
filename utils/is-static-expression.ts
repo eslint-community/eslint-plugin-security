@@ -3,7 +3,7 @@ import type { Expression, Identifier, MemberExpression, MetaProperty, SimpleCall
 import type * as url from 'node:url';
 import { findVariable } from './find-variable.ts';
 import { getImportAccessPath } from './import-utils.ts';
-import type { PathConstructionMethodNames, PathStaticMemberNames, PathType } from './typeHelpers.ts';
+import type { PathConstructionMethodNames, PathModuleType, PathStaticMemberNames } from './typeHelpers.ts';
 
 const PATH_PACKAGE_NAMES = ['path', 'node:path', 'path/posix', 'node:path/posix'] as const satisfies string[];
 const URL_PACKAGE_NAMES = ['url', 'node:url'] as const satisfies string[];
@@ -107,7 +107,7 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
    * @returns {boolean} if true, the given expression is a static path construction.
    */
   function isStaticPath(node: Expression): boolean {
-    const pathInfo = getImportAccessPath<keyof PathType>({
+    const pathInfo = getImportAccessPath<keyof PathModuleType>({
       node: node.type === 'CallExpression' && node.callee.type !== 'Super' ? node.callee : node,
       scope,
       packageNames: PATH_PACKAGE_NAMES,
@@ -116,7 +116,7 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
       return false;
     }
     /** @type {string | undefined} */
-    let name: keyof PathType | undefined;
+    let name: keyof PathModuleType | undefined;
     if (pathInfo.path.length === 1) {
       // e.g. import path from 'path'
       name = pathInfo.path[0];

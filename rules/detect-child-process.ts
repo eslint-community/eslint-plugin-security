@@ -3,10 +3,9 @@
  * @author Adam Baldwin
  */
 
-import type { Rule } from 'eslint';
-import type * as childProcess from 'node:child_process';
 import { getImportAccessPath } from '../utils/import-utils.ts';
 import { isStaticExpression } from '../utils/is-static-expression.ts';
+import type { ChildProcessModuleKeys, RuleModule } from '../utils/typeHelpers.ts';
 
 const childProcessPackageNames = ['child_process', 'node:child_process'] as const satisfies string[];
 
@@ -60,17 +59,17 @@ export const detectChildProcessRule = {
         ) {
           return;
         }
-        const pathInfo = getImportAccessPath<keyof typeof childProcess>({
+        const pathInfo = getImportAccessPath<ChildProcessModuleKeys>({
           node: node.callee,
           scope,
           packageNames: childProcessPackageNames,
         });
         const fnName = pathInfo && pathInfo.path.length === 1 && pathInfo.path[0];
-        if (fnName && fnName !== 'exec') {
+        if (fnName !== 'exec') {
           return;
         }
         context.report({ node: node, message: 'Found child_process.exec() with non Literal first argument' });
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;

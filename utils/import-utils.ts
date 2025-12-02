@@ -1,19 +1,22 @@
-import type { Scope } from 'eslint';
+import { findVariable } from './find-variable.ts';
 import type {
+  Definition,
   Expression,
   Identifier,
+  ImportAccessPathInfo,
   ImportDeclaration,
   ImportDefaultSpecifier,
   ImportNamespaceSpecifier,
   ImportSpecifier,
   Literal,
   Node,
+  PathConstructionMethodNames,
+  Scope,
   SimpleCallExpression,
+  Simplify,
   Super,
   VariableDeclarator,
-} from 'estree';
-import { findVariable } from './find-variable.ts';
-import type { ImportAccessPathInfo, PathConstructionMethodNames, Simplify } from './typeHelpers.ts';
+} from './typeHelpers.ts';
 
 /**
  * Returns the access path information from a require or import
@@ -30,9 +33,9 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
   packageNames,
 }: {
   node: Expression | Super;
-  scope: Scope.Scope;
+  scope: Scope;
   packageNames: string[];
-}): ImportAccessPathInfo<T> | null {
+}): Simplify<ImportAccessPathInfo<T>> | null {
   const tracked = new Set<Expression | Super>();
   return getImportAccessPathInternal(node);
 
@@ -40,7 +43,7 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
    * @param {import("estree").Expression} node
    * @returns {ImportAccessPathInfo | null}
    */
-  function getImportAccessPathInternal(node: Expression | Super): ImportAccessPathInfo<T> | null {
+  function getImportAccessPathInternal(node: Expression | Super): Simplify<ImportAccessPathInfo<T>> | null {
     if (tracked.has(node)) {
       // Guard infinite loops.
       return null;
@@ -56,9 +59,7 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
       // Check variables defined in `var foo = ...`.
       const declDef = variable.defs.find(
         /** @returns {def is import("eslint").Scope.Definition & {type: 'Variable'}} */
-        (
-          def
-        ): def is Simplify<Extract<Scope.Definition, { type: 'Variable'; node: Omit<VariableDeclarator, 'init'> }> & { node: { init: NonNullable<VariableDeclarator['init']> } }> =>
+        (def): def is Simplify<Extract<Definition, { type: 'Variable'; node: Omit<VariableDeclarator, 'init'> }> & { node: { init: NonNullable<VariableDeclarator['init']> } }> =>
           def.type === 'Variable' && def.node.type === 'VariableDeclarator' && !!def.node.init
       );
       if (declDef) {
@@ -98,7 +99,7 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
           def
         ): def is Simplify<
           Extract<
-            Scope.Definition,
+            Definition,
             {
               type: 'ImportBinding';
               node: ImportDefaultSpecifier | ImportNamespaceSpecifier | ImportSpecifier;

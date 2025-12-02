@@ -3,9 +3,7 @@
  * @author Adam Baldwin / Jon Lamendola
  */
 
-import type { Rule } from 'eslint';
-import type { BinaryExpression } from 'estree';
-import type { Simplify } from '../utils/typeHelpers.ts';
+import type { BinaryExpression, Identifier, RuleModule } from '../utils/typeHelpers.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -15,7 +13,7 @@ const keywords = `((${['password', 'secret', 'api', 'apiKey', 'token', 'auth', '
 
 const re = new RegExp(`^${keywords}$`, 'im');
 
-const containsKeyword = (node: BinaryExpression['left' | 'right']): node is Simplify<Extract<BinaryExpression['left' | 'right'], { type: 'Identifier' }>> => {
+const containsKeyword = (node: BinaryExpression['left'] | BinaryExpression['right']): node is Identifier => {
   if (node.type === 'Identifier') {
     if (re.test(node.name)) {
       return true;
@@ -59,4 +57,4 @@ export const detectPossibleTimingAttacksRule = {
       },
     };
   },
-} as const satisfies Rule.RuleModule;
+} as const satisfies RuleModule;
