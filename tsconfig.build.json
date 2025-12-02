@@ -3,8 +3,9 @@
     "declaration": true,
     "declarationMap": true,
     "noEmit": false,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "extends": "./tsconfig.json",
-  "include": ["utils", "rules", "index.ts"]
+  "include": ["src"]
 }

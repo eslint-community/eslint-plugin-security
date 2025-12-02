@@ -1,7 +1,7 @@
 import { Linter } from 'eslint';
 import { deepStrictEqual } from 'node:assert/strict';
-import { getImportAccessPath } from '../../utils/import-utils.ts';
-import type { Identifier, ImportAccessInfo, MemberExpression, NodeParentExtension, RuleModule } from '../../utils/typeHelpers.ts';
+import { getImportAccessPath } from '../../src/utils/import-utils.ts';
+import type { Identifier, ImportAccessInfo, MemberExpression, NodeParentExtension, RuleModule } from '../../src/utils/typeHelpers.ts';
 
 function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
   const linter = new Linter();

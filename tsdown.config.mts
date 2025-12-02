@@ -19,7 +19,7 @@ const tsdownConfig = defineConfig((cliOptions) => {
       sourcemap: true,
     },
     entry: {
-      index: 'index.ts',
+      index: 'src/index.ts',
     },
     failOnWarn: true,
     fixedExtension: false,

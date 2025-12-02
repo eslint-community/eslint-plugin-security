@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectNonLiteralFsFilenameRule } from '../../rules/detect-non-literal-fs-filename.ts';
+import { detectNonLiteralFsFilenameRule } from '../../src/rules/detect-non-literal-fs-filename.ts';
 
 const tester = new RuleTester();
 

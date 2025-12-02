@@ -1,9 +1,18 @@
-import type { Scope } from 'eslint';
-import type { Expression, Identifier, MemberExpression, MetaProperty, SimpleCallExpression, SpreadElement } from 'estree';
-import type * as url from 'node:url';
 import { findVariable } from './find-variable.ts';
 import { getImportAccessPath } from './import-utils.ts';
-import type { PathConstructionMethodNames, PathModuleType, PathStaticMemberNames } from './typeHelpers.ts';
+import type {
+  Expression,
+  Identifier,
+  MemberExpression,
+  MetaProperty,
+  PathConstructionMethodNames,
+  PathModuleKeys,
+  PathStaticMemberNames,
+  Scope,
+  SimpleCallExpression,
+  SpreadElement,
+  UrlKeys,
+} from './typeHelpers.ts';
 
 const PATH_PACKAGE_NAMES = ['path', 'node:path', 'path/posix', 'node:path/posix'] as const satisfies string[];
 const URL_PACKAGE_NAMES = ['url', 'node:url'] as const satisfies string[];
@@ -32,7 +41,7 @@ const cache: WeakMap<Expression, boolean> = new WeakMap<Expression, boolean>();
  * @param {import("eslint").Scope.Scope} params.scope The scope of the given node.
  * @returns {boolean} if true, the given expression node is a static.
  */
-export function isStaticExpression({ node, scope }: { node: Expression; scope: Scope.Scope }): boolean {
+export function isStaticExpression({ node, scope }: { node: Expression; scope: Scope }): boolean {
   const tracked = new Set<Expression>();
   return isStatic(node);
 
@@ -107,7 +116,7 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
    * @returns {boolean} if true, the given expression is a static path construction.
    */
   function isStaticPath(node: Expression): boolean {
-    const pathInfo = getImportAccessPath<keyof PathModuleType>({
+    const pathInfo = getImportAccessPath<PathModuleKeys>({
       node: node.type === 'CallExpression' && node.callee.type !== 'Super' ? node.callee : node,
       scope,
       packageNames: PATH_PACKAGE_NAMES,
@@ -116,7 +125,7 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
       return false;
     }
     /** @type {string | undefined} */
-    let name: keyof PathModuleType | undefined;
+    let name: PathModuleKeys | undefined;
     if (pathInfo.path.length === 1) {
       // e.g. import path from 'path'
       name = pathInfo.path[0];
@@ -148,7 +157,7 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
     if (node.type !== 'CallExpression') {
       return false;
     }
-    const pathInfo = getImportAccessPath<keyof typeof url>({
+    const pathInfo = getImportAccessPath<UrlKeys>({
       node: node.callee,
       scope,
       packageNames: URL_PACKAGE_NAMES,

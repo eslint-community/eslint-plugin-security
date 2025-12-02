@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectObjectInjectionRule } from '../../rules/detect-object-injection.ts';
+import { detectObjectInjectionRule } from '../../src/rules/detect-object-injection.ts';
 
 const tester = new RuleTester();
 

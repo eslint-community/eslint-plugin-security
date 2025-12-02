@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectPseudoRandomBytesRule } from '../../rules/detect-pseudoRandomBytes.ts';
+import { detectPseudoRandomBytesRule } from '../../src/rules/detect-pseudoRandomBytes.ts';
 
 const tester = new RuleTester();
 

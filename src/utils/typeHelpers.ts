@@ -3,6 +3,7 @@ import type * as ESTree from 'estree';
 import type { Buffer } from 'node:buffer';
 import type * as childProcess from 'node:child_process';
 import type * as path from 'node:path';
+import type * as url from 'node:url';
 import type { getImportAccessPath } from './import-utils.ts';
 
 /**
@@ -183,6 +184,9 @@ export type PathModuleKeys = Simplify<keyof PathModuleType>;
 export type ChildProcessModuleType = Simplify<typeof childProcess>;
 export type ChildProcessModuleKeys = Simplify<keyof ChildProcessModuleType>;
 
+export type UrlType = Simplify<typeof url>;
+export type UrlKeys = Simplify<keyof UrlType>;
+
 export type PathConstructionMethodNames = {
   [Key in PathModuleKeys]: PathModuleType[Key] extends ((firstArgument: string, ...args: unknown[]) => string) | ((...args: string[]) => string) ? Key : never;
 }[PathModuleKeys];
@@ -191,8 +195,8 @@ export type PathStaticMemberNames = {
   [Key in PathModuleKeys]: PathModuleType[Key] extends PropertyKey ? Key : never;
 }[PathModuleKeys];
 
-export type ImportAccessPathInfo<T extends string = PathConstructionMethodNames> = {
-  path: T[];
+export type ImportAccessPathInfo<AccessPathPropertyNames extends string = PathConstructionMethodNames> = {
+  path: AccessPathPropertyNames[];
   defaultImport?: boolean;
   packageName: string;
   node: Simplify<SimpleCallExpression | ImportDeclaration>;
@@ -234,6 +238,9 @@ export type Scope = Simplify<Scope.Scope>;
 export type Variable = Simplify<Scope.Variable>;
 export type Definition = Simplify<Scope.Definition>;
 
+export type NodeTypeMapping = { [NodeType in Rule.NodeTypes]: { type: NodeType } };
+export type GetBareNodeObject<NodeType extends Rule.NodeTypes> = NodeType extends NodeType ? Simplify<NodeTypeMapping[NodeType]> : never;
+
 // ESTree Types
 
 export type SimpleCallExpression = Simplify<ESTree.SimpleCallExpression>;
@@ -251,3 +258,5 @@ export type Super = Simplify<ESTree.Super>;
 export type VariableDeclarator = Simplify<ESTree.VariableDeclarator>;
 export type BinaryExpression = Simplify<ESTree.BinaryExpression>;
 export type MemberExpression = Simplify<ESTree.MemberExpression>;
+export type SpreadElement = Simplify<ESTree.SpreadElement>;
+export type MetaProperty = Simplify<ESTree.MetaProperty>;

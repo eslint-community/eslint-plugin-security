@@ -1,7 +1,7 @@
 import { Linter } from 'eslint';
 import { deepStrictEqual } from 'node:assert/strict';
-import { isStaticExpression } from '../../utils/is-static-expression.ts';
-import type { DistributedOmit, Expression, NodeParentExtension, RuleModule, SimpleCallExpression, Simplify } from '../../utils/typeHelpers.ts';
+import { isStaticExpression } from '../../src/utils/is-static-expression.ts';
+import type { Expression, NodeParentExtension, RuleModule, SimpleCallExpression, Simplify } from '../../src/utils/typeHelpers.ts';
 
 /**
  * Get the return value using `isStaticExpression()`.
@@ -15,14 +15,14 @@ function getIsStaticExpressionResult(code: string): boolean[] {
       const sourceCode = context.sourceCode || context.getSourceCode();
 
       return {
-        'CallExpression[callee.name = target]'(node: Simplify<DistributedOmit<SimpleCallExpression & NodeParentExtension, 'arguments'> & { arguments: Expression[] }>) {
+        'CallExpression[callee.name = target]'(node: Simplify<SimpleCallExpression & NodeParentExtension>): void {
           // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           result.push(
             ...node.arguments.map((expr) =>
               isStaticExpression({
-                node: expr,
+                node: expr as Expression,
                 scope,
               })
             )

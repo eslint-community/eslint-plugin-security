@@ -27,7 +27,7 @@ import type {
  * @param {string[]} params.packageNames The interesting packages the method is imported from
  * @returns {ImportAccessPathInfo | null}
  */
-export function getImportAccessPath<T extends string = PathConstructionMethodNames>({
+export function getImportAccessPath<AccessPathPropertyNames extends string = PathConstructionMethodNames>({
   node,
   scope,
   packageNames,
@@ -35,7 +35,7 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
   node: Expression | Super;
   scope: Scope;
   packageNames: string[];
-}): Simplify<ImportAccessPathInfo<T>> | null {
+}): Simplify<ImportAccessPathInfo<AccessPathPropertyNames>> | null {
   const tracked = new Set<Expression | Super>();
   return getImportAccessPathInternal(node);
 
@@ -43,7 +43,7 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
    * @param {import("estree").Expression} node
    * @returns {ImportAccessPathInfo | null}
    */
-  function getImportAccessPathInternal(node: Expression | Super): Simplify<ImportAccessPathInfo<T>> | null {
+  function getImportAccessPathInternal(node: Expression | Super): Simplify<ImportAccessPathInfo<AccessPathPropertyNames>> | null {
     if (tracked.has(node)) {
       // Guard infinite loops.
       return null;
@@ -63,11 +63,11 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
           def.type === 'Variable' && def.node.type === 'VariableDeclarator' && !!def.node.init
       );
       if (declDef) {
-        let propName: T | null = null;
+        let propName: AccessPathPropertyNames | null = null;
         if (declDef.node.id.type === 'ObjectPattern') {
           const property = declDef.node.id.properties.find((property) => property.type === 'Property' && property.value.type === 'Identifier' && property.value.name === node.name);
           if (property && 'computed' in property && !property.computed && 'name' in property.key) {
-            propName = property.key.name as T;
+            propName = property.key.name as AccessPathPropertyNames;
           }
         } else if (declDef.node.id.type !== 'Identifier') {
           // Unknown access path
@@ -119,10 +119,10 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
           isImportDeclaration((def.node as unknown as typeof def).parent)
       );
       if (importDef) {
-        let propName: T | null = null;
+        let propName: AccessPathPropertyNames | null = null;
         let defaultImport: boolean | undefined;
         if (importDef.node.type === 'ImportSpecifier' && 'name' in importDef.node.imported) {
-          propName = importDef.node.imported.name as T;
+          propName = importDef.node.imported.name as AccessPathPropertyNames;
         } else if (importDef.node.type === 'ImportDefaultSpecifier') {
           defaultImport = true;
         } else if (importDef.node.type !== 'ImportNamespaceSpecifier') {
@@ -175,7 +175,7 @@ export function getImportAccessPath<T extends string = PathConstructionMethodNam
        * | something.propName(c);
        */
       return {
-        path: [...nesting.path, ...('name' in node.property ? [node.property.name as T] : [])],
+        path: [...nesting.path, ...('name' in node.property ? [node.property.name as AccessPathPropertyNames] : [])],
         defaultImport: nesting.defaultImport,
         packageName: nesting.packageName,
         node: nesting.node,

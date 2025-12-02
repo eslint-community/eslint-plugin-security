@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectNonLiteralRequireRule } from '../../rules/detect-non-literal-require.ts';
+import { detectNonLiteralRequireRule } from '../../src/rules/detect-non-literal-require.ts';
 
 const tester = new RuleTester({ languageOptions: { sourceType: 'commonjs' } });
 

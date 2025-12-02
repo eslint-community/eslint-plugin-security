@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectUnsafeRegexRule } from '../../rules/detect-unsafe-regex.ts';
+import { detectUnsafeRegexRule } from '../../src/rules/detect-unsafe-regex.ts';
 
 const tester = new RuleTester();
 

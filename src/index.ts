@@ -3,7 +3,7 @@
  */
 
 import type { ESLint, Linter } from 'eslint';
-import pkg from './package.json' with { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 import { detectBidiCharactersRule, detectBidiCharactersRuleName } from './rules/detect-bidi-characters.ts';
 import { detectBufferNoAssertRule, detectBufferNoAssertRuleName } from './rules/detect-buffer-noassert.ts';
 import { detectChildProcessRule, detectChildProcessRuleName } from './rules/detect-child-process.ts';

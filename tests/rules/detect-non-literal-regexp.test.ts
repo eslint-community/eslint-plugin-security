@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectNonLiteralRegExpRule } from '../../rules/detect-non-literal-regexp.ts';
+import { detectNonLiteralRegExpRule } from '../../src/rules/detect-non-literal-regexp.ts';
 
 const tester = new RuleTester();
 
