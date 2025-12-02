@@ -43,7 +43,7 @@
     "lint": "npm-run-all \"lint:*\"",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm run update:eslint-docs -- --check",
-    "lint:js": "npm run build && eslint --config=\"eslint.config.ts\" .",
+    "lint:js": "npm run build && eslint --config=\"eslint.config.mts\" .",
     "lint:js:fix": "npm run lint:js -- --fix",
     "prepack": "npm run build",
     "release": "npx semantic-release",
