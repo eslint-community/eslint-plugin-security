@@ -3,16 +3,20 @@
   "version": "3.0.1",
   "description": "Security rules for eslint",
   "main": "./dist/index.js",
+  "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
-  "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
+      "bun": {
+        "types": "./dist/index.d.ts",
+        "default": "./src/index.ts"
+      },
       "module-sync": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
@@ -37,7 +41,7 @@
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "check-exports": "attw --pack .",
     "check-package-json": "publint --strict .",
-    "clean": "rimraf dist/ .rolldown/",
+    "clean": "rimraf -v dist/ .rolldown/",
     "cont-int": "npm test && npm run lint",
     "format": "prettier --write .",
     "lint": "npm-run-all \"lint:*\"",
@@ -82,7 +86,6 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@eslint/core": "^1.0.0",
     "@eslint/js": "^9.39.1",
     "@types/estree": "^1.0.8",
     "@types/mocha": "^10.0.10",
@@ -108,6 +111,14 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.1",
     "yorkie": "^2.0.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=9"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
