@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import plugin from '../../index.js';
+import * as plugin from '../../index.ts';
 
 describe('export plugin object', () => {
   it('should export rules', () => {
@@ -9,7 +9,7 @@ describe('export plugin object', () => {
 
   it('should export configs', () => {
     assert(plugin.configs);
-    assert(plugin.configs['recommended']);
+    assert(plugin.configs.recommended);
     assert(plugin.configs['recommended-legacy']);
   });
 });

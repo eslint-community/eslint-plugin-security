@@ -2,7 +2,7 @@
   "name": "eslint-plugin-security",
   "version": "3.0.1",
   "description": "Security rules for eslint",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "rimraf dist/ .rolldown/ && tsdown --config-loader='unrun' --config=tsdown.config.mts",
@@ -12,7 +12,7 @@
     "lint": "npm-run-all \"lint:*\"",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm run update:eslint-docs -- --check",
-    "lint:js": "eslint .",
+    "lint:js": "eslint --config=\"eslint.config.ts\" .",
     "lint:js:fix": "npm run lint:js -- --fix",
     "release": "npx semantic-release",
     "test": "mocha test/**",
@@ -38,7 +38,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
+    "*.(c|m)?[tj]sx?": [
       "prettier --write",
       "eslint --fix"
     ],
@@ -52,6 +52,7 @@
     "@eslint/core": "^1.0.0",
     "@eslint/js": "^9.39.1",
     "@types/estree": "^1.0.8",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^24.10.1",
     "@types/safe-regex": "^1.1.6",
     "changelog": "1.4.2",
@@ -60,14 +61,17 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-doc-generator": "^2.3.0",
     "eslint-plugin-eslint-plugin": "^7.2.0",
-    "lint-staged": "^12.3.7",
-    "markdownlint-cli": "^0.32.2",
-    "mocha": "^9.2.2",
+    "jiti": "^2.6.1",
+    "lint-staged": "^16.2.7",
+    "markdownlint-cli": "^0.46.0",
+    "mocha": "^11.7.5",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.6.2",
-    "semantic-release": "^19.0.2",
-    "tsdown": "^0.16.7",
+    "prettier": "^3.7.3",
+    "rolldown": "^1.0.0-beta.52",
+    "semantic-release": "^25.0.2",
+    "tsdown": "^0.17.0-beta.5",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0",
     "yorkie": "^2.0.0"
   },
   "engines": {

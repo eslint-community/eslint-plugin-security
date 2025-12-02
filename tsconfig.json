@@ -23,9 +23,9 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "types": ["node"],
+    "types": ["node", "mocha"],
     "useDefineForClassFields": true,
     "useUnknownInCatchVariables": true
   },
-  "include": ["**/*"]
+  "include": ["**/*.*"]
 }

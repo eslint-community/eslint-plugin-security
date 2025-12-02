@@ -1,8 +1,10 @@
 import type { Rule } from 'eslint';
 
+export const detectDisableMustacheEscapeRuleName = 'detect-disable-mustache-escape' as const;
+
 export const detectDisableMustacheEscapeRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "object.escapeMarkup = false", which can be used with some template engines to disable escaping of HTML entities.',
       category: 'Possible Security Vulnerability',
@@ -14,9 +16,9 @@ export const detectDisableMustacheEscapeRule = {
     return {
       AssignmentExpression(node) {
         if (node.operator === '=') {
-          if (node.left.property) {
-            if (node.left.property.name === 'escapeMarkup') {
-              if (node.right.value === false) {
+          if ('property' in node.left && node.left.property) {
+            if ('name' in node.left.property && node.left.property.name === 'escapeMarkup') {
+              if ('value' in node.right && node.right.value === false) {
                 context.report({ node: node, message: 'Markup escaping disabled.' });
               }
             }

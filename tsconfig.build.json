@@ -6,5 +6,5 @@
     "outDir": "./dist"
   },
   "extends": "./tsconfig.json",
-  "include": ["lib", "configs.ts", "index.ts"]
+  "include": ["utils", "rules", "index.ts"]
 }

@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectNewBufferRule } from '../../rules/detect-new-buffer.js';
+import { detectNewBufferRule } from '../../rules/detect-new-buffer.ts';
 
 const tester = new RuleTester();
 

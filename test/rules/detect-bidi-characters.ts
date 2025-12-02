@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectBidiCharactersRule } from '../../rules/detect-bidi-characters.js';
+import { detectBidiCharactersRule } from '../../rules/detect-bidi-characters.ts';
 
 const tester = new RuleTester();
 const ruleName = 'detect-bidi-characters';

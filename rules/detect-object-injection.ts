@@ -4,12 +4,13 @@
  */
 
 import type { Rule } from 'eslint';
+import type { Simplify } from '../utils/import-utils.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const getPath = (value, seen, keys) => {
+const getPath = (value: Record<string, unknown>, seen: Record<string, unknown>[], keys: string[]): string => {
   let index = seen.indexOf(value);
   const path = [keys[index]];
   for (index--; index >= 0; index--) {
@@ -21,16 +22,16 @@ const getPath = (value, seen, keys) => {
   return `~${path.join('.')}`;
 };
 
-const getSerialize = (fn, decycle) => {
-  const seen = [];
-  const keys = [];
+const getSerialize = (fn?: (key: string, value: Record<string, unknown>) => string, decycle?: (key: string, value: Record<string, unknown>) => string) => {
+  const seen = [] satisfies Record<string, unknown>[] as Record<string, unknown>[];
+  const keys = [] satisfies string[] as string[];
   decycle =
     decycle ||
-    function (key, value) {
+    function (key: string, value: Record<string, unknown>): string {
       return `[Circular ${getPath(value, seen, keys)}]`;
     };
-  return function (key, value) {
-    let ret = value;
+  return function (key: string, value: Record<string, unknown>): string {
+    let ret: string | Record<string, unknown> = value;
     if (typeof value === 'object' && value) {
       if (seen.indexOf(value) !== -1) {
         ret = decycle(key, value);
@@ -40,20 +41,45 @@ const getSerialize = (fn, decycle) => {
       }
     }
     if (fn) {
-      ret = fn(key, ret);
+      ret = fn(key, ret as Record<string, unknown>);
     }
-    return ret;
+    return ret as string;
   };
 };
 
-const stringify = (obj, fn, spaces, decycle) => {
-  return JSON.stringify(obj, getSerialize(fn, decycle), spaces);
+type Stringify = {
+  (
+    obj: object,
+    fn: (key: string, value: Record<string, unknown>) => string,
+    spaces: Simplify<Parameters<typeof JSON.stringify>[2]>,
+    decycle: (key: string, value: Record<string, unknown>) => string
+  ): string;
+
+  getSerialize: (
+    fn?: (key: string, value: Record<string, unknown>) => string,
+    decycle?: (key: string, value: Record<string, unknown>) => string
+  ) => (key: string, value: Record<string, unknown>) => string;
 };
 
-stringify.getSerialize = getSerialize;
+const stringify: Stringify = Object.assign(
+  (
+    obj: object,
+    fn: (key: string, value: Record<string, unknown>) => string,
+    spaces: Parameters<typeof JSON.stringify>[2],
+    decycle: (key: string, value: Record<string, unknown>) => string
+  ): string => {
+    return JSON.stringify(obj, getSerialize(fn, decycle), spaces);
+  },
+  { getSerialize }
+);
+
+// stringify.getSerialize = getSerialize;
+
+export const detectObjectInjectionRuleName = 'detect-object-injection' as const;
+
 export const detectObjectInjectionRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',

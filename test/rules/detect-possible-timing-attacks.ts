@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectPossibleTimingAttacksRule } from '../../rules/detect-possible-timing-attacks.js';
+import { detectPossibleTimingAttacksRule } from '../../rules/detect-possible-timing-attacks.ts';
 
 const tester = new RuleTester();
 

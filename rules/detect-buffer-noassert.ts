@@ -3,7 +3,7 @@
  * @author Adam Baldwin
  */
 
-import { Rule } from 'eslint';
+import type { Rule } from 'eslint';
 import type { Buffer } from 'node:buffer';
 import type { Simplify } from '../utils/import-utils.ts';
 
@@ -87,9 +87,11 @@ const write = [
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectBufferNoAssertRuleName = 'detect-buffer-noassert' as const;
+
 export const detectBufferNoAssertRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects calls to "buffer" with "noAssert" flag set.',
       category: 'Possible Security Vulnerability',
@@ -116,9 +118,9 @@ export const detectBufferNoAssertRule = {
           node.parent &&
           'arguments' in node.parent &&
           node.parent.arguments &&
-          node.parent.arguments[index as number] &&
-          'value' in node.parent.arguments[index as number] &&
-          (node.parent.arguments[index as number] as (typeof node.parent.arguments)[number] & { value: string }).value
+          node.parent.arguments[index] &&
+          'value' in node.parent.arguments[index] &&
+          (node.parent.arguments[index] as (typeof node.parent.arguments)[number] & { value: string }).value
         ) {
           return context.report({ node: node, message: `Found Buffer.${'name' in node.property ? node.property.name : ''} with noAssert flag set true` });
         }

@@ -14,9 +14,11 @@ import safe from 'safe-regex';
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectUnsafeRegexRuleName = 'detect-unsafe-regex' as const;
+
 export const detectUnsafeRegexRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.',
       category: 'Possible Security Vulnerability',
@@ -38,8 +40,8 @@ export const detectUnsafeRegexRule = {
         }
       },
       NewExpression(node) {
-        if (node.callee.name === 'RegExp' && node.arguments && node.arguments.length > 0 && node.arguments[0].type === 'Literal') {
-          if (!safe(node.arguments[0].value)) {
+        if ('name' in node.callee && node.callee.name === 'RegExp' && node.arguments && node.arguments.length > 0 && node.arguments[0].type === 'Literal') {
+          if (typeof node.arguments[0].value === 'string' && !safe(node.arguments[0].value)) {
             context.report({ node: node, message: 'Unsafe Regular Expression (new RegExp)' });
           }
         }

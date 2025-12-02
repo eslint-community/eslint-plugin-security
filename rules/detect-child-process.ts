@@ -3,9 +3,10 @@
  * @author Adam Baldwin
  */
 
-import { getImportAccessPath } from '../utils/import-utils.js';
-import { isStaticExpression } from '../utils/is-static-expression.js';
-import { Rule } from "eslint";
+import type { Rule } from 'eslint';
+import type * as childProcess from 'node:child_process';
+import { getImportAccessPath } from '../utils/import-utils.ts';
+import { isStaticExpression } from '../utils/is-static-expression.ts';
 
 const childProcessPackageNames = ['child_process', 'node:child_process'] as const satisfies string[];
 
@@ -13,9 +14,11 @@ const childProcessPackageNames = ['child_process', 'node:child_process'] as cons
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export const detectChildProcess  = {
+export const detectChildProcessRuleName = 'detect-child-process' as const;
+
+export const detectChildProcessRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects instances of "child_process" & non-literal "exec()" calls.',
       category: 'Possible Security Vulnerability',
@@ -27,12 +30,13 @@ export const detectChildProcess  = {
     const sourceCode = context.sourceCode || context.getSourceCode();
     return {
       CallExpression(node) {
-        if (node.callee.name === 'require') {
+        if ('name' in node.callee && node.callee.name === 'require') {
           const args = node.arguments[0];
           if (
             args &&
             args.type === 'Literal' &&
-            childProcessPackageNames.includes(args.value) &&
+            typeof args.value === 'string' &&
+            childProcessPackageNames.includes(args.value as never) &&
             node.parent.type !== 'VariableDeclarator' &&
             node.parent.type !== 'AssignmentExpression' &&
             node.parent.type !== 'MemberExpression'
@@ -42,25 +46,27 @@ export const detectChildProcess  = {
           return;
         }
 
-        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+        // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
+        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
         // Reports non-literal `exec()` calls.
         if (
           !node.arguments.length ||
-          isStaticExpression({
-            node: node.arguments[0],
-            scope,
-          })
+          (node.arguments[0].type !== 'SpreadElement' &&
+            isStaticExpression({
+              node: node.arguments[0],
+              scope,
+            }))
         ) {
           return;
         }
-        const pathInfo = getImportAccessPath({
+        const pathInfo = getImportAccessPath<keyof typeof childProcess>({
           node: node.callee,
           scope,
           packageNames: childProcessPackageNames,
         });
         const fnName = pathInfo && pathInfo.path.length === 1 && pathInfo.path[0];
-        if (fnName !== 'exec') {
+        if (fnName && fnName !== 'exec') {
           return;
         }
         context.report({ node: node, message: 'Found child_process.exec() with non Literal first argument' });

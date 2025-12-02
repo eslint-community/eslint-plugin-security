@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectEvalWithExpressionRule } from '../../rules/detect-eval-with-expression.js';
+import { detectEvalWithExpressionRule } from '../../rules/detect-eval-with-expression.ts';
 
 const tester = new RuleTester();
 

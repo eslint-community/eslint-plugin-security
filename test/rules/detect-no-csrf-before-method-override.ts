@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectNoCsrfBeforeMethodOverrideRule } from '../../rules/detect-no-csrf-before-method-override.js';
+import { detectNoCsrfBeforeMethodOverrideRule } from '../../rules/detect-no-csrf-before-method-override.ts';
 
 const tester = new RuleTester();
 

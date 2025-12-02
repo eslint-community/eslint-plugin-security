@@ -4,15 +4,17 @@
  */
 
 import type { Rule } from 'eslint';
-import { isStaticExpression } from '../utils/is-static-expression.js';
+import { isStaticExpression } from '../utils/is-static-expression.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectNonLiteralRegExpRuleName = 'detect-non-literal-regexp' as const;
+
 export const detectNonLiteralRegExpRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "RegExp(variable)", which might allow an attacker to DOS your server with a long-running regular expression.',
       category: 'Possible Security Vulnerability',
@@ -25,13 +27,15 @@ export const detectNonLiteralRegExpRule = {
 
     return {
       NewExpression(node) {
-        if (node.callee.name === 'RegExp') {
+        if ('name' in node.callee && node.callee.name === 'RegExp') {
           const args = node.arguments;
-          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
+          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           if (
             args &&
             args.length > 0 &&
+            args[0].type !== 'SpreadElement' &&
             !isStaticExpression({
               node: args[0],
               scope,

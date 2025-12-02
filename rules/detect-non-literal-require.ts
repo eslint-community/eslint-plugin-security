@@ -4,15 +4,17 @@
  */
 
 import type { Rule } from 'eslint';
-import { isStaticExpression } from '../utils/is-static-expression.js';
+import { isStaticExpression } from '../utils/is-static-expression.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectNonLiteralRequireRuleName = 'detect-non-literal-require' as const;
+
 export const detectNonLiteralRequireRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "require(variable)", which might allow an attacker to load and run arbitrary code, or access arbitrary files on disk.',
       category: 'Possible Security Vulnerability',
@@ -25,13 +27,15 @@ export const detectNonLiteralRequireRule = {
 
     return {
       CallExpression(node) {
-        if (node.callee.name === 'require') {
+        if ('name' in node.callee && node.callee.name === 'require') {
           const args = node.arguments;
-          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
+          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           if (
             args &&
             args.length > 0 &&
+            args[0].type !== 'SpreadElement' &&
             !isStaticExpression({
               node: args[0],
               scope,

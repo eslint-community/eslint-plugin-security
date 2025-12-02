@@ -1,20 +1,26 @@
+import type { Rule } from 'eslint';
 import { Linter } from 'eslint';
+import type { Identifier, MemberExpression } from 'estree';
 import { deepStrictEqual } from 'node:assert/strict';
-import { getImportAccessPath } from '../../utils/import-utils.js';
+import type { Simplify } from '../../utils/import-utils.ts';
+import { getImportAccessPath } from '../../utils/import-utils.ts';
 
-function getGetImportAccessPathResult(code) {
+type ImportAccessInfo = Simplify<Pick<NonNullable<ReturnType<typeof getImportAccessPath>>, 'path' | 'packageName'> & ({ defaultImport: true } | { defaultImport?: never })>;
+
+function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
   const linter = new Linter();
-  const result = [];
+  const result = [] satisfies ImportAccessInfo[] as ImportAccessInfo[];
   const testRule = {
     create(context) {
       const sourceCode = context.sourceCode || context.getSourceCode();
       return {
-        'Identifier[name = target]'(node) {
-          let expr = node;
+        'Identifier[name = target]'(node: Identifier & Rule.NodeParentExtension) {
+          let expr: (Identifier & Rule.NodeParentExtension) | (MemberExpression & Rule.NodeParentExtension) = node;
           if (node.parent.type === 'MemberExpression' && node.parent.property === node) {
             expr = node.parent;
           }
-          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
+          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
+          const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           const info = getImportAccessPath({
             node: expr,
@@ -30,7 +36,7 @@ function getGetImportAccessPathResult(code) {
         },
       };
     },
-  };
+  } as const satisfies Rule.RuleModule;
 
   const linterResult = linter.verify(code, {
     plugins: {

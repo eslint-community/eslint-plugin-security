@@ -4,21 +4,26 @@
  */
 
 import type { Rule } from 'eslint';
+// import type * as fs from 'node:fs';
+// import type * as fsp from 'node:fs/promises';
+// import type * as fse from 'fs-extra';
 import fsMetaData from '../utils/data/fsFunctionData.json' with { type: 'json' };
-const funcNames = Object.keys(fsMetaData);
+import { getImportAccessPath } from '../utils/import-utils.ts';
+import { isStaticExpression } from '../utils/is-static-expression.ts';
+
+const funcNames = Object.keys(fsMetaData) as (keyof typeof fsMetaData)[];
 
 const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'] as const satisfies string[];
-
-import { getImportAccessPath } from '../utils/import-utils.js';
-import { isStaticExpression } from '../utils/is-static-expression.js';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectNonLiteralFsFilenameRuleName = 'detect-non-literal-fs-filename' as const;
+
 export const detectNonLiteralFsFilenameRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects variable in filename argument of "fs" calls, which might allow an attacker to access anything on your system.',
       category: 'Possible Security Vulnerability',
@@ -35,8 +40,9 @@ export const detectNonLiteralFsFilenameRule = {
           return;
         }
 
-        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();
-        const pathInfo = getImportAccessPath({
+        // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
+        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
+        const pathInfo = getImportAccessPath<keyof typeof fsMetaData>({
           node: node.callee,
           scope,
           packageNames: fsPackageNames,
@@ -44,7 +50,7 @@ export const detectNonLiteralFsFilenameRule = {
         if (!pathInfo) {
           return;
         }
-        let fnName: string | undefined;
+        let fnName: keyof typeof fsMetaData;
         if (pathInfo.path.length === 1) {
           // Check for:
           // | var something = require('fs').readFile;
@@ -82,7 +88,7 @@ export const detectNonLiteralFsFilenameRule = {
           }
           const argument = node.arguments[index];
 
-          if (isStaticExpression({ node: argument, scope })) {
+          if (argument.type !== 'SpreadElement' && isStaticExpression({ node: argument, scope })) {
             continue;
           }
           indices.push(index);

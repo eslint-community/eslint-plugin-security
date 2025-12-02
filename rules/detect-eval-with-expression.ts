@@ -9,9 +9,11 @@ import type { Rule } from 'eslint';
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectEvalWithExpressionRuleName = 'detect-eval-with-expression' as const;
+
 export const detectEvalWithExpressionRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "eval(variable)" which can allow an attacker to run arbitrary code inside your process.',
       category: 'Possible Security Vulnerability',
@@ -22,7 +24,7 @@ export const detectEvalWithExpressionRule = {
   create(context) {
     return {
       CallExpression(node) {
-        if (node.callee.name === 'eval' && node.arguments.length && node.arguments[0].type !== 'Literal') {
+        if ('name' in node.callee && node.callee.name === 'eval' && node.arguments.length && node.arguments[0].type !== 'Literal') {
           context.report({ node: node, message: `eval with argument of type ${node.arguments[0].type}` });
         }
       },

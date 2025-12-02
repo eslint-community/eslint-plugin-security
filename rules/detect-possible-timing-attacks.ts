@@ -4,6 +4,8 @@
  */
 
 import type { Rule } from 'eslint';
+import type { BinaryExpression } from 'estree';
+import type { Simplify } from '../utils/import-utils.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -13,18 +15,20 @@ const keywords = `((${['password', 'secret', 'api', 'apiKey', 'token', 'auth', '
 
 const re = new RegExp(`^${keywords}$`, 'im');
 
-const containsKeyword = (node) => {
+const containsKeyword = (node: BinaryExpression['left' | 'right']): node is Simplify<Extract<BinaryExpression['left' | 'right'], { type: 'Identifier' }>> => {
   if (node.type === 'Identifier') {
     if (re.test(node.name)) {
       return true;
     }
   }
-  return;
+  return false;
 };
+
+export const detectPossibleTimingAttacksRuleName = 'detect-possible-timing-attacks' as const;
 
 export const detectPossibleTimingAttacksRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.',
       category: 'Possible Security Vulnerability',

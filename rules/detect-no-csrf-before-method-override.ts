@@ -9,9 +9,11 @@ import type { Rule } from 'eslint';
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectNoCsrfBeforeMethodOverrideRuleName = 'detect-no-csrf-before-method-override' as const;
+
 export const detectNoCsrfBeforeMethodOverrideRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects Express "csrf" middleware setup before "method-override" middleware.',
       category: 'Possible Security Vulnerability',
@@ -28,14 +30,14 @@ export const detectNoCsrfBeforeMethodOverrideRule = {
         const nodeValue = token.value;
 
         if (nodeValue === 'express') {
-          if (!node.callee || !node.callee.property) {
+          if (!node.callee || !('property' in node.callee) || !node.callee.property) {
             return;
           }
 
-          if (node.callee.property.name === 'methodOverride' && csrf) {
+          if ('name' in node.callee.property && node.callee.property.name === 'methodOverride' && csrf) {
             context.report({ node: node, message: 'express.csrf() middleware found before express.methodOverride()' });
           }
-          if (node.callee.property.name === 'csrf') {
+          if ('name' in node.callee.property && node.callee.property.name === 'csrf') {
             // Keep track of found CSRF
             csrf = true;
           }

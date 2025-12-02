@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint';
-import { detectDisableMustacheEscapeRule } from '../../rules/detect-disable-mustache-escape.js';
+import { detectDisableMustacheEscapeRule } from '../../rules/detect-disable-mustache-escape.ts';
 
 const tester = new RuleTester();
 

@@ -2,44 +2,70 @@
  * eslint-plugin-security - ESLint plugin for Node Security
  */
 
+import type { ESLint, Linter } from 'eslint';
 import pkg from './package.json' with { type: 'json' };
-import {} from './rules/detect-unsafe-regex.js'
-import {} from './rules/detect-non-literal-regexp.js'
-import {} from './rules/detect-non-literal-require.js'
-import {} from './rules/detect-non-literal-fs-filename.js'
-import {} from './rules/detect-eval-with-expression.js'
-import {} from './rules/detect-pseudoRandomBytes.js'
-import {} from './rules/detect-possible-timing-attacks.js'
-import {} from './rules/detect-no-csrf-before-method-override.js'
-import {} from './rules/detect-buffer-noassert.js'
-import {} from './rules/detect-child-process.js'
-import {} from './rules/detect-disable-mustache-escape.js'
-import {} from './rules/detect-object-injection.js'
-import {} from './rules/detect-new-buffer.js'
-import {} from './rules/detect-bidi-characters.js'
+import { detectBidiCharactersRule, detectBidiCharactersRuleName } from './rules/detect-bidi-characters.ts';
+import { detectBufferNoAssertRule, detectBufferNoAssertRuleName } from './rules/detect-buffer-noassert.ts';
+import { detectChildProcessRule, detectChildProcessRuleName } from './rules/detect-child-process.ts';
+import { detectDisableMustacheEscapeRule, detectDisableMustacheEscapeRuleName } from './rules/detect-disable-mustache-escape.ts';
+import { detectEvalWithExpressionRule, detectEvalWithExpressionRuleName } from './rules/detect-eval-with-expression.ts';
+import { detectNewBufferRule, detectNewBufferRuleName } from './rules/detect-new-buffer.ts';
+import { detectNoCsrfBeforeMethodOverrideRule, detectNoCsrfBeforeMethodOverrideRuleName } from './rules/detect-no-csrf-before-method-override.ts';
+import { detectNonLiteralFsFilenameRule, detectNonLiteralFsFilenameRuleName } from './rules/detect-non-literal-fs-filename.ts';
+import { detectNonLiteralRegExpRule, detectNonLiteralRegExpRuleName } from './rules/detect-non-literal-regexp.ts';
+import { detectNonLiteralRequireRule, detectNonLiteralRequireRuleName } from './rules/detect-non-literal-require.ts';
+import { detectObjectInjectionRule, detectObjectInjectionRuleName } from './rules/detect-object-injection.ts';
+import { detectPossibleTimingAttacksRule, detectPossibleTimingAttacksRuleName } from './rules/detect-possible-timing-attacks.ts';
+import { detectPseudoRandomBytesRule, detectPseudoRandomBytesRuleName } from './rules/detect-pseudoRandomBytes.ts';
+import { detectUnsafeRegexRule, detectUnsafeRegexRuleName } from './rules/detect-unsafe-regex.ts';
 
-const plugin = {
-  meta: {
-    name: pkg.name,
-    version: pkg.version,
-  },
-  rules: {
-    'detect-unsafe-regex': require('./rules/detect-unsafe-regex'),
-    'detect-non-literal-regexp': require('./rules/detect-non-literal-regexp'),
-    'detect-non-literal-require': require('./rules/detect-non-literal-require'),
-    'detect-non-literal-fs-filename': require('./rules/detect-non-literal-fs-filename'),
-    'detect-eval-with-expression': require('./rules/detect-eval-with-expression'),
-    'detect-pseudoRandomBytes': require('./rules/detect-pseudoRandomBytes'),
-    'detect-possible-timing-attacks': require('./rules/detect-possible-timing-attacks'),
-    'detect-no-csrf-before-method-override': require('./rules/detect-no-csrf-before-method-override'),
-    'detect-buffer-noassert': require('./rules/detect-buffer-noassert'),
-    'detect-child-process': require('./rules/detect-child-process'),
-    'detect-disable-mustache-escape': require('./rules/detect-disable-mustache-escape'),
-    'detect-object-injection': require('./rules/detect-object-injection'),
-    'detect-new-buffer': require('./rules/detect-new-buffer'),
-    'detect-bidi-characters': require('./rules/detect-bidi-characters'),
-  },
-  rulesConfig: {
+export const meta = {
+  name: pkg.name,
+  version: pkg.version,
+} as const satisfies ESLint.Plugin['meta'];
+
+export const rules = {
+  [detectUnsafeRegexRuleName]: detectUnsafeRegexRule,
+  [detectNonLiteralRegExpRuleName]: detectNonLiteralRegExpRule,
+  [detectNonLiteralRequireRuleName]: detectNonLiteralRequireRule,
+  [detectNonLiteralFsFilenameRuleName]: detectNonLiteralFsFilenameRule,
+  [detectEvalWithExpressionRuleName]: detectEvalWithExpressionRule,
+  [detectPseudoRandomBytesRuleName]: detectPseudoRandomBytesRule,
+  [detectPossibleTimingAttacksRuleName]: detectPossibleTimingAttacksRule,
+  [detectNoCsrfBeforeMethodOverrideRuleName]: detectNoCsrfBeforeMethodOverrideRule,
+  [detectBufferNoAssertRuleName]: detectBufferNoAssertRule,
+  [detectChildProcessRuleName]: detectChildProcessRule,
+  [detectDisableMustacheEscapeRuleName]: detectDisableMustacheEscapeRule,
+  [detectObjectInjectionRuleName]: detectObjectInjectionRule,
+  [detectNewBufferRuleName]: detectNewBufferRule,
+  [detectBidiCharactersRuleName]: detectBidiCharactersRule,
+} as const satisfies ESLint.Plugin['rules'];
+
+const recommendedRules = {
+  'security/detect-buffer-noassert': 'warn',
+  'security/detect-child-process': 'warn',
+  'security/detect-disable-mustache-escape': 'warn',
+  'security/detect-eval-with-expression': 'warn',
+  'security/detect-new-buffer': 'warn',
+  'security/detect-no-csrf-before-method-override': 'warn',
+  'security/detect-non-literal-fs-filename': 'warn',
+  'security/detect-non-literal-regexp': 'warn',
+  'security/detect-non-literal-require': 'warn',
+  'security/detect-object-injection': 'warn',
+  'security/detect-possible-timing-attacks': 'warn',
+  'security/detect-pseudoRandomBytes': 'warn',
+  'security/detect-unsafe-regex': 'warn',
+  'security/detect-bidi-characters': 'warn',
+} as const satisfies Linter.RulesRecord;
+
+const recommendedLegacy = {
+  plugins: ['security'],
+  rules: recommendedRules,
+} as const satisfies Linter.LegacyConfig;
+
+
+
+export const rulesConfig = {
     'detect-unsafe-regex': 0,
     'detect-non-literal-regexp': 0,
     'detect-non-literal-require': 0,
@@ -54,39 +80,35 @@ const plugin = {
     'detect-object-injection': 0,
     'detect-new-buffer': 0,
     'detect-bidi-characters': 0,
-  },
-  configs: {}, // was assigned later so we can reference `plugin`
-};
+  } as const satisfies Linter.Config['rules'];
+
+const plugin = {
+  meta,
+  rules,
+  // rulesConfig,
+  // configs: {
+  //   recommended: {
+  //     name: 'security/recommended',
+  //     rules: recommendedRules,
+  //   },
+  //   'recommended-legacy': recommendedLegacy,
+  // } as const satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig }, // was assigned later so we can reference `plugin`
+} as const satisfies ESLint.Plugin;
 
 const recommended = {
   name: 'security/recommended',
-  plugins: { security: plugin },
-  rules: {
-    'security/detect-buffer-noassert': 'warn',
-    'security/detect-child-process': 'warn',
-    'security/detect-disable-mustache-escape': 'warn',
-    'security/detect-eval-with-expression': 'warn',
-    'security/detect-new-buffer': 'warn',
-    'security/detect-no-csrf-before-method-override': 'warn',
-    'security/detect-non-literal-fs-filename': 'warn',
-    'security/detect-non-literal-regexp': 'warn',
-    'security/detect-non-literal-require': 'warn',
-    'security/detect-object-injection': 'warn',
-    'security/detect-possible-timing-attacks': 'warn',
-    'security/detect-pseudoRandomBytes': 'warn',
-    'security/detect-unsafe-regex': 'warn',
-    'security/detect-bidi-characters': 'warn',
-  },
-};
+  // plugins: { security: plugin },
+  rules: recommendedRules,
+} as const satisfies Linter.Config;
 
-const recommendedLegacy = {
-  plugins: ['security'],
-  rules: recommended.rules,
-};
-
-Object.assign(plugin.configs, {
+export const configs = {
   recommended,
   'recommended-legacy': recommendedLegacy,
-});
+} as const satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig };
 
-module.exports = plugin;
+// export const configs = Object.assign(plugin.configs, {
+//   recommended,
+//   'recommended-legacy': recommendedLegacy,
+// });
+
+export default plugin;

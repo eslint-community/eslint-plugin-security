@@ -1,10 +1,10 @@
-import * as path from "node:path"
-import { fileURLToPath } from "node:url"
-import type { InlineConfig, UserConfig } from "tsdown"
-import { defineConfig } from "tsdown"
-import packageJson from "./package.json" with { type: "json" }
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type { InlineConfig, UserConfig } from 'tsdown';
+import { defineConfig } from 'tsdown';
+import packageJson from './package.json' with { type: 'json' };
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const tsdownConfig = defineConfig((cliOptions) => {
   const commonOptions = {
@@ -14,15 +14,14 @@ const tsdownConfig = defineConfig((cliOptions) => {
       emitJs: false,
       newContext: true,
       oxc: false,
-      resolver: "tsc",
+      resolver: 'tsc',
       sideEffects: false,
       sourcemap: true,
     },
     entry: {
-      index: "index.ts",
-      configs: "configs.ts",
+      index: 'index.ts',
     },
-    minify: "dce-only",
+    minify: 'dce-only',
     treeshake: {
       annotations: true,
       commonjs: true,
@@ -30,28 +29,28 @@ const tsdownConfig = defineConfig((cliOptions) => {
     },
     failOnWarn: true,
     fixedExtension: false,
-    format: ["es", "cjs"],
+    format: ['es', 'cjs'],
     hash: false,
     nodeProtocol: true,
     shims: true,
     sourcemap: true,
     outExtensions: ({ format }) => ({
-      dts: format === "cjs" ? ".d.cts" : ".d.ts",
-      js: format === "cjs" ? ".cjs" : ".js",
+      dts: format === 'cjs' ? '.d.cts' : '.d.ts',
+      js: format === 'cjs' ? '.cjs' : '.js',
     }),
-    outDir: "dist",
-    platform: "node",
-    target: ["esnext", "node20"],
-    tsconfig: path.join(__dirname, "tsconfig.build.json"),
+    outDir: 'dist',
+    platform: 'node',
+    target: ['esnext', 'node20'],
+    tsconfig: path.join(__dirname, 'tsconfig.build.json'),
     ...cliOptions,
-  } as const satisfies InlineConfig
+  } as const satisfies InlineConfig;
 
   return [
     {
       ...commonOptions,
       name: `${packageJson.name} Modern Dual Format`,
     },
-  ] as const satisfies UserConfig[]
-})
+  ] as const satisfies UserConfig[];
+});
 
-export default tsdownConfig
+export default tsdownConfig;

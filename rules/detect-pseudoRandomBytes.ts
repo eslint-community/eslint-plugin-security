@@ -3,15 +3,17 @@
  * @author Adam Baldwin
  */
 
-import type { Rule } from "eslint";
+import type { Rule } from 'eslint';
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+export const detectPseudoRandomBytesRuleName = 'detect-pseudoRandomBytes' as const;
+
 export const detectPseudoRandomBytesRule = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects if "pseudoRandomBytes()" is in use, which might not give you the randomness you need and expect.',
       category: 'Possible Security Vulnerability',
@@ -22,7 +24,7 @@ export const detectPseudoRandomBytesRule = {
   create(context) {
     return {
       MemberExpression(node) {
-        if (node.property.name === 'pseudoRandomBytes') {
+        if ('name' in node.property && node.property.name === 'pseudoRandomBytes') {
           return context.report({ node: node, message: 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers' });
         }
       },
