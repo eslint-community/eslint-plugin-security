@@ -2,6 +2,28 @@ name: CI
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
+  are-the-types-wrong:
+    name: 🤔 Are the types wrong?
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          check-latest: true
+
+      - name: Install Packages
+        run: npm ci
+
+      - name: Check package exports with are-the-types-wrong
+        run: npm run check-exports
+
+      - name: Run publint
+        run: npm run check-package-json
+
+      - run: npm run typecheck
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
