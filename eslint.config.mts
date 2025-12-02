@@ -44,7 +44,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['test/**/*.ts'],
+    files: ['tests/**/*.tests.ts'],
     languageOptions: {
       globals: {
         describe: 'readonly',
