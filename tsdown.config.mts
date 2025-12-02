@@ -10,6 +10,7 @@ const tsdownConfig = defineConfig((cliOptions) => {
   const commonOptions = {
     clean: false,
     cwd: __dirname,
+    debug: {},
     dts: {
       emitJs: false,
       newContext: true,
@@ -21,26 +22,26 @@ const tsdownConfig = defineConfig((cliOptions) => {
     entry: {
       index: 'index.ts',
     },
+    failOnWarn: true,
+    fixedExtension: false,
+    format: ['es', 'cjs'],
+    hash: false,
     minify: 'dce-only',
+    nodeProtocol: true,
+    outDir: 'dist',
+    outExtensions: ({ format }) => ({
+      dts: format === 'cjs' ? '.d.cts' : '.d.ts',
+      js: format === 'cjs' ? '.cjs' : '.js',
+    }),
+    platform: 'node',
+    shims: true,
+    sourcemap: true,
+    target: ['esnext', 'node20'],
     treeshake: {
       annotations: true,
       commonjs: true,
       moduleSideEffects: false,
     },
-    failOnWarn: true,
-    fixedExtension: false,
-    format: ['es', 'cjs'],
-    hash: false,
-    nodeProtocol: true,
-    shims: true,
-    sourcemap: true,
-    outExtensions: ({ format }) => ({
-      dts: format === 'cjs' ? '.d.cts' : '.d.ts',
-      js: format === 'cjs' ? '.cjs' : '.js',
-    }),
-    outDir: 'dist',
-    platform: 'node',
-    target: ['esnext', 'node20'],
     tsconfig: path.join(__dirname, 'tsconfig.build.json'),
     ...cliOptions,
   } as const satisfies InlineConfig;
