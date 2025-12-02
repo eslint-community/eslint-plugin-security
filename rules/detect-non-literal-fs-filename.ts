@@ -4,9 +4,6 @@
  */
 
 import type { Rule } from 'eslint';
-// import type * as fs from 'node:fs';
-// import type * as fsp from 'node:fs/promises';
-// import type * as fse from 'fs-extra';
 import fsMetaData from '../utils/data/fsFunctionData.json' with { type: 'json' };
 import { getImportAccessPath } from '../utils/import-utils.ts';
 import { isStaticExpression } from '../utils/is-static-expression.ts';

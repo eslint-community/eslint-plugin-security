@@ -4,16 +4,11 @@
  */
 
 import type { Rule } from 'eslint';
-import type { Buffer } from 'node:buffer';
-import type { Simplify } from '../utils/import-utils.ts';
+import type { BufferReadMethodKeys, BufferWriteMethodKeys } from '../utils/typeHelpers.ts';
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-
-type BufferReadMethodKeys = Simplify<Extract<keyof Buffer, `read${string}`>>;
-
-type BufferWriteMethodKeys = Simplify<Exclude<Extract<keyof Buffer, `write${string}`>, 'write'>>;
 
 const read = [
   'readBigInt64BE',

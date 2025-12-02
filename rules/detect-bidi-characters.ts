@@ -6,8 +6,8 @@
  */
 
 import type { AST, Linter, Rule } from 'eslint';
-import type { Comment, Position } from 'estree';
-import type { Simplify } from '../utils/import-utils.ts';
+import type { Position } from 'estree';
+import type { CommentOrToken, Simplify } from '../utils/typeHelpers.ts';
 
 const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069]/gu;
 
@@ -36,8 +36,6 @@ function detectBidiCharacters({ sourceText, firstLineOffset }: { sourceText: str
     return reports;
   }, []);
 }
-
-type CommentOrToken = Simplify<AST.Token | Comment>;
 
 function report({
   context,

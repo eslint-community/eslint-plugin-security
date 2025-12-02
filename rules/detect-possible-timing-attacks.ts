@@ -5,7 +5,7 @@
 
 import type { Rule } from 'eslint';
 import type { BinaryExpression } from 'estree';
-import type { Simplify } from '../utils/import-utils.ts';
+import type { Simplify } from '../utils/typeHelpers.ts';
 
 //------------------------------------------------------------------------------
 // Rule Definition

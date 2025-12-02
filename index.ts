@@ -63,24 +63,22 @@ const recommendedLegacy = {
   rules: recommendedRules,
 } as const satisfies Linter.LegacyConfig;
 
-
-
 export const rulesConfig = {
-    'detect-unsafe-regex': 0,
-    'detect-non-literal-regexp': 0,
-    'detect-non-literal-require': 0,
-    'detect-non-literal-fs-filename': 0,
-    'detect-eval-with-expression': 0,
-    'detect-pseudoRandomBytes': 0,
-    'detect-possible-timing-attacks': 0,
-    'detect-no-csrf-before-method-override': 0,
-    'detect-buffer-noassert': 0,
-    'detect-child-process': 0,
-    'detect-disable-mustache-escape': 0,
-    'detect-object-injection': 0,
-    'detect-new-buffer': 0,
-    'detect-bidi-characters': 0,
-  } as const satisfies Linter.Config['rules'];
+  'detect-unsafe-regex': 0,
+  'detect-non-literal-regexp': 0,
+  'detect-non-literal-require': 0,
+  'detect-non-literal-fs-filename': 0,
+  'detect-eval-with-expression': 0,
+  'detect-pseudoRandomBytes': 0,
+  'detect-possible-timing-attacks': 0,
+  'detect-no-csrf-before-method-override': 0,
+  'detect-buffer-noassert': 0,
+  'detect-child-process': 0,
+  'detect-disable-mustache-escape': 0,
+  'detect-object-injection': 0,
+  'detect-new-buffer': 0,
+  'detect-bidi-characters': 0,
+} as const satisfies Linter.Config['rules'];
 
 const plugin = {
   meta,

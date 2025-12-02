@@ -2,10 +2,8 @@ import type { Rule } from 'eslint';
 import { Linter } from 'eslint';
 import type { Identifier, MemberExpression } from 'estree';
 import { deepStrictEqual } from 'node:assert/strict';
-import type { Simplify } from '../../utils/import-utils.ts';
 import { getImportAccessPath } from '../../utils/import-utils.ts';
-
-type ImportAccessInfo = Simplify<Pick<NonNullable<ReturnType<typeof getImportAccessPath>>, 'path' | 'packageName'> & ({ defaultImport: true } | { defaultImport?: never })>;
+import type { ImportAccessInfo } from '../../utils/typeHelpers.ts';
 
 function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
   const linter = new Linter();

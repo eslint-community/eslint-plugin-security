@@ -2,8 +2,8 @@ import type { Scope } from 'eslint';
 import type { Expression, Identifier, MemberExpression, MetaProperty, SimpleCallExpression, SpreadElement } from 'estree';
 import type * as url from 'node:url';
 import { findVariable } from './find-variable.ts';
-import type { PathConstructionMethodNames, PathStaticMemberNames, PathType } from './import-utils.ts';
 import { getImportAccessPath } from './import-utils.ts';
+import type { PathConstructionMethodNames, PathStaticMemberNames, PathType } from './typeHelpers.ts';
 
 const PATH_PACKAGE_NAMES = ['path', 'node:path', 'path/posix', 'node:path/posix'] as const satisfies string[];
 const URL_PACKAGE_NAMES = ['url', 'node:url'] as const satisfies string[];

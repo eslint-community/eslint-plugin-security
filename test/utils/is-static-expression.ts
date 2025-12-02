@@ -2,8 +2,8 @@ import type { Rule } from 'eslint';
 import { Linter } from 'eslint';
 import type { Expression, SimpleCallExpression } from 'estree';
 import { deepStrictEqual } from 'node:assert/strict';
-import type { DistributedOmit, Simplify } from '../../utils/import-utils.ts';
 import { isStaticExpression } from '../../utils/is-static-expression.ts';
+import type { DistributedOmit, Simplify } from '../../utils/typeHelpers.ts';
 
 /**
  * Get the return value using `isStaticExpression()`.
