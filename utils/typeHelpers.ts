@@ -204,6 +204,20 @@ export type BufferWriteMethodKeys = Simplify<ExcludeStrict<ExtractStrict<keyof B
 
 export type ImportAccessInfo = Simplify<Pick<NonNullable<ReturnType<typeof getImportAccessPath>>, 'path' | 'packageName'> & ({ defaultImport: true } | { defaultImport?: never })>;
 
+export type Stringify = {
+  (
+    obj: object,
+    fn: (key: string, value: Record<string, unknown>) => string,
+    spaces: Simplify<Parameters<typeof JSON.stringify>[2]>,
+    decycle: (key: string, value: Record<string, unknown>) => string
+  ): string;
+
+  getSerialize: (
+    fn?: (key: string, value: Record<string, unknown>) => string,
+    decycle?: (key: string, value: Record<string, unknown>) => string
+  ) => (key: string, value: Record<string, unknown>) => string;
+};
+
 // ESLint Types
 
 export type Token = Simplify<AST.Token>;
