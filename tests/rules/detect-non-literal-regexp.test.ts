@@ -1,12 +1,11 @@
 import { RuleTester } from 'eslint';
-import { detectNonLiteralRegExpRule } from '../../src/rules/detect-non-literal-regexp.ts';
+import { detectNonLiteralRegExpRule, detectNonLiteralRegExpRuleName } from '../../src/rules/detect-non-literal-regexp.ts';
 
 const tester = new RuleTester();
 
-const ruleName = 'detect-non-literal-regexp';
 const invalid = "var a = new RegExp(c, 'i')";
 
-tester.run(ruleName, detectNonLiteralRegExpRule, {
+tester.run(detectNonLiteralRegExpRuleName, detectNonLiteralRegExpRule, {
   valid: [
     { code: "var a = new RegExp('ab+c', 'i')" },
     {

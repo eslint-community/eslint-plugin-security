@@ -37,7 +37,6 @@ export const detectNonLiteralFsFilenameRule = {
           return;
         }
 
-        // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
         const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
         const pathInfo = getImportAccessPath<keyof typeof fsMetaData>({
           node: node.callee,
@@ -76,9 +75,9 @@ export const detectNonLiteralFsFilenameRule = {
         if (!funcNames.includes(fnName)) {
           return false;
         }
-        const packageName = pathInfo.packageName;
+        const { packageName } = pathInfo;
 
-        const indices = [];
+        const indices: number[] = [];
         for (const index of fsMetaData[fnName] || []) {
           if (index >= node.arguments.length) {
             continue;

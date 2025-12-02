@@ -1,11 +1,9 @@
 import { RuleTester } from 'eslint';
-import { detectNonLiteralRequireRule } from '../../src/rules/detect-non-literal-require.ts';
+import { detectNonLiteralRequireRule, detectNonLiteralRequireRuleName } from '../../src/rules/detect-non-literal-require.ts';
 
 const tester = new RuleTester({ languageOptions: { sourceType: 'commonjs' } });
 
-const ruleName = 'detect-non-literal-require';
-
-tester.run(ruleName, detectNonLiteralRequireRule, {
+tester.run(detectNonLiteralRequireRuleName, detectNonLiteralRequireRule, {
   valid: [
     { code: "var a = require('b')" },
     { code: 'var a = require(`b`)' },

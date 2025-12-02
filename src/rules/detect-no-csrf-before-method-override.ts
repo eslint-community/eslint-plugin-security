@@ -26,7 +26,7 @@ export const detectNoCsrfBeforeMethodOverrideRule = {
 
     return {
       CallExpression(node) {
-        const token = context.getSourceCode().getTokens(node)[0];
+        const token = (context.sourceCode || context.getSourceCode()).getTokens(node)[0];
         const nodeValue = token.value;
 
         if (nodeValue === 'express') {
@@ -35,7 +35,7 @@ export const detectNoCsrfBeforeMethodOverrideRule = {
           }
 
           if ('name' in node.callee.property && node.callee.property.name === 'methodOverride' && csrf) {
-            context.report({ node: node, message: 'express.csrf() middleware found before express.methodOverride()' });
+            context.report({ node, message: 'express.csrf() middleware found before express.methodOverride()' });
           }
           if ('name' in node.callee.property && node.callee.property.name === 'csrf') {
             // Keep track of found CSRF

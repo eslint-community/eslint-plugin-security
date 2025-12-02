@@ -1,10 +1,11 @@
 import type { Scope, Variable } from './typeHelpers.ts';
 
 /**
- * Find the variable of a given name.
- * @param {import("eslint").Scope.Scope} scope the scope to start finding
- * @param {string} name the variable name to find.
- * @returns {import("eslint").Scope.Variable | null}
+ * Find the variable with a given name.
+ *
+ * @param scope - the scope to start finding
+ * @param name - the variable name to find.
+ * @returns the found variable or `null` if not found.
  */
 export function findVariable(scope: Scope | null, name: string): Variable | null {
   while (scope != null) {

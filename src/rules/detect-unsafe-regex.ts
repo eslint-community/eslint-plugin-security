@@ -29,20 +29,20 @@ export const detectUnsafeRegexRule = {
   create(context) {
     return {
       Literal(node) {
-        const token = context.getSourceCode().getTokens(node)[0];
+        const token = (context.sourceCode || context.getSourceCode()).getTokens(node)[0];
         const nodeType = token.type;
         const nodeValue = token.value;
 
         if (nodeType === 'RegularExpression') {
           if (!safe(nodeValue)) {
-            context.report({ node: node, message: 'Unsafe Regular Expression' });
+            context.report({ node, message: 'Unsafe Regular Expression' });
           }
         }
       },
       NewExpression(node) {
         if ('name' in node.callee && node.callee.name === 'RegExp' && node.arguments && node.arguments.length > 0 && node.arguments[0].type === 'Literal') {
           if ((typeof node.arguments[0].value === 'string' || node.arguments[0].value instanceof RegExp) && !safe(node.arguments[0].value)) {
-            context.report({ node: node, message: 'Unsafe Regular Expression (new RegExp)' });
+            context.report({ node, message: 'Unsafe Regular Expression (new RegExp)' });
           }
         }
       },

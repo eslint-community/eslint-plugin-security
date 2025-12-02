@@ -1,12 +1,11 @@
 import { RuleTester } from 'eslint';
-import { detectNewBufferRule } from '../../src/rules/detect-new-buffer.ts';
+import { detectNewBufferRule, detectNewBufferRuleName } from '../../src/rules/detect-new-buffer.ts';
 
 const tester = new RuleTester();
 
-const ruleName = 'detect-new-buffer';
 const invalid = 'var a = new Buffer(c)';
 
-tester.run(ruleName, detectNewBufferRule, {
+tester.run(detectNewBufferRuleName, detectNewBufferRule, {
   valid: [{ code: "var a = new Buffer('test')" }],
   invalid: [
     {

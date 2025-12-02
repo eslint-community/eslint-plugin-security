@@ -1,11 +1,9 @@
 import { RuleTester } from 'eslint';
-import { detectNonLiteralFsFilenameRule } from '../../src/rules/detect-non-literal-fs-filename.ts';
+import { detectNonLiteralFsFilenameRule, detectNonLiteralFsFilenameRuleName } from '../../src/rules/detect-non-literal-fs-filename.ts';
 
 const tester = new RuleTester();
 
-const ruleName = 'detect-non-literal-fs-filename';
-
-tester.run(ruleName, detectNonLiteralFsFilenameRule, {
+tester.run(detectNonLiteralFsFilenameRuleName, detectNonLiteralFsFilenameRule, {
   valid: [
     {
       code: `var fs = require('fs');

@@ -40,12 +40,11 @@ export const detectChildProcessRule = {
             node.parent.type !== 'AssignmentExpression' &&
             node.parent.type !== 'MemberExpression'
           ) {
-            context.report({ node: node, message: 'Found require("' + args.value + '")' });
+            context.report({ node, message: 'Found require("' + args.value + '")' });
           }
           return;
         }
 
-        // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
         const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
         // Reports non-literal `exec()` calls.
@@ -68,7 +67,7 @@ export const detectChildProcessRule = {
         if (fnName !== 'exec') {
           return;
         }
-        context.report({ node: node, message: 'Found child_process.exec() with non Literal first argument' });
+        context.report({ node, message: 'Found child_process.exec() with non Literal first argument' });
       },
     };
   },

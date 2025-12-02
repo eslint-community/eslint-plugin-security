@@ -1,4 +1,4 @@
-import type { AST, Linter, Rule, Scope } from 'eslint';
+import type { AST, ESLint, Linter, Rule, Scope } from 'eslint';
 import type * as ESTree from 'estree';
 import type { Buffer } from 'node:buffer';
 import type * as childProcess from 'node:child_process';
@@ -224,39 +224,44 @@ export type Stringify = {
 
 // ESLint Types
 
-export type Token = Simplify<AST.Token>;
-export type Program = Simplify<AST.Program>;
 export type CommentOrToken = Simplify<Token | Comment>;
+export type Program = Simplify<AST.Program>;
+export type Token = Simplify<AST.Token>;
 
-export type RuleModule = Simplify<Rule.RuleModule>;
-export type RuleContext = Simplify<Rule.RuleContext>;
+export type Plugin = Simplify<ESLint.Plugin>;
+
 export type NodeParentExtension = Simplify<Rule.NodeParentExtension>;
+export type RuleContext = Simplify<Rule.RuleContext>;
+export type RuleModule = Simplify<Rule.RuleModule>;
 
+export type Config = Simplify<Linter.Config>;
+export type LegacyConfig = Simplify<Linter.LegacyConfig>;
 export type LintMessage = Simplify<Linter.LintMessage>;
+export type RulesRecord = Simplify<Linter.RulesRecord>;
 
+export type Definition = Simplify<Scope.Definition>;
 export type Scope = Simplify<Scope.Scope>;
 export type Variable = Simplify<Scope.Variable>;
-export type Definition = Simplify<Scope.Definition>;
 
 export type NodeTypeMapping = { [NodeType in Rule.NodeTypes]: { type: NodeType } };
 export type GetBareNodeObject<NodeType extends Rule.NodeTypes> = NodeType extends NodeType ? Simplify<NodeTypeMapping[NodeType]> : never;
 
 // ESTree Types
 
-export type SimpleCallExpression = Simplify<ESTree.SimpleCallExpression>;
-export type ImportDeclaration = Simplify<ESTree.ImportDeclaration>;
+export type BinaryExpression = Simplify<ESTree.BinaryExpression>;
 export type Comment = Simplify<ESTree.Comment>;
-export type Position = Simplify<ESTree.Position>;
 export type Expression = Simplify<ESTree.Expression>;
 export type Identifier = Simplify<ESTree.Identifier>;
+export type ImportDeclaration = Simplify<ESTree.ImportDeclaration>;
 export type ImportDefaultSpecifier = Simplify<ESTree.ImportDefaultSpecifier>;
 export type ImportNamespaceSpecifier = Simplify<ESTree.ImportNamespaceSpecifier>;
 export type ImportSpecifier = Simplify<ESTree.ImportSpecifier>;
 export type Literal = Simplify<ESTree.Literal>;
+export type MemberExpression = Simplify<ESTree.MemberExpression>;
+export type MetaProperty = Simplify<ESTree.MetaProperty>;
 export type Node = Simplify<ESTree.Node>;
+export type Position = Simplify<ESTree.Position>;
+export type SimpleCallExpression = Simplify<ESTree.SimpleCallExpression>;
+export type SpreadElement = Simplify<ESTree.SpreadElement>;
 export type Super = Simplify<ESTree.Super>;
 export type VariableDeclarator = Simplify<ESTree.VariableDeclarator>;
-export type BinaryExpression = Simplify<ESTree.BinaryExpression>;
-export type MemberExpression = Simplify<ESTree.MemberExpression>;
-export type SpreadElement = Simplify<ESTree.SpreadElement>;
-export type MetaProperty = Simplify<ESTree.MetaProperty>;

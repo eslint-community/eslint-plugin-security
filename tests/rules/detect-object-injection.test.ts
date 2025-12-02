@@ -1,9 +1,7 @@
 import { RuleTester } from 'eslint';
-import { detectObjectInjectionRule } from '../../src/rules/detect-object-injection.ts';
+import { detectObjectInjectionRule, detectObjectInjectionRuleName } from '../../src/rules/detect-object-injection.ts';
 
 const tester = new RuleTester();
-
-const ruleName = 'detect-object-injection';
 
 const valid = 'var a = {};';
 // const invalidVariable = "TODO";
@@ -32,7 +30,7 @@ const invalidGeneric = 'var a = {}; a[b] = 4';
 //   ]
 // });
 
-tester.run(`${ruleName} (Generic)`, detectObjectInjectionRule, {
+tester.run(`${detectObjectInjectionRuleName} (Generic)`, detectObjectInjectionRule, {
   valid: [{ code: valid }],
   invalid: [
     {

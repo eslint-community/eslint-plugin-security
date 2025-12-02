@@ -29,7 +29,6 @@ export const detectNonLiteralRegExpRule = {
       NewExpression(node) {
         if ('name' in node.callee && node.callee.name === 'RegExp') {
           const args = node.arguments;
-          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           if (
@@ -41,7 +40,7 @@ export const detectNonLiteralRegExpRule = {
               scope,
             })
           ) {
-            return context.report({ node: node, message: 'Found non-literal argument to RegExp Constructor' });
+            return context.report({ node, message: 'Found non-literal argument to RegExp Constructor' });
           }
         }
       },

@@ -25,7 +25,7 @@ export const detectEvalWithExpressionRule = {
     return {
       CallExpression(node) {
         if ('name' in node.callee && node.callee.name === 'eval' && node.arguments.length && node.arguments[0].type !== 'Literal') {
-          context.report({ node: node, message: `eval with argument of type ${node.arguments[0].type}` });
+          context.report({ node, message: `eval with argument of type ${node.arguments[0].type}` });
         }
       },
     };

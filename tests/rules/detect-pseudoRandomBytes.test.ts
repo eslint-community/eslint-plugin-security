@@ -1,12 +1,11 @@
 import { RuleTester } from 'eslint';
-import { detectPseudoRandomBytesRule } from '../../src/rules/detect-pseudoRandomBytes.ts';
+import { detectPseudoRandomBytesRule, detectPseudoRandomBytesRuleName } from '../../src/rules/detect-pseudoRandomBytes.ts';
 
 const tester = new RuleTester();
 
-const ruleName = 'detect-pseudoRandomBytes';
 const invalid = 'crypto.pseudoRandomBytes';
 
-tester.run(ruleName, detectPseudoRandomBytesRule, {
+tester.run(detectPseudoRandomBytesRuleName, detectPseudoRandomBytesRule, {
   valid: [{ code: 'crypto.randomBytes' }],
   invalid: [
     {

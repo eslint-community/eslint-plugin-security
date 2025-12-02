@@ -16,7 +16,7 @@ export const detectNewBufferRule = {
     return {
       NewExpression(node) {
         if ('name' in node.callee && node.callee.name === 'Buffer' && node.arguments[0] && node.arguments[0].type !== 'Literal') {
-          return context.report({ node: node, message: 'Found new Buffer' });
+          return context.report({ node, message: 'Found new Buffer' });
         }
       },
     };

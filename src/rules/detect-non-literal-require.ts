@@ -29,7 +29,6 @@ export const detectNonLiteralRequireRule = {
       CallExpression(node) {
         if ('name' in node.callee && node.callee.name === 'require') {
           const args = node.arguments;
-          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           if (
@@ -41,7 +40,7 @@ export const detectNonLiteralRequireRule = {
               scope,
             })
           ) {
-            return context.report({ node: node, message: 'Found non-literal argument in require' });
+            return context.report({ node, message: 'Found non-literal argument in require' });
           }
         }
       },

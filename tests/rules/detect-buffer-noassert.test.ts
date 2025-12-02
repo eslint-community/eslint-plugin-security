@@ -1,12 +1,11 @@
 import { RuleTester } from 'eslint';
-import { detectBufferNoAssertRule } from '../../src/rules/detect-buffer-noassert.ts';
+import { detectBufferNoAssertRule, detectBufferNoAssertRuleName } from '../../src/rules/detect-buffer-noassert.ts';
 
 const tester = new RuleTester();
-const ruleName = 'detect-buffer-noassert';
 
 const allMethodNames = [...detectBufferNoAssertRule.meta.__methodsToCheck.read, ...detectBufferNoAssertRule.meta.__methodsToCheck.write];
 
-tester.run(ruleName, detectBufferNoAssertRule, {
+tester.run(detectBufferNoAssertRuleName, detectBufferNoAssertRule, {
   valid: [...allMethodNames.map((methodName) => `a.${methodName}(0)`), ...allMethodNames.map((methodName) => `a.${methodName}(0, false)`)],
   invalid: [
     ...detectBufferNoAssertRule.meta.__methodsToCheck.read.map((methodName) => ({

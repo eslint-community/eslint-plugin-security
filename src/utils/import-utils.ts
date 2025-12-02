@@ -1,7 +1,10 @@
 import { findVariable } from './find-variable.ts';
 import type {
   Definition,
+  DistributedOmit,
   Expression,
+  ExtractStrict,
+  GetBareNodeObject,
   Identifier,
   ImportAccessPathInfo,
   ImportDeclaration,
@@ -18,30 +21,41 @@ import type {
   VariableDeclarator,
 } from './typeHelpers.ts';
 
+type GetImportAccessPathOptions = {
+  /**
+   * The node to check.
+   */
+  node: Expression | Super;
+
+  /**
+   * The scope of the given node.
+   */
+  scope: Scope;
+
+  /**
+   * The interesting packages the method is imported from.
+   */
+  packageNames: string[];
+};
+
 /**
- * Returns the access path information from a require or import
+ * Returns the access path information from a `require` or `import`.
  *
- * @param {Object} params
- * @param {import("estree").Expression} params.node The node to check.
- * @param {import("eslint").Scope.Scope} params.scope The scope of the given node.
- * @param {string[]} params.packageNames The interesting packages the method is imported from
- * @returns {ImportAccessPathInfo | null}
+ * @param options - Options
+ * @returns The access path information from a `require` or `import`.
+ * @template AccessPathPropertyNames - The property names that can be used in the access path.
  */
 export function getImportAccessPath<AccessPathPropertyNames extends string = PathConstructionMethodNames>({
   node,
   scope,
   packageNames,
-}: {
-  node: Expression | Super;
-  scope: Scope;
-  packageNames: string[];
-}): Simplify<ImportAccessPathInfo<AccessPathPropertyNames>> | null {
+}: GetImportAccessPathOptions): Simplify<ImportAccessPathInfo<AccessPathPropertyNames>> | null {
   const tracked = new Set<Expression | Super>();
   return getImportAccessPathInternal(node);
 
   /**
-   * @param {import("estree").Expression} node
-   * @returns {ImportAccessPathInfo | null}
+   * @param node - The node to check.
+   * @returns The access path information from a `require` or `import`.
    */
   function getImportAccessPathInternal(node: Expression | Super): Simplify<ImportAccessPathInfo<AccessPathPropertyNames>> | null {
     if (tracked.has(node)) {
@@ -58,9 +72,11 @@ export function getImportAccessPath<AccessPathPropertyNames extends string = Pat
       }
       // Check variables defined in `var foo = ...`.
       const declDef = variable.defs.find(
-        /** @returns {def is import("eslint").Scope.Definition & {type: 'Variable'}} */
-        (def): def is Simplify<Extract<Definition, { type: 'Variable'; node: Omit<VariableDeclarator, 'init'> }> & { node: { init: NonNullable<VariableDeclarator['init']> } }> =>
-          def.type === 'Variable' && def.node.type === 'VariableDeclarator' && !!def.node.init
+        (
+          def
+        ): def is Simplify<
+          ExtractStrict<Definition, { type: 'Variable'; node: DistributedOmit<VariableDeclarator, 'init'> }> & { node: { init: NonNullable<VariableDeclarator['init']> } }
+        > => def.type === 'Variable' && def.node.type === 'VariableDeclarator' && !!def.node.init
       );
       if (declDef) {
         let propName: AccessPathPropertyNames | null = null;
@@ -94,11 +110,10 @@ export function getImportAccessPath<AccessPathPropertyNames extends string = Pat
       }
       // Check variables defined in `import foo from ...`.
       const importDef = variable.defs.find(
-        /** @returns {def is import("eslint").Scope.Definition & {type: 'ImportBinding'}} */
         (
           def
         ): def is Simplify<
-          Extract<
+          ExtractStrict<
             Definition,
             {
               type: 'ImportBinding';
@@ -142,7 +157,7 @@ export function getImportAccessPath<AccessPathPropertyNames extends string = Pat
          */
         return {
           path: propName ? [propName] : [],
-          defaultImport: defaultImport,
+          defaultImport,
           // TODO: Is this supposed to be `importDef.parent` instead?
           packageName: (importDef.node as unknown as typeof importDef).parent.source.value,
           node: (importDef.node as unknown as typeof importDef).parent,
@@ -199,15 +214,18 @@ export function getImportAccessPath<AccessPathPropertyNames extends string = Pat
   }
 
   /**
-   * Checks whether the given expression node is a require based import, or not
-   * @param {import("estree").Expression} expression
+   * Checks whether the given expression node is a `require` based `import`,
+   * or not.
+   *
+   * @param expression - The node to check.
+   * @returns `true` if the given expression node is a `require` based `import`.
    */
   function isRequireBasedImport(expression: Expression | Super): expression is Simplify<
     SimpleCallExpression & {
       callee: Identifier & {
         name: 'require';
       };
-      arguments: [Simplify<Extract<SimpleCallExpression['arguments'][number], { type: 'Literal' }> & { value: string }>, ...SimpleCallExpression['arguments']];
+      arguments: [Simplify<ExtractStrict<SimpleCallExpression['arguments'][number], GetBareNodeObject<'Literal'>> & { value: string }>, ...SimpleCallExpression['arguments']];
     }
   > {
     return (
@@ -223,12 +241,14 @@ export function getImportAccessPath<AccessPathPropertyNames extends string = Pat
   }
 
   /**
-   * Checks whether the given node is a import, or not
-   * @param {import("estree").Node} node
+   * Checks whether the given node is a `import`, or not.
+   *
+   * @param node - The node to check.
+   * @returns `true` if the given node is a `import`.
    */
   function isImportDeclaration(node: Node | null): node is Simplify<
-    ImportDeclaration & {
-      source: Extract<Literal, { value: string }>;
+    DistributedOmit<ImportDeclaration, 'source'> & {
+      source: DistributedOmit<Literal, 'value'> & { value: string };
     }
   > {
     return !!node && node.type === 'ImportDeclaration' && typeof node.source.value === 'string' && packageNames.includes(node.source.value);

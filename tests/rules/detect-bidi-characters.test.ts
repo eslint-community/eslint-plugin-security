@@ -1,10 +1,9 @@
 import { RuleTester } from 'eslint';
-import { detectBidiCharactersRule } from '../../src/rules/detect-bidi-characters.ts';
+import { detectBidiCharactersRule, detectBidiCharactersRuleName } from '../../src/rules/detect-bidi-characters.ts';
 
 const tester = new RuleTester();
-const ruleName = 'detect-bidi-characters';
 
-tester.run(ruleName, detectBidiCharactersRule, {
+tester.run(detectBidiCharactersRuleName, detectBidiCharactersRule, {
   valid: [
     {
       code: `
@@ -33,7 +32,7 @@ tester.run(ruleName, detectBidiCharactersRule, {
   ],
 });
 
-tester.run(`${ruleName} in comment-line`, detectBidiCharactersRule, {
+tester.run(`${detectBidiCharactersRuleName} in comment-line`, detectBidiCharactersRule, {
   valid: [
     {
       code: `

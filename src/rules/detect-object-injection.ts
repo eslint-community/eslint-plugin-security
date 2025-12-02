@@ -22,8 +22,8 @@ const getPath = (value: Record<string, unknown>, seen: Record<string, unknown>[]
 };
 
 const getSerialize = (fn?: (key: string, value: Record<string, unknown>) => string, decycle?: (key: string, value: Record<string, unknown>) => string) => {
-  const seen = [] satisfies Record<string, unknown>[] as Record<string, unknown>[];
-  const keys = [] satisfies string[] as string[];
+  const seen: Record<string, unknown>[] = [];
+  const keys: string[] = [];
   decycle =
     decycle ||
     function (key: string, value: Record<string, unknown>): string {
@@ -57,8 +57,6 @@ export const stringify: Stringify = /* @__PURE__ */ Object.assign(
   },
   { getSerialize }
 );
-
-// stringify.getSerialize = getSerialize;
 
 export const detectObjectInjectionRuleName = 'detect-object-injection' as const;
 

@@ -1,11 +1,9 @@
 import { RuleTester } from 'eslint';
-import { detectUnsafeRegexRule } from '../../src/rules/detect-unsafe-regex.ts';
+import { detectUnsafeRegexRule, detectUnsafeRegexRuleName } from '../../src/rules/detect-unsafe-regex.ts';
 
 const tester = new RuleTester();
 
-export const ruleName = 'detect-unsafe-regex' as const;
-
-tester.run(ruleName, detectUnsafeRegexRule, {
+tester.run(detectUnsafeRegexRuleName, detectUnsafeRegexRule, {
   valid: [{ code: '/^d+1337d+$/' }],
   invalid: [
     {
@@ -15,7 +13,7 @@ tester.run(ruleName, detectUnsafeRegexRule, {
   ],
 });
 
-tester.run(`${ruleName} (new RegExp)`, detectUnsafeRegexRule, {
+tester.run(`${detectUnsafeRegexRuleName} (new RegExp)`, detectUnsafeRegexRule, {
   valid: [{ code: "new RegExp('^d+1337d+$')" }],
   invalid: [
     {

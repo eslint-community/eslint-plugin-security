@@ -5,7 +5,7 @@ import type { Identifier, ImportAccessInfo, MemberExpression, NodeParentExtensio
 
 function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
   const linter = new Linter();
-  const result = [] satisfies ImportAccessInfo[] as ImportAccessInfo[];
+  const result: ImportAccessInfo[] = [];
   const testRule = {
     create(context) {
       const sourceCode = context.sourceCode || context.getSourceCode();
@@ -15,7 +15,6 @@ function getGetImportAccessPathResult(code: string): ImportAccessInfo[] {
           if (node.parent.type === 'MemberExpression' && node.parent.property === node) {
             expr = node.parent;
           }
-          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           const info = getImportAccessPath({

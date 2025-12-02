@@ -1,9 +1,7 @@
 import { RuleTester } from 'eslint';
-import { detectPossibleTimingAttacksRule } from '../../src/rules/detect-possible-timing-attacks.ts';
+import { detectPossibleTimingAttacksRule, detectPossibleTimingAttacksRuleName } from '../../src/rules/detect-possible-timing-attacks.ts';
 
 const tester = new RuleTester();
-
-const ruleName = 'detect-possible-timing-attacks';
 
 const valid = 'if (age === 5) {}';
 const invalidLeft = "if (password === 'mypass') {}";
@@ -12,7 +10,7 @@ const invalidRigth = "if ('mypass' === password) {}";
 // We only check with one string "password" and operator "==="
 // to KISS.
 
-tester.run(`${ruleName} (left side)`, detectPossibleTimingAttacksRule, {
+tester.run(`${detectPossibleTimingAttacksRuleName} (left side)`, detectPossibleTimingAttacksRule, {
   valid: [{ code: valid }],
   invalid: [
     {
@@ -22,7 +20,7 @@ tester.run(`${ruleName} (left side)`, detectPossibleTimingAttacksRule, {
   ],
 });
 
-tester.run(`${ruleName} (right side)`, detectPossibleTimingAttacksRule, {
+tester.run(`${detectPossibleTimingAttacksRuleName} (right side)`, detectPossibleTimingAttacksRule, {
   valid: [{ code: valid }],
   invalid: [
     {

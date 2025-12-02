@@ -1,6 +1,7 @@
 import { findVariable } from './find-variable.ts';
 import { getImportAccessPath } from './import-utils.ts';
 import type {
+  DistributedOmit,
   Expression,
   Identifier,
   MemberExpression,
@@ -10,6 +11,7 @@ import type {
   PathStaticMemberNames,
   Scope,
   SimpleCallExpression,
+  Simplify,
   SpreadElement,
   UrlKeys,
 } from './typeHelpers.ts';
@@ -28,26 +30,33 @@ const PATH_CONSTRUCTION_METHOD_NAMES = new Set([
 ] as const satisfies PathConstructionMethodNames[]);
 const PATH_STATIC_MEMBER_NAMES = new Set(['delimiter', 'sep'] as const satisfies PathStaticMemberNames[]);
 
-/**
- * @type {WeakMap<import("estree").Expression, boolean>}
- */
 const cache: WeakMap<Expression, boolean> = new WeakMap<Expression, boolean>();
+
+type IsStaticExpressionOptions = {
+  /**
+   * The node to check.
+   */
+  node: Expression;
+
+  /**
+   * The scope of the given node.
+   */
+  scope: Scope;
+};
 
 /**
  * Checks whether the given expression node is a static or not.
  *
- * @param {Object} params
- * @param {import("estree").Expression} params.node The node to check.
- * @param {import("eslint").Scope.Scope} params.scope The scope of the given node.
- * @returns {boolean} if true, the given expression node is a static.
+ * @param options - Options
+ * @returns `true` if the given expression node is static.
  */
-export function isStaticExpression({ node, scope }: { node: Expression; scope: Scope }): boolean {
+export function isStaticExpression({ node, scope }: IsStaticExpressionOptions): boolean {
   const tracked = new Set<Expression>();
   return isStatic(node);
 
   /**
-   * @param {import("estree").Expression} node
-   * @returns {boolean}
+   * @param node - The node to check.
+   * @returns `true` if the given expression node is static.
    */
   function isStatic(node: Expression | SpreadElement): boolean {
     if (node.type === 'SpreadElement') {
@@ -61,8 +70,8 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
     return result;
   }
   /**
-   * @param {import("estree").Expression} node
-   * @returns {boolean}
+   * @param node - The node to check.
+   * @returns `true` if the given expression node is static.
    */
   function isStaticWithoutCache(node: Expression): boolean {
     if (tracked.has(node)) {
@@ -112,8 +121,8 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
   /**
    * Checks whether the given expression is a static path construction.
    *
-   * @param {import("estree").Expression} node The node to check.
-   * @returns {boolean} if true, the given expression is a static path construction.
+   * @param node - The node to check.
+   * @returns `true` if the given expression is a static path construction.
    */
   function isStaticPath(node: Expression): boolean {
     const pathInfo = getImportAccessPath<PathModuleKeys>({
@@ -124,7 +133,6 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
     if (!pathInfo) {
       return false;
     }
-    /** @type {string | undefined} */
     let name: PathModuleKeys | undefined;
     if (pathInfo.path.length === 1) {
       // e.g. import path from 'path'
@@ -150,8 +158,8 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
   /**
    * Checks whether the given expression is a static `url.fileURLToPath()`.
    *
-   * @param {import("estree").Expression} node The node to check.
-   * @returns {boolean} if true, the given expression is a static `url.fileURLToPath()`.
+   * @param node - The node to check.
+   * @returns `true` if the given expression is a static `url.fileURLToPath()`.
    */
   function isStaticFileURLToPath(node: Expression): boolean {
     if (node.type !== 'CallExpression') {
@@ -175,23 +183,25 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
   /**
    * Checks whether the given expression is an `import.meta.url`.
    *
-   * @param {import("estree").Expression} node The node to check.
-   * @returns {boolean} if true, the given expression is an `import.meta.url`.
+   * @param node - The node to check.
+   * @returns `true` if the given expression is an `import.meta.url`.
    */
-  function isStaticImportMetaUrl(node: Expression): node is MemberExpression & {
-    computed: false;
-    property: Identifier & {
-      name: 'url';
-    };
-    object: MetaProperty & {
-      meta: Identifier & {
-        name: 'import';
+  function isStaticImportMetaUrl(node: Expression): node is Simplify<
+    DistributedOmit<MemberExpression, 'computed' | 'property' | 'object'> & {
+      computed: false;
+      property: DistributedOmit<Identifier, 'name'> & {
+        name: 'url';
       };
-      property: Identifier & {
-        name: 'meta';
+      object: DistributedOmit<MetaProperty, 'meta' | 'property'> & {
+        meta: DistributedOmit<Identifier, 'name'> & {
+          name: 'import';
+        };
+        property: DistributedOmit<Identifier, 'name'> & {
+          name: 'meta';
+        };
       };
-    };
-  } {
+    }
+  > {
     return (
       node.type === 'MemberExpression' &&
       !node.computed &&
@@ -206,20 +216,22 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
   /**
    * Checks whether the given expression is a static `require.resolve()`.
    *
-   * @param {import("estree").Expression} node The node to check.
-   * @returns {boolean} if true, the given expression is a static `require.resolve()`.
+   * @param node - The node to check.
+   * @returns `true` if the given expression is a static `require.resolve()`.
    */
-  function isStaticRequireResolve(node: Expression): node is SimpleCallExpression & {
-    callee: MemberExpression & {
-      computed: false;
-      property: Identifier & {
-        name: 'resolve';
+  function isStaticRequireResolve(node: Expression): node is Simplify<
+    DistributedOmit<SimpleCallExpression, 'callee'> & {
+      callee: DistributedOmit<MemberExpression, 'computed' | 'property' | 'object'> & {
+        computed: false;
+        property: DistributedOmit<Identifier, 'name'> & {
+          name: 'resolve';
+        };
+        object: DistributedOmit<Identifier, 'name'> & {
+          name: 'require';
+        };
       };
-      object: Identifier & {
-        name: 'require';
-      };
-    };
-  } {
+    }
+  > {
     if (
       node.type !== 'CallExpression' ||
       node.callee.type !== 'MemberExpression' ||
@@ -239,22 +251,25 @@ export function isStaticExpression({ node, scope }: { node: Expression; scope: S
   }
 
   /**
-   * Checks whether the given expression is a static `process.cwd()`.
+   * Checks whether the given expression is a static
+   * {@linkcode process.cwd | process.cwd()}.
    *
-   * @param {import("estree").Expression} node The node to check.
-   * @returns {boolean} if true, the given expression is a static `process.cwd()`.
+   * @param node The node to check.
+   * @returns `true` if the given expression is a static {@linkcode process.cwd | process.cwd()}.
    */
-  function isStaticCwd(node: Expression): node is SimpleCallExpression & {
-    callee: MemberExpression & {
-      computed: false;
-      property: Identifier & {
-        name: 'cwd';
+  function isStaticCwd(node: Expression): node is Simplify<
+    DistributedOmit<SimpleCallExpression, 'callee'> & {
+      callee: DistributedOmit<MemberExpression, 'computed' | 'property' | 'object'> & {
+        computed: false;
+        property: DistributedOmit<Identifier, 'name'> & {
+          name: 'cwd';
+        };
+        object: DistributedOmit<Identifier, 'name'> & {
+          name: 'process';
+        };
       };
-      object: Identifier & {
-        name: 'process';
-      };
-    };
-  } {
+    }
+  > {
     if (
       node.type !== 'CallExpression' ||
       node.callee.type !== 'MemberExpression' ||

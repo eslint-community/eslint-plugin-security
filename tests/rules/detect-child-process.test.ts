@@ -1,11 +1,9 @@
 import { RuleTester } from 'eslint';
-import { detectChildProcessRule } from '../../src/rules/detect-child-process.ts';
+import { detectChildProcessRule, detectChildProcessRuleName } from '../../src/rules/detect-child-process.ts';
 
 const tester = new RuleTester();
 
-const ruleName = 'detect-child-process';
-
-tester.run(ruleName, detectChildProcessRule, {
+tester.run(detectChildProcessRuleName, detectChildProcessRule, {
   valid: [
     "child_process.exec('ls')",
     `

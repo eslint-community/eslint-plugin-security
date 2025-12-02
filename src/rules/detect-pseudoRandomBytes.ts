@@ -25,7 +25,7 @@ export const detectPseudoRandomBytesRule = {
     return {
       MemberExpression(node) {
         if ('name' in node.property && node.property.name === 'pseudoRandomBytes') {
-          return context.report({ node: node, message: 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers' });
+          return context.report({ node, message: 'Found crypto.pseudoRandomBytes which does not produce cryptographically strong numbers' });
         }
       },
     };

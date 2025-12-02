@@ -9,14 +9,13 @@ import type { Expression, NodeParentExtension, RuleModule, SimpleCallExpression,
  */
 function getIsStaticExpressionResult(code: string): boolean[] {
   const linter = new Linter();
-  const result = [] satisfies boolean[] as boolean[];
+  const result: boolean[] = [];
   const testRule = {
     create(context) {
       const sourceCode = context.sourceCode || context.getSourceCode();
 
       return {
         'CallExpression[callee.name = target]'(node: Simplify<SimpleCallExpression & NodeParentExtension>): void {
-          // TODO: Double check to make sure `context.sourceCode.getScope(node)` works the same way as `context.getScope()`.
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
 
           result.push(

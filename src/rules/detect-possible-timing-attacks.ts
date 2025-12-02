@@ -42,14 +42,14 @@ export const detectPossibleTimingAttacksRule = {
             if (node.test.left) {
               const left = containsKeyword(node.test.left);
               if (left) {
-                return context.report({ node: node, message: `Potential timing attack, left side: ${left}` });
+                return context.report({ node, message: `Potential timing attack, left side: ${left}` });
               }
             }
 
             if (node.test.right) {
               const right = containsKeyword(node.test.right);
               if (right) {
-                return context.report({ node: node, message: `Potential timing attack, right side: ${right}` });
+                return context.report({ node, message: `Potential timing attack, right side: ${right}` });
               }
             }
           }

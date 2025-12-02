@@ -9,16 +9,25 @@ import type { CommentOrToken, LintMessage, Position, Program, RuleContext, RuleM
 
 const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069]/gu;
 
+type DetectBidiCharactersOptions = {
+  /**
+   * The source text to search for dangerous bidi characters
+   */
+  sourceText: string;
+
+  /**
+   * The offset of the first line in the source text
+   */
+  firstLineOffset: number;
+};
+
 /**
  * Detects all the dangerous bidi characters in a given source text
  *
- * @param {object} options - Options
- * @param {string} options.sourceText - The source text to search for dangerous bidi characters
- * @param {number} options.firstLineOffset - The offset of the first line in the source text
- * @returns {Array<{line: number, column: number}>} - An array of reports, each report is an
- *    object with the line and column of the dangerous character
+ * @param options - Options
+ * @returns An array of reports, each report is an object with the line and column of the dangerous character.
  */
-function detectBidiCharacters({ sourceText, firstLineOffset }: { sourceText: string; firstLineOffset: number }): Position[] {
+function detectBidiCharacters({ sourceText, firstLineOffset }: DetectBidiCharactersOptions): Position[] {
   const sourceTextToSearch = sourceText.toString();
 
   const lines = sourceTextToSearch.split(/\r?\n/);
@@ -46,7 +55,7 @@ function report({ context, node, tokens, message, firstLineOffset }: ReportOptio
 
     reports.forEach((report) => {
       context.report({
-        node: node,
+        node,
         data: {
           text: token.value,
         },

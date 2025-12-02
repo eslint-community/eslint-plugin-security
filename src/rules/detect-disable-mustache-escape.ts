@@ -19,7 +19,7 @@ export const detectDisableMustacheEscapeRule = {
           if ('property' in node.left && node.left.property) {
             if ('name' in node.left.property && node.left.property.name === 'escapeMarkup') {
               if ('value' in node.right && node.right.value === false) {
-                context.report({ node: node, message: 'Markup escaping disabled.' });
+                context.report({ node, message: 'Markup escaping disabled.' });
               }
             }
           }
