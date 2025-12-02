@@ -46,7 +46,7 @@ const getSerialize = (fn?: (key: string, value: Record<string, unknown>) => stri
   };
 };
 
-export const stringify: Stringify = Object.assign(
+export const stringify: Stringify = /* @__PURE__ */ Object.assign(
   (
     obj: object,
     fn: (key: string, value: Record<string, unknown>) => string,

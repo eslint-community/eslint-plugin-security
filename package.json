@@ -13,10 +13,6 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "bun": {
-        "types": "./dist/index.d.ts",
-        "default": "./index.ts"
-      },
       "module-sync": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
@@ -29,7 +25,7 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
       },
-      "default": {
+      "require": {
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
@@ -40,13 +36,14 @@
     "build": "npm run clean && tsdown --config-loader='unrun' --config=tsdown.config.mts",
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
     "check-exports": "attw --pack .",
+    "check-package-json": "publint --strict .",
     "clean": "rimraf dist/ .rolldown/",
     "cont-int": "npm test && npm run lint",
     "format": "prettier --write .",
     "lint": "npm-run-all \"lint:*\"",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm run update:eslint-docs -- --check",
-    "lint:js": "eslint --config=\"eslint.config.ts\" .",
+    "lint:js": "npm run build && eslint --config=\"eslint.config.ts\" .",
     "lint:js:fix": "npm run lint:js -- --fix",
     "prepack": "npm run build",
     "release": "npx semantic-release",
@@ -103,6 +100,7 @@
     "mocha": "^11.7.5",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.7.3",
+    "publint": "^0.3.15",
     "rimraf": "^6.1.2",
     "rolldown": "^1.0.0-beta.52",
     "semantic-release": "^19.0.2",

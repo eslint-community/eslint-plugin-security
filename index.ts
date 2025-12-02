@@ -19,6 +19,23 @@ import { detectPossibleTimingAttacksRule, detectPossibleTimingAttacksRuleName } 
 import { detectPseudoRandomBytesRule, detectPseudoRandomBytesRuleName } from './rules/detect-pseudoRandomBytes.ts';
 import { detectUnsafeRegexRule, detectUnsafeRegexRuleName } from './rules/detect-unsafe-regex.ts';
 
+const recommendedRules = {
+  'security/detect-buffer-noassert': 'warn',
+  'security/detect-child-process': 'warn',
+  'security/detect-disable-mustache-escape': 'warn',
+  'security/detect-eval-with-expression': 'warn',
+  'security/detect-new-buffer': 'warn',
+  'security/detect-no-csrf-before-method-override': 'warn',
+  'security/detect-non-literal-fs-filename': 'warn',
+  'security/detect-non-literal-regexp': 'warn',
+  'security/detect-non-literal-require': 'warn',
+  'security/detect-object-injection': 'warn',
+  'security/detect-possible-timing-attacks': 'warn',
+  'security/detect-pseudoRandomBytes': 'warn',
+  'security/detect-unsafe-regex': 'warn',
+  'security/detect-bidi-characters': 'warn',
+} as const satisfies Linter.RulesRecord;
+
 export const meta = {
   name: pkg.name,
   version: pkg.version,
@@ -41,28 +58,6 @@ export const rules = {
   [detectBidiCharactersRuleName]: detectBidiCharactersRule,
 } as const satisfies ESLint.Plugin['rules'];
 
-const recommendedRules = {
-  'security/detect-buffer-noassert': 'warn',
-  'security/detect-child-process': 'warn',
-  'security/detect-disable-mustache-escape': 'warn',
-  'security/detect-eval-with-expression': 'warn',
-  'security/detect-new-buffer': 'warn',
-  'security/detect-no-csrf-before-method-override': 'warn',
-  'security/detect-non-literal-fs-filename': 'warn',
-  'security/detect-non-literal-regexp': 'warn',
-  'security/detect-non-literal-require': 'warn',
-  'security/detect-object-injection': 'warn',
-  'security/detect-possible-timing-attacks': 'warn',
-  'security/detect-pseudoRandomBytes': 'warn',
-  'security/detect-unsafe-regex': 'warn',
-  'security/detect-bidi-characters': 'warn',
-} as const satisfies Linter.RulesRecord;
-
-const recommendedLegacy = {
-  plugins: ['security'],
-  rules: recommendedRules,
-} as const satisfies Linter.LegacyConfig;
-
 export const rulesConfig = {
   'detect-unsafe-regex': 0,
   'detect-non-literal-regexp': 0,
@@ -80,33 +75,31 @@ export const rulesConfig = {
   'detect-bidi-characters': 0,
 } as const satisfies Linter.Config['rules'];
 
-const plugin = {
-  meta,
-  rules,
-  // rulesConfig,
-  // configs: {
-  //   recommended: {
-  //     name: 'security/recommended',
-  //     rules: recommendedRules,
-  //   },
-  //   'recommended-legacy': recommendedLegacy,
-  // } as const satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig }, // was assigned later so we can reference `plugin`
-} as const satisfies ESLint.Plugin;
+const recommendedLegacy = {
+  plugins: ['security'],
+  rules: recommendedRules,
+} as const satisfies Linter.LegacyConfig;
 
 const recommended = {
   name: 'security/recommended',
-  // plugins: { security: plugin },
+  plugins: {
+    get security(): ESLint.Plugin {
+      return plugin;
+    },
+  },
   rules: recommendedRules,
 } as const satisfies Linter.Config;
 
 export const configs = {
   recommended,
   'recommended-legacy': recommendedLegacy,
-} as const satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig };
+} as const satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig } satisfies ESLint.Plugin['configs'];
 
-// export const configs = Object.assign(plugin.configs, {
-//   recommended,
-//   'recommended-legacy': recommendedLegacy,
-// });
+const plugin = {
+  meta,
+  rules,
+  rulesConfig,
+  configs,
+} as const satisfies ESLint.Plugin & { rulesConfig: Linter.Config['rules'] };
 
 export default plugin;
