@@ -1,17 +1,18 @@
 import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import type { InlineConfig, UserConfig } from 'tsdown';
 import { defineConfig } from 'tsdown';
 import packageJson from './package.json' with { type: 'json' };
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const cwd = import.meta.dirname;
 
 const tsdownConfig = defineConfig((cliOptions) => {
   const commonOptions = {
     clean: false,
-    cwd: __dirname,
+    cwd,
     dts: {
+      cwd,
       emitJs: false,
+      enabled: true,
       newContext: true,
       oxc: false,
       resolver: 'tsc',
@@ -25,6 +26,7 @@ const tsdownConfig = defineConfig((cliOptions) => {
     fixedExtension: false,
     format: ['cjs', 'es'],
     hash: false,
+    inlineOnly: [],
     minify: 'dce-only',
     nodeProtocol: true,
     outDir: 'dist',
@@ -39,14 +41,14 @@ const tsdownConfig = defineConfig((cliOptions) => {
     treeshake: {
       moduleSideEffects: false,
     },
-    tsconfig: path.join(__dirname, 'tsconfig.build.json'),
+    tsconfig: path.join(cwd, 'tsconfig.build.json'),
     ...cliOptions,
   } as const satisfies InlineConfig;
 
   return [
     {
       ...commonOptions,
-      name: `${packageJson.name} Modern Dual Format`,
+      name: packageJson.name,
     },
   ] as const satisfies UserConfig[];
 });

@@ -27,4 +27,4 @@ export const detectDisableMustacheEscapeRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

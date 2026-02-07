@@ -87,4 +87,4 @@ export const detectObjectInjectionRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

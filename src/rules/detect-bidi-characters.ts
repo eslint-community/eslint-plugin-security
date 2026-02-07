@@ -111,4 +111,4 @@ export const detectBidiCharactersRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

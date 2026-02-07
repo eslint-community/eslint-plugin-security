@@ -48,4 +48,4 @@ export const detectUnsafeRegexRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

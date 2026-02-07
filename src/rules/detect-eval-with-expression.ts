@@ -30,4 +30,4 @@ export const detectEvalWithExpressionRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

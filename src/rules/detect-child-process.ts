@@ -71,4 +71,4 @@ export const detectChildProcessRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

@@ -21,4 +21,4 @@ export const detectNewBufferRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

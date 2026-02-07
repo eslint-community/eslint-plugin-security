@@ -13,18 +13,6 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "bun": {
-        "types": "./dist/index.d.ts",
-        "default": "./src/index.ts"
-      },
-      "module-sync": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "module": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
       "import": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
@@ -82,14 +70,15 @@
     "*.yml": "prettier --write"
   },
   "dependencies": {
+    "@types/estree": "^1.0.8",
     "safe-regex": "^2.1.1"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@eslint/js": "^9.39.2",
-    "@types/estree": "^1.0.8",
+    "@types/eslint-plugin-security": "^3.0.1",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.8",
+    "@types/node": "^25.2.1",
     "@types/safe-regex": "^1.1.6",
     "changelog": "1.4.2",
     "eslint": "^9.39.2",
@@ -102,14 +91,14 @@
     "markdownlint-cli": "^0.32.2",
     "mocha": "^11.7.5",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.7.4",
-    "publint": "^0.3.16",
+    "prettier": "^3.8.1",
+    "publint": "^0.3.17",
     "rimraf": "^6.1.2",
-    "rolldown": "^1.0.0-beta.60",
+    "rolldown": "^1.0.0-rc.3",
     "semantic-release": "^19.0.2",
-    "tsdown": "^0.20.0-beta.3",
+    "tsdown": "^0.20.3",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.0",
+    "typescript-eslint": "^8.54.0",
     "yorkie": "^2.0.0"
   },
   "peerDependencies": {

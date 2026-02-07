@@ -57,4 +57,4 @@ export const detectPossibleTimingAttacksRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

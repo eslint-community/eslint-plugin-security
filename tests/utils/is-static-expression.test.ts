@@ -29,7 +29,7 @@ function getIsStaticExpressionResult(code: string): boolean[] {
         },
       };
     },
-  } as const satisfies RuleModule;
+  } satisfies RuleModule;
 
   const linterResult = linter.verify(code, {
     plugins: {

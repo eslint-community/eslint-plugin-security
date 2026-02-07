@@ -45,4 +45,4 @@ export const detectNoCsrfBeforeMethodOverrideRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

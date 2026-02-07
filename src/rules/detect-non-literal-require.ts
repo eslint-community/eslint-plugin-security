@@ -46,4 +46,4 @@ export const detectNonLiteralRequireRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

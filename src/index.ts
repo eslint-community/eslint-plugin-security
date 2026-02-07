@@ -34,12 +34,12 @@ const recommendedRules = {
   'security/detect-pseudoRandomBytes': 'warn',
   'security/detect-unsafe-regex': 'warn',
   'security/detect-bidi-characters': 'warn',
-} as const satisfies Linter.RulesRecord;
+} satisfies Linter.RulesRecord;
 
 export const meta = {
   name: pkg.name,
   version: pkg.version,
-} as const satisfies ESLint.Plugin['meta'];
+} satisfies ESLint.Plugin['meta'];
 
 export const rules = {
   [detectUnsafeRegexRuleName]: detectUnsafeRegexRule,
@@ -56,7 +56,7 @@ export const rules = {
   [detectObjectInjectionRuleName]: detectObjectInjectionRule,
   [detectNewBufferRuleName]: detectNewBufferRule,
   [detectBidiCharactersRuleName]: detectBidiCharactersRule,
-} as const satisfies ESLint.Plugin['rules'];
+} satisfies ESLint.Plugin['rules'];
 
 export const rulesConfig = {
   'detect-unsafe-regex': 0,
@@ -73,12 +73,12 @@ export const rulesConfig = {
   'detect-object-injection': 0,
   'detect-new-buffer': 0,
   'detect-bidi-characters': 0,
-} as const satisfies Linter.Config['rules'];
+} satisfies Linter.Config['rules'];
 
 const recommendedLegacy = {
   plugins: ['security'],
   rules: recommendedRules,
-} as const satisfies Linter.LegacyConfig;
+} satisfies Linter.LegacyConfig;
 
 const recommended = {
   name: 'security/recommended',
@@ -88,18 +88,16 @@ const recommended = {
     },
   },
   rules: recommendedRules,
-} as const satisfies Linter.Config;
+} satisfies Linter.Config;
 
 export const configs = {
   recommended,
   'recommended-legacy': recommendedLegacy,
-} as const satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig } satisfies ESLint.Plugin['configs'];
+} satisfies { recommended: Linter.Config; 'recommended-legacy': Linter.LegacyConfig } satisfies ESLint.Plugin['configs'];
 
 const plugin = {
   meta,
   rules,
   rulesConfig,
   configs,
-} as const satisfies ESLint.Plugin & { rulesConfig: Linter.Config['rules'] };
-
-export default plugin;
+} satisfies ESLint.Plugin & { rulesConfig: Linter.Config['rules'] };

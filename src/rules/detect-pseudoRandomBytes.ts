@@ -30,4 +30,4 @@ export const detectPseudoRandomBytesRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

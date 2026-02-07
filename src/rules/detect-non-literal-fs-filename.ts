@@ -98,4 +98,4 @@ export const detectNonLiteralFsFilenameRule = {
       },
     };
   },
-} as const satisfies RuleModule;
+} satisfies RuleModule;

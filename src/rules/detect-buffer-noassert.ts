@@ -121,4 +121,4 @@ export const detectBufferNoAssertRule = {
       },
     };
   },
-} as const satisfies RuleModule & { meta: { __methodsToCheck: { read: BufferReadMethodKeys[]; write: BufferWriteMethodKeys[] } } };
+} satisfies RuleModule & { meta: { __methodsToCheck: { read: BufferReadMethodKeys[]; write: BufferWriteMethodKeys[] } } };
