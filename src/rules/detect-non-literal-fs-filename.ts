@@ -1,0 +1,101 @@
+/**
+ * Tries to detect calls to fs functions that take a non Literal value as the filename parameter
+ * @author Adam Baldwin
+ */
+
+import fsMetaData from '../utils/data/fsFunctionData.json' with { type: 'json' };
+import { getImportAccessPath } from '../utils/import-utils.ts';
+import { isStaticExpression } from '../utils/is-static-expression.ts';
+import type { RuleModule } from '../utils/typeHelpers.ts';
+
+const funcNames = Object.keys(fsMetaData) as (keyof typeof fsMetaData)[];
+
+const fsPackageNames = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'] as const satisfies string[];
+
+//------------------------------------------------------------------------------
+// Rule Definition
+//------------------------------------------------------------------------------
+
+export const detectNonLiteralFsFilenameRuleName = 'detect-non-literal-fs-filename' as const;
+
+export const detectNonLiteralFsFilenameRule = {
+  meta: {
+    type: 'problem',
+    docs: {
+      description: 'Detects variable in filename argument of "fs" calls, which might allow an attacker to access anything on your system.',
+      category: 'Possible Security Vulnerability',
+      recommended: true,
+      url: 'https://github.com/eslint-community/eslint-plugin-security/blob/main/docs/rules/detect-non-literal-fs-filename.md',
+    },
+  },
+  create(context) {
+    const sourceCode = context.sourceCode || context.getSourceCode();
+    return {
+      CallExpression(node) {
+        // don't check require. If all arguments are Literals, it's surely safe!
+        if ((node.callee.type === 'Identifier' && node.callee.name === 'require') || node.arguments.every((argument) => argument.type === 'Literal')) {
+          return;
+        }
+
+        const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.sourceCode.getScope(node);
+        const pathInfo = getImportAccessPath<keyof typeof fsMetaData>({
+          node: node.callee,
+          scope,
+          packageNames: fsPackageNames,
+        });
+        if (!pathInfo) {
+          return;
+        }
+        let fnName: keyof typeof fsMetaData;
+        if (pathInfo.path.length === 1) {
+          // Check for:
+          // | var something = require('fs').readFile;
+          // | something(a);
+          // ,
+          // | var something = require('fs');
+          // | something.readFile(c);
+          // ,
+          // | var { readFile: something } = require('fs')
+          // | readFile(filename);
+          // ,
+          // | import { readFile as something } from 'fs';
+          // | something(filename);
+          // , or
+          // | import * as something from 'fs';
+          // | something.readFile(c);
+          fnName = pathInfo.path[0];
+        } else if (pathInfo.path.length === 2) {
+          // Check for:
+          // | var something = require('fs').promises;
+          // | something.readFile(filename)
+          fnName = pathInfo.path[1];
+        } else {
+          return;
+        }
+        if (!funcNames.includes(fnName)) {
+          return false;
+        }
+        const { packageName } = pathInfo;
+
+        const indices: number[] = [];
+        for (const index of fsMetaData[fnName] || []) {
+          if (index >= node.arguments.length) {
+            continue;
+          }
+          const argument = node.arguments[index];
+
+          if (argument.type !== 'SpreadElement' && isStaticExpression({ node: argument, scope })) {
+            continue;
+          }
+          indices.push(index);
+        }
+        if (indices.length) {
+          context.report({
+            node,
+            message: `Found ${fnName} from package "${packageName}" with non literal argument at index ${indices.join(',')}`,
+          });
+        }
+      },
+    };
+  },
+} satisfies RuleModule;

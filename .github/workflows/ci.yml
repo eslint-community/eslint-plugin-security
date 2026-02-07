@@ -6,21 +6,46 @@ on:
     branches: [main]
 
 jobs:
+  are-the-types-wrong:
+    name: 🤔 Are the types wrong?
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          check-latest: true
+
+      - name: Install Packages
+        run: npm ci
+
+      - name: Check package exports with are-the-types-wrong
+        run: npm run check-exports
+
+      - name: Run publint
+        run: npm run check-package-json
+
+      - run: npm run typecheck
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: lts/*
 
       - name: Install Packages
         run: npm install
+
+      - name: Build Project
+        run: npm run build
 
       - name: Lint Files
         run: npm run lint
@@ -28,9 +53,10 @@ jobs:
   test:
     name: Test
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node: [18.18.0, 18.x, 20.x, 22.x, 24.x]
+        node: [22.x, 24.x, lts/*]
         include:
           - os: windows-latest
             node: lts/*
@@ -40,16 +66,19 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
 
       - name: Install Packages
         run: npm install
+
+      - name: Build Project
+        run: npm run build
 
       - name: Test
         run: npm test

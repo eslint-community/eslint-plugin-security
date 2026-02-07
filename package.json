@@ -2,19 +2,45 @@
   "name": "eslint-plugin-security",
   "version": "3.0.1",
   "description": "Security rules for eslint",
-  "main": "index.js",
-  "type": "commonjs",
+  "main": "./dist/index.js",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
+    "build": "npm run clean && tsdown --config-loader='unrun' --config=tsdown.config.mts",
     "changelog": "changelog eslint-plugin-security all > CHANGELOG.md",
+    "check-exports": "attw --pack .",
+    "check-package-json": "publint --strict .",
+    "clean": "rimraf -v dist/ .rolldown/",
     "cont-int": "npm test && npm run lint",
     "format": "prettier --write .",
     "lint": "npm-run-all \"lint:*\"",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm run update:eslint-docs -- --check",
-    "lint:js": "eslint .",
+    "lint:js": "npm run build && eslint --config=\"eslint.config.mts\" .",
     "lint:js:fix": "npm run lint:js -- --fix",
+    "prepack": "npm run build",
     "release": "npx semantic-release",
-    "test": "mocha test/**",
+    "test": "mocha --node-option=\"experimental-strip-types\" \"tests/**/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "repository": {
@@ -36,7 +62,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{ts,js,tsx,jsx,mts,mjs,cts,cjs}": [
       "prettier --write",
       "eslint --fix"
     ],
@@ -44,23 +70,44 @@
     "*.yml": "prettier --write"
   },
   "dependencies": {
+    "@types/estree": "^1.0.8",
     "safe-regex": "^2.1.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.0.0",
+    "@arethetypeswrong/cli": "^0.18.2",
+    "@eslint/js": "^9.39.2",
+    "@types/eslint-plugin-security": "^3.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.2.1",
+    "@types/safe-regex": "^1.1.6",
     "changelog": "1.4.2",
-    "eslint": "^9.0.0",
+    "eslint": "^9.39.2",
     "eslint-config-nodesecurity": "^1.3.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-doc-generator": "^1.7.0",
-    "eslint-plugin-eslint-plugin": "^5.5.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-doc-generator": "^3.0.2",
+    "eslint-plugin-eslint-plugin": "^7.3.0",
+    "jiti": "^2.6.1",
     "lint-staged": "^12.3.7",
     "markdownlint-cli": "^0.32.2",
-    "mocha": "^9.2.2",
+    "mocha": "^11.7.5",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.6.2",
+    "prettier": "^3.8.1",
+    "publint": "^0.3.17",
+    "rimraf": "^6.1.2",
+    "rolldown": "^1.0.0-rc.3",
     "semantic-release": "^19.0.2",
+    "tsdown": "^0.20.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
     "yorkie": "^2.0.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=9"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
