@@ -20,11 +20,12 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode || context.getSourceCode();
     let csrf = false;
 
     return {
       CallExpression: function (node) {
-        const token = context.getSourceCode().getTokens(node)[0];
+        const token = sourceCode.getTokens(node)[0];
         const nodeValue = token.value;
 
         if (nodeValue === 'express') {
