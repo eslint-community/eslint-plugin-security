@@ -36,5 +36,13 @@ jobs:
       - name: Publish to npm
         run: |
           npm install
-          npm publish
+          npm publish --access public
         if: ${{ steps.release.outputs.release_created }}
+
+      # Tweets out release announcement
+      - run: 'npx @humanwhocodes/tweet "${{ github.event.repository.full_name }} v${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }} has been released!\n\n${{ github.event.repository.html_url }}/releases/tag/v${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"'
+        env:
+          TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+          TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+          TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
