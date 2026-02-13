@@ -2,61 +2,38 @@ on:
   push:
     branches:
       - main
-name: release-please
 
+name: release-please
 
 jobs:
   release-please:
-    name: Create/Update Release Pull Request
     runs-on: ubuntu-latest
     permissions:
-        contents: write
-        pull-requests: write
-    outputs:
-        release_created: ${{ steps.release.outputs.release_created }}
-        major: ${{ steps.release.outputs.major }}
-        minor: ${{ steps.release.outputs.minor }}
-        patch: ${{ steps.release.outputs.patch }}
+      contents: read
+      id-token: write
+      models: read
     steps:
-        - name: Release Please
-          id: release
-          uses: googleapis/release-please-action@v4
-          with:
-              config-file: .github/release-please/config.json
-              manifest-file: .github/release-please/manifest.json
+      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
+        id: release
+        with:
+          token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
 
-  publish-npm:
-    name: Publish to NPM
-    needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-        contents: read
-        id-token: write
-    steps:
-        - name: Check out repo
-          uses: actions/checkout@v4
-          with:
-              persist-credentials: false
+      - uses: actions/checkout@v6
+        if: ${{ steps.release.outputs.release_created }}
 
-        - name: Setup Node
-          uses: actions/setup-node@v4
-          with:
-              check-latest: true
-              node-version: lts/*
-              registry-url: https://registry.npmjs.org
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+        if: ${{ steps.release.outputs.release_created }}
 
         # npm 11.5.1 or later is required so update to latest to be sure
-        - name: Update npm
-          run: npm install -g npm@latest
+      - name: Update npm
+        run: npm install -g npm@latest
+        if: ${{ steps.release.outputs.release_created }}
 
-        - name: Publish to NPM
-          run: npm publish --access public --provenance
-
-        # Tweets out release announcement
-        - run: 'npx @humanwhocodes/tweet "${{ github.event.repository.full_name }} v${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }} has been released!\n\n${{ github.event.repository.html_url }}/releases/tag/v${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"'
-          env:
-            TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
-            TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
-            TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
-            TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+      - name: Publish to npm
+        run: |
+          npm install
+          npm publish
+        if: ${{ steps.release.outputs.release_created }}
