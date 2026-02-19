@@ -1,5 +1,41 @@
 # Changelog
 
+## [4.0.0](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v3.0.1...eslint-plugin-security-v4.0.0) (2026-02-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires node ^18.18.0 || ^20.9.0 || >=21.1.0 ([#146](https://github.com/eslint-community/eslint-plugin-security/issues/146))
+* switch the recommended config to flat ([#118](https://github.com/eslint-community/eslint-plugin-security/issues/118))
+
+### Features
+
+* add config recommended-legacy ([#132](https://github.com/eslint-community/eslint-plugin-security/issues/132)) ([13d3f2f](https://github.com/eslint-community/eslint-plugin-security/commit/13d3f2fc6ba327c894959db30462f3fda0272f0c))
+* Add meta object documentation for all rules ([#79](https://github.com/eslint-community/eslint-plugin-security/issues/79)) ([fb1d9ef](https://github.com/eslint-community/eslint-plugin-security/commit/fb1d9ef56e0cf2705b9e413b483261df394c45e1))
+* detect-bidi-characters rule ([#95](https://github.com/eslint-community/eslint-plugin-security/issues/95)) ([4294d29](https://github.com/eslint-community/eslint-plugin-security/commit/4294d29cca8af5c627de759919add6dd698644ba))
+* **detect-non-literal-fs-filename:** change to track non-top-level `require()` as well ([#105](https://github.com/eslint-community/eslint-plugin-security/issues/105)) ([d3b1543](https://github.com/eslint-community/eslint-plugin-security/commit/d3b15435b45b9ac2ee5f0d3249f590e32369d7d2))
+* extend detect non literal fs filename ([#92](https://github.com/eslint-community/eslint-plugin-security/issues/92)) ([08ba476](https://github.com/eslint-community/eslint-plugin-security/commit/08ba4764a83761f6f44cb28940923f1d25f88581))
+* improve detect-child-process rule ([#108](https://github.com/eslint-community/eslint-plugin-security/issues/108)) ([64ae529](https://github.com/eslint-community/eslint-plugin-security/commit/64ae52944a86f9d9daee769acd63ebbdfc5b6631))
+* **non-literal-require:** support template literals ([#81](https://github.com/eslint-community/eslint-plugin-security/issues/81)) ([208019b](https://github.com/eslint-community/eslint-plugin-security/commit/208019bad4f70a142ab1f0ea7238c37cb70d1a5a))
+* requires node ^18.18.0 || ^20.9.0 || &gt;=21.1.0 ([#146](https://github.com/eslint-community/eslint-plugin-security/issues/146)) ([df1b606](https://github.com/eslint-community/eslint-plugin-security/commit/df1b6063c1224e1163dfdc37c96b64bb52d816bb))
+* switch the recommended config to flat ([#118](https://github.com/eslint-community/eslint-plugin-security/issues/118)) ([e20a366](https://github.com/eslint-community/eslint-plugin-security/commit/e20a3664c2f638466286ae9a97515722fc98f97c))
+
+
+### Bug Fixes
+
+* Add ESLint 10 compatibility for context.sourceCode API change ([#186](https://github.com/eslint-community/eslint-plugin-security/issues/186)) ([7f9ee77](https://github.com/eslint-community/eslint-plugin-security/commit/7f9ee77677744f7029c545d714d57f0966b3387e))
+* add name to recommended flat config ([#161](https://github.com/eslint-community/eslint-plugin-security/issues/161)) ([aa1c8c5](https://github.com/eslint-community/eslint-plugin-security/commit/aa1c8c57a2df4ce64a202808c5642a41b47d4519))
+* Avoid crash when exec() is passed no arguments ([7f97815](https://github.com/eslint-community/eslint-plugin-security/commit/7f97815accf6bcd87de73c32a967946b1b3b0530)), closes [#82](https://github.com/eslint-community/eslint-plugin-security/issues/82) [#23](https://github.com/eslint-community/eslint-plugin-security/issues/23)
+* Avoid TypeError when exec stub is used with no arguments ([#97](https://github.com/eslint-community/eslint-plugin-security/issues/97)) ([9c18f16](https://github.com/eslint-community/eslint-plugin-security/commit/9c18f16187719b58cc5dfde9860344bad823db28))
+* **detect-child-process:** false positive for destructuring with `exec` ([#102](https://github.com/eslint-community/eslint-plugin-security/issues/102)) ([657921a](https://github.com/eslint-community/eslint-plugin-security/commit/657921a93f6f73c0de6113e497b22e7cf079f520))
+* **detect-child-process:** false positives for destructuring `spawn` ([#103](https://github.com/eslint-community/eslint-plugin-security/issues/103)) ([fdfe37d](https://github.com/eslint-community/eslint-plugin-security/commit/fdfe37d667367e5fd228c26573a1791c81a044d2))
+* Ensure empty eval() doesn't crash detect-eval-with-expression ([#139](https://github.com/eslint-community/eslint-plugin-security/issues/139)) ([8a7c7db](https://github.com/eslint-community/eslint-plugin-security/commit/8a7c7db1e2b49e2831d510b8dc1db235dee0edf0))
+* Ensure everything works with ESLint v9 ([#145](https://github.com/eslint-community/eslint-plugin-security/issues/145)) ([ac50ab4](https://github.com/eslint-community/eslint-plugin-security/commit/ac50ab481ed63d7262513186136ca1429d3b8290))
+* false positives for static expressions in detect-non-literal-fs-filename, detect-child-process, detect-non-literal-regexp, and detect-non-literal-require ([#109](https://github.com/eslint-community/eslint-plugin-security/issues/109)) ([56102b5](https://github.com/eslint-community/eslint-plugin-security/commit/56102b50aed4bd632dd668770eb37de58788110b))
+* generate provenance statement for release ([#168](https://github.com/eslint-community/eslint-plugin-security/issues/168)) ([eb3ee9c](https://github.com/eslint-community/eslint-plugin-security/commit/eb3ee9c38cfd51e13c7a4061f5794db7347c90e5))
+* Incorrect method name in detect-buffer-noassert. ([313c0c6](https://github.com/eslint-community/eslint-plugin-security/commit/313c0c693f48aa85d0c9b65a46f6c620cd10f907)), closes [#63](https://github.com/eslint-community/eslint-plugin-security/issues/63) [#80](https://github.com/eslint-community/eslint-plugin-security/issues/80)
+* release-please config ([#189](https://github.com/eslint-community/eslint-plugin-security/issues/189)) ([2443d10](https://github.com/eslint-community/eslint-plugin-security/commit/2443d10c428724757fac230384ff0692bbd50485))
+
 ### [3.0.1](https://www.github.com/eslint-community/eslint-plugin-security/compare/v3.0.0...v3.0.1) (2024-06-14)
 
 
