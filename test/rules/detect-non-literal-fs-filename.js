@@ -62,6 +62,13 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
     import url from 'url';
     const dirname = path.dirname(url.fileURLToPath(import.meta.url));
     const html = fs.readFileSync(path.resolve(dirname, './index.html'), 'utf-8');`,
+    `
+    import fs from 'fs';
+    import path from 'path';
+    const html = fs.readFileSync(path.resolve(import.meta.dirname, './index.html'), 'utf-8');`,
+    `
+    import fs from 'fs';
+    const pkg = fs.readFileSync(import.meta.filename, 'utf-8');`,
     {
       code: `
       import fs from 'fs';
@@ -199,6 +206,13 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
           __filename: 'readonly',
         },
       },
+      errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
+    },
+    {
+      code: `
+            import fs from 'fs';
+            import path from 'path';
+            const key = fs.readFileSync(path.resolve(import.meta[prop], './index.html'));`,
       errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
     },
   ],

@@ -7,6 +7,7 @@ const PATH_PACKAGE_NAMES = ['path', 'node:path', 'path/posix', 'node:path/posix'
 const URL_PACKAGE_NAMES = ['url', 'node:url'];
 const PATH_CONSTRUCTION_METHOD_NAMES = new Set(['basename', 'dirname', 'extname', 'join', 'normalize', 'relative', 'resolve', 'toNamespacedPath']);
 const PATH_STATIC_MEMBER_NAMES = new Set(['delimiter', 'sep']);
+const IMPORT_META_STATIC_PROPERTY_NAMES = new Set(['url', 'dirname', 'filename']);
 
 /**
  * @type {WeakMap<import("estree").Expression, boolean>}
@@ -83,7 +84,7 @@ function isStaticExpression({ node, scope }) {
         return false;
       }
     }
-    return isStaticPath(node) || isStaticFileURLToPath(node) || isStaticImportMetaUrl(node) || isStaticRequireResolve(node) || isStaticCwd(node);
+    return isStaticPath(node) || isStaticFileURLToPath(node) || isStaticImportMetaProperty(node) || isStaticRequireResolve(node) || isStaticCwd(node);
   }
 
   /**
@@ -150,17 +151,21 @@ function isStaticExpression({ node, scope }) {
   }
 
   /**
-   * Checks whether the given expression is an `import.meta.url`.
+   * Checks whether the given expression is a static `import.meta` property,
+   * i.e. `import.meta.url`, `import.meta.dirname`, or `import.meta.filename`.
+   *
+   * `import.meta.dirname` and `import.meta.filename` are available in Node.js
+   * 20.11.0+ / 21.2.0+ and resolve to constant values for a given module.
    *
    * @param {import("estree").Expression} node The node to check.
-   * @returns {boolean} if true, the given expression is an `import.meta.url`.
+   * @returns {boolean} if true, the given expression is a static `import.meta` property.
    */
-  function isStaticImportMetaUrl(node) {
+  function isStaticImportMetaProperty(node) {
     return (
       node.type === 'MemberExpression' &&
       !node.computed &&
       node.property.type === 'Identifier' &&
-      node.property.name === 'url' &&
+      IMPORT_META_STATIC_PROPERTY_NAMES.has(node.property.name) &&
       node.object.type === 'MetaProperty' &&
       node.object.meta.name === 'import' &&
       node.object.property.name === 'meta'
