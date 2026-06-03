@@ -13,13 +13,11 @@ const keywords = `((${['password', 'secret', 'api', 'apiKey', 'token', 'auth', '
 
 const re = new RegExp(`^${keywords}$`, 'im');
 
-const containsKeyword = (node) => {
-  if (node.type === 'Identifier') {
-    if (re.test(node.name)) {
-      return true;
-    }
+const getIdentifierIfMatchesKeyword = (node) => {
+  if (node.type === 'Identifier' && re.test(node.name)) {
+    return node.name;
   }
-  return;
+  return null;
 };
 
 module.exports = {
@@ -37,18 +35,14 @@ module.exports = {
       IfStatement: function (node) {
         if (node.test && node.test.type === 'BinaryExpression') {
           if (node.test.operator === '==' || node.test.operator === '===' || node.test.operator === '!=' || node.test.operator === '!==') {
-            if (node.test.left) {
-              const left = containsKeyword(node.test.left);
-              if (left) {
-                return context.report({ node: node, message: `Potential timing attack, left side: ${left}` });
-              }
+            const left = getIdentifierIfMatchesKeyword(node.test.left);
+            if (left !== null) {
+              return context.report({ node, message: `Potential timing attack, left side: ${left}` });
             }
 
-            if (node.test.right) {
-              const right = containsKeyword(node.test.right);
-              if (right) {
-                return context.report({ node: node, message: `Potential timing attack, right side: ${right}` });
-              }
+            const right = getIdentifierIfMatchesKeyword(node.test.right);
+            if (right !== null) {
+              return context.report({ node, message: `Potential timing attack, right side: ${right}` });
             }
           }
         }
