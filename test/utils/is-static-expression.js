@@ -253,6 +253,20 @@ describe('isStaticExpression', () => {
         `,
         result: [true, false],
       },
+      {
+        code: `
+        target(import.meta.dirname);
+        target(import.meta.filename);
+        `,
+        result: [true, true],
+      },
+      {
+        code: `
+        target(import.meta[prop]);
+        target(import.meta.resolve('static'));
+        `,
+        result: [false, false],
+      },
     ]) {
       it(code, () => {
         deepStrictEqual(getIsStaticExpressionResult(code), result);
