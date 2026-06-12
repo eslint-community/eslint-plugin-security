@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.0.0...eslint-plugin-security-v4.0.1) (2026-06-12)
+
+
+### Bug Fixes
+
+* treat import.meta.dirname and import.meta.filename as static ([#200](https://github.com/eslint-community/eslint-plugin-security/issues/200)) ([74c97bb](https://github.com/eslint-community/eslint-plugin-security/commit/74c97bb3326a6b4fe4718b2638bb3b0492cb90fd))
+
 ## [4.0.0](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v3.0.1...eslint-plugin-security-v4.0.0) (2026-02-19)
 
 
