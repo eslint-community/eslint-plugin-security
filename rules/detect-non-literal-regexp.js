@@ -6,22 +6,38 @@
 'use strict';
 
 const { isStaticExpression } = require('../utils/is-static-expression');
+const { findVariable } = require('../utils/find-variable');
 
 /**
- * Checks whether the given node is a `RegExp.escape()` call.
+ * Checks whether the given identifier refers to the global `RegExp` and is not shadowed.
+ *
+ * @param {import("estree").Node} node The identifier to check.
+ * @param {import("eslint").Scope.Scope} scope The scope of the given node.
+ * @returns {boolean} `true` if the identifier is the global `RegExp`.
+ */
+function isGlobalRegExp(node, scope) {
+  if (node.type !== 'Identifier' || node.name !== 'RegExp') {
+    return false;
+  }
+  const variable = findVariable(scope, node.name);
+  return !variable || variable.defs.length === 0;
+}
+
+/**
+ * Checks whether the given node is a call of the global `RegExp.escape()`.
  *
  * @param {import("estree").Node} node The node to check.
+ * @param {import("eslint").Scope.Scope} scope The scope of the given node.
  * @returns {boolean} `true` if the node is a `RegExp.escape()` call.
  */
-function isRegExpEscapeCall(node) {
+function isRegExpEscapeCall(node, scope) {
   return (
     node.type === 'CallExpression' &&
     node.callee.type === 'MemberExpression' &&
     !node.callee.computed &&
-    node.callee.object.type === 'Identifier' &&
-    node.callee.object.name === 'RegExp' &&
     node.callee.property.type === 'Identifier' &&
-    node.callee.property.name === 'escape'
+    node.callee.property.name === 'escape' &&
+    isGlobalRegExp(node.callee.object, scope)
   );
 }
 
@@ -35,7 +51,7 @@ function isRegExpEscapeCall(node) {
  * @returns {import("estree").Expression[]} the unescaped dynamic parts.
  */
 function getUnescapedParts({ node, scope }) {
-  if (isRegExpEscapeCall(node) || isStaticExpression({ node, scope })) {
+  if (isRegExpEscapeCall(node, scope) || isStaticExpression({ node, scope })) {
     return [];
   }
   if (node.type === 'TemplateLiteral') {
@@ -75,17 +91,27 @@ module.exports = {
             const unescaped = getUnescapedParts({ node: args[0], scope });
 
             if (unescaped.length > 0) {
+              // A spread can carry the constructor flags as well, wrapping it would drop them.
+              const canSuggest = unescaped.every((part) => part.type !== 'SpreadElement');
+
               return context.report({
                 node: node,
                 message: 'Found non-literal argument to RegExp Constructor',
-                suggest: [
-                  {
-                    desc: 'Escape the dynamic parts with RegExp.escape()',
-                    fix(fixer) {
-                      return unescaped.map((part) => fixer.replaceText(part, `RegExp.escape(${sourceCode.getText(part)})`));
-                    },
-                  },
-                ],
+                suggest: canSuggest
+                  ? [
+                      {
+                        desc: 'Escape the dynamic parts with RegExp.escape()',
+                        fix(fixer) {
+                          return unescaped.map((part) => {
+                            const text = sourceCode.getText(part);
+                            // A sequence expression loses its grouping when the parentheses are dropped.
+                            const argument = part.type === 'SequenceExpression' ? `(${text})` : text;
+                            return fixer.replaceText(part, `RegExp.escape(${argument})`);
+                          });
+                        },
+                      },
+                    ]
+                  : [],
               });
             }
           }
