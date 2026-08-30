@@ -19,7 +19,7 @@ const invisibleCharsRegexp = /[\u3164\uFFA0]/gu;
 function detectInvisibleCharacters({ sourceText, firstLineOffset }) {
   const sourceTextToSearch = sourceText.toString();
 
-  const lines = sourceTextToSearch.split(/\r?\n/);
+  const lines = sourceTextToSearch.split(/\r\n|[\r\n\u2028\u2029]/);
 
   return lines.reduce((reports, line, lineIndex) => {
     let match;
