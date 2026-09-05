@@ -17,7 +17,7 @@ const safe = require('safe-regex');
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects potentially unsafe regular expressions, which may take a very long time to run, blocking the event loop.',
       category: 'Possible Security Vulnerability',

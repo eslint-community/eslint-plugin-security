@@ -18,7 +18,7 @@ const { isStaticExpression } = require('../utils/is-static-expression');
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects variable in filename argument of "fs" calls, which might allow an attacker to access anything on your system.',
       category: 'Possible Security Vulnerability',

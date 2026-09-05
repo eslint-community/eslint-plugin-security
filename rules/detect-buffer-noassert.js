@@ -49,7 +49,7 @@ const write = [
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects calls to "buffer" with "noAssert" flag set.',
       category: 'Possible Security Vulnerability',

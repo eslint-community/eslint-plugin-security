@@ -11,7 +11,7 @@
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects if "pseudoRandomBytes()" is in use, which might not give you the randomness you need and expect.',
       category: 'Possible Security Vulnerability',
