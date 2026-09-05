@@ -46,8 +46,8 @@ tester.run(ruleName, Rule, {
     {
       code: 'var c = "a\u3164b\uffa0c";',
       errors: [
-        { message: /Detected an invisible character introduced in this (code|comment)/i, line: 1, column: 11, endLine: 1, endColumn: 12 },
-        { message: /Detected an invisible character introduced in this (code|comment)/i, line: 1, column: 13, endLine: 1, endColumn: 14 },
+        { message: /Detected an invisible character introduced in this code/i, line: 1, column: 11, endLine: 1, endColumn: 12 },
+        { message: /Detected an invisible character introduced in this code/i, line: 1, column: 13, endLine: 1, endColumn: 14 },
       ],
     },
     {
@@ -60,23 +60,23 @@ tester.run(ruleName, Rule, {
     },
     {
       code: 'var t = `line1\nli\u3164ne2`;',
-      errors: [{ message: /Detected an invisible character introduced in this (code|comment)/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
     },
     {
       code: 'var t = `line1\r\nli\u3164ne2`;',
-      errors: [{ message: /Detected an invisible character introduced in this (code|comment)/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
     },
     {
       code: 'var t = `line1\rli\u3164ne2`;',
-      errors: [{ message: /Detected an invisible character introduced in this (code|comment)/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
     },
     {
       code: 'var t = `line1\u2028li\u3164ne2`;',
-      errors: [{ message: /Detected an invisible character introduced in this (code|comment)/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
     },
     {
       code: 'var t = `line1\u2029li\u3164ne2`;',
-      errors: [{ message: /Detected an invisible character introduced in this (code|comment)/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 2, column: 3, endLine: 2, endColumn: 4 }],
     },
     {
       code: "const checkCommands = [\n  'ping -c 1 google.com',\n  'curl -s http://example.com/',\u3164\n];",
@@ -102,8 +102,8 @@ tester.run(`${ruleName} in comment`, Rule, {
     {
       code: '/* a\u3164\n b\u3164 */\nvar y = 2;',
       errors: [
-        { message: /Detected an invisible character introduced in this (code|comment)/i, line: 1, column: 5, endLine: 1, endColumn: 6 },
-        { message: /Detected an invisible character introduced in this (code|comment)/i, line: 2, column: 3, endLine: 2, endColumn: 4 },
+        { message: /Detected an invisible character introduced in this comment/i, line: 1, column: 5, endLine: 1, endColumn: 6 },
+        { message: /Detected an invisible character introduced in this comment/i, line: 2, column: 3, endLine: 2, endColumn: 4 },
       ],
     },
   ],
