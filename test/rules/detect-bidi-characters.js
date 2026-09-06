@@ -72,3 +72,50 @@ tester.run(`${ruleName} in comment-line`, Rule, {
     },
   ],
 });
+
+tester.run(`${ruleName} with line terminators`, Rule, {
+  valid: [],
+  invalid: [
+    {
+      code: '/* a\nX\u202E */',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: '/* a\r\nX\u202E */',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: '/* a\rX\u202E */',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: '/* a\u2028X\u202E */',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: '/* a\u2029X\u202E */',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+
+    {
+      code: 'var t = `a\nX\u202E`;',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: 'var t = `a\r\nX\u202E`;',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: 'var t = `a\rX\u202E`;',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: 'var t = `a\u2028X\u202E`;',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+    {
+      code: 'var t = `a\u2029X\u202E`;',
+      errors: [{ message: /Detected potential trojan source attack with unicode bidi introduced in this code/i, line: 2, endLine: 2, column: 2, endColumn: 3 }],
+    },
+  ],
+});
