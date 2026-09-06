@@ -72,3 +72,27 @@ tester.run(`${ruleName} in comment-line`, Rule, {
     },
   ],
 });
+
+tester.run(`${ruleName} in all ECMAScript line terminators`, Rule, {
+  valid: [],
+  invalid: [
+    {
+      code: '/* a\rX\u202E */\n',
+      errors: [
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, column: 2, endLine: 2, endColumn: 3 },
+      ],
+    },
+    {
+      code: '/* a\u2028X\u202E */\n',
+      errors: [
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, column: 2, endLine: 2, endColumn: 3 },
+      ],
+    },
+    {
+      code: '/* a\u2029X\u202E */\n',
+      errors: [
+        { message: /Detected potential trojan source attack with unicode bidi introduced in this comment/i, line: 2, column: 2, endLine: 2, endColumn: 3 },
+      ],
+    },
+  ],
+});
