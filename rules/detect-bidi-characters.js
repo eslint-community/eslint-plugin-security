@@ -21,7 +21,7 @@ const dangerousBidiCharsRegexp = /[\u061C\u200E\u200F\u202A\u202B\u202C\u202D\u2
 function detectBidiCharacters({ sourceText, firstLineOffset }) {
   const sourceTextToSearch = sourceText.toString();
 
-  const lines = sourceTextToSearch.split(/\r?\n/);
+  const lines = sourceTextToSearch.split(/\r\n|[\n\r\u2028\u2029]/);
 
   return lines.reduce((reports, line, lineIndex) => {
     let match;
