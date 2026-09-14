@@ -13,7 +13,7 @@ const { isStaticExpression } = require('../utils/is-static-expression');
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "require(variable)", which might allow an attacker to load and run arbitrary code, or access arbitrary files on disk.',
       category: 'Possible Security Vulnerability',

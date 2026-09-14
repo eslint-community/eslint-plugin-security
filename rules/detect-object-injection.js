@@ -53,7 +53,7 @@ const stringify = (obj, fn, spaces, decycle) => {
 stringify.getSerialize = getSerialize;
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "variable[key]" as a left- or right-hand assignment operand.',
       category: 'Possible Security Vulnerability',

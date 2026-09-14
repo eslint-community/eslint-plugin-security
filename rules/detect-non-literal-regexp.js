@@ -13,7 +13,7 @@ const { isStaticExpression } = require('../utils/is-static-expression');
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "RegExp(variable)", which might allow an attacker to DOS your server with a long-running regular expression.',
       category: 'Possible Security Vulnerability',

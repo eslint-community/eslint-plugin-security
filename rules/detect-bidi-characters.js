@@ -70,7 +70,7 @@ function report({ context, node, tokens, message, firstLineOffset }) {
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects trojan source attacks that employ unicode bidi attacks to inject malicious code.',
       category: 'Possible Security Vulnerability',

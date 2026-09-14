@@ -68,7 +68,7 @@ function report({ context, node, tokens, message, firstLineOffset }) {
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects invisible characters that have no visible glyph and can be used to hide malicious code.',
       category: 'Possible Security Vulnerability',
