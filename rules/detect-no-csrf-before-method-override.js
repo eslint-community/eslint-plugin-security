@@ -11,7 +11,7 @@
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects Express "csrf" middleware setup before "method-override" middleware.',
       category: 'Possible Security Vulnerability',

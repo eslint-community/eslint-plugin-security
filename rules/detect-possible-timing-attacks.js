@@ -24,7 +24,7 @@ const containsKeyword = (node) => {
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects insecure comparisons (`==`, `!=`, `!==` and `===`), which check input sequentially.',
       category: 'Possible Security Vulnerability',

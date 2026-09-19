@@ -17,7 +17,7 @@ const eslintPluginConfigs = [
         },
       ],
       'eslint-plugin/require-meta-schema': 'off', // TODO: enable
-      'eslint-plugin/require-meta-type': 'off', // TODO: enable
+      'eslint-plugin/require-meta-type': 'error',
     },
   },
 ];

@@ -11,7 +11,7 @@
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects "eval(variable)" which can allow an attacker to run arbitrary code inside your process.',
       category: 'Possible Security Vulnerability',

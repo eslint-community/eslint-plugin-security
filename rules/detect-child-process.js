@@ -15,7 +15,7 @@ const childProcessPackageNames = ['child_process', 'node:child_process'];
 
 module.exports = {
   meta: {
-    type: 'error',
+    type: 'problem',
     docs: {
       description: 'Detects instances of "child_process" & non-literal "exec()" calls.',
       category: 'Possible Security Vulnerability',

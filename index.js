@@ -26,6 +26,7 @@ const plugin = {
     'detect-object-injection': require('./rules/detect-object-injection'),
     'detect-new-buffer': require('./rules/detect-new-buffer'),
     'detect-bidi-characters': require('./rules/detect-bidi-characters'),
+    'detect-invisible-characters': require('./rules/detect-invisible-characters'),
   },
   rulesConfig: {
     'detect-unsafe-regex': 0,
@@ -42,6 +43,7 @@ const plugin = {
     'detect-object-injection': 0,
     'detect-new-buffer': 0,
     'detect-bidi-characters': 0,
+    'detect-invisible-characters': 0,
   },
   configs: {}, // was assigned later so we can reference `plugin`
 };
@@ -64,6 +66,7 @@ const recommended = {
     'security/detect-pseudoRandomBytes': 'warn',
     'security/detect-unsafe-regex': 'warn',
     'security/detect-bidi-characters': 'warn',
+    'security/detect-invisible-characters': 'warn',
   },
 };
 
@@ -74,7 +77,7 @@ const recommendedLegacy = {
 
 Object.assign(plugin.configs, {
   recommended,
-  'recommended-legacy': recommendedLegacy
+  'recommended-legacy': recommendedLegacy,
 });
 
 module.exports = plugin;
