@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.1.0](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.0.1...eslint-plugin-security-v4.1.0) (2026-09-16)
+
+
+### Features
+
+* detect-invisible-characters rule ([#212](https://github.com/eslint-community/eslint-plugin-security/issues/212)) ([81a6c2d](https://github.com/eslint-community/eslint-plugin-security/commit/81a6c2d3b6d9d9b56426f9f1d2234d48fdd28b24))
+
+
+### Bug Fixes
+
+* handle all ECMAScript line terminators ([#221](https://github.com/eslint-community/eslint-plugin-security/issues/221)) ([48134ba](https://github.com/eslint-community/eslint-plugin-security/commit/48134ba803a313230444bafc0067e953453a41f2))
+* use valid rule meta types ([#219](https://github.com/eslint-community/eslint-plugin-security/issues/219)) ([baead41](https://github.com/eslint-community/eslint-plugin-security/commit/baead4112da6ae792eb77d83c84c6584f673d022))
+
 ## [4.0.1](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.0.0...eslint-plugin-security-v4.0.1) (2026-06-12)
 
 
