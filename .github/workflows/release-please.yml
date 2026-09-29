@@ -17,10 +17,10 @@ jobs:
       - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
         id: release
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: ${{ steps.release.outputs.release_created }}
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
