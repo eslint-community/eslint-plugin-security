@@ -60,6 +60,7 @@ module.exports = {
       read,
       write,
     },
+    deprecated: true,
   },
   create(context) {
     return {
