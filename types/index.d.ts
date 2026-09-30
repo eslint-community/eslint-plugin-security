@@ -31,7 +31,7 @@ declare namespace plugin {
  * The plugin object, ready to be used as a `security` entry in the
  * `plugins` of an ESLint config.
  */
-declare const plugin: Required<Pick<ESLint.Plugin, 'meta' | 'configs'>> & {
+declare const plugin: Required<Pick<ESLint.Plugin, 'meta'>> & {
   /**
    * Metadata of this plugin, taken from the `package.json` of the
    * `eslint-plugin-security` package.

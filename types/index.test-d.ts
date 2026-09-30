@@ -35,3 +35,6 @@ const config = [
 ] satisfies Linter.Config[];
 
 expectTypeOf(config).items.toExtend<Linter.Config>();
+
+// Unknown config names must be rejected.
+expectTypeOf(security).toHaveProperty('configs').not.toHaveProperty('unknown');
