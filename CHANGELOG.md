@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.1.0...eslint-plugin-security-v4.2.0) (2026-10-01)
+
+
+### Features
+
+* add TypeScript type definitions ([#215](https://github.com/eslint-community/eslint-plugin-security/issues/215)) ([17082bb](https://github.com/eslint-community/eslint-plugin-security/commit/17082bb4d7f794366088b945b90c671deb37b900))
+
 ## [4.1.0](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.0.1...eslint-plugin-security-v4.1.0) (2026-09-16)
 
 
