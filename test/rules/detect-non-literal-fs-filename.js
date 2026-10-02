@@ -79,6 +79,41 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
         },
       },
     },
+    `
+    import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+    import { tmpdir } from 'node:os';
+    import path from 'node:path';
+
+    const root = mkdtempSync(path.join(tmpdir(), 'fixture-'));
+    const checkout = path.join(root, 'checkout');
+    mkdirSync(checkout, { recursive: true });
+    writeFileSync(path.join(checkout, 'package.json'), '{}\\n');`,
+    `
+    import { mkdir } from 'node:fs/promises';
+    import { mkdtemp } from 'node:fs/promises';
+    import { tmpdir } from 'node:os';
+    import path from 'node:path';
+
+    async function test() {
+      const root = await mkdtemp(path.join(tmpdir(), 'fixture-'));
+      const checkout = path.join(root, 'checkout');
+      await mkdir(checkout, { recursive: true });
+    }`,
+    `
+    import fs from 'fs';
+    import os from 'os';
+    import path from 'path';
+    const html = fs.readFileSync(path.resolve(os.tmpdir(), './index.html'), 'utf-8');`,
+    `
+    import fs from 'fs';
+    import { tmpdir } from 'node:os';
+    const content = fs.readFileSync(tmpdir(), 'utf-8');`,
+    `
+    const fs = require('fs');
+    const os = require('os');
+    const path = require('path');
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'test-'));
+    fs.readFileSync(path.join(root, 'file.txt'));`,
   ],
   invalid: [
     /// requires
@@ -213,6 +248,22 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
             import fs from 'fs';
             import path from 'path';
             const key = fs.readFileSync(path.resolve(import.meta[prop], './index.html'));`,
+      errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
+    },
+    {
+      code: `
+            import { mkdtempSync } from 'node:fs';
+            import fs from 'fs';
+            const root = mkdtempSync(foo);
+            fs.readFileSync(root);`,
+      errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
+    },
+    {
+      code: `
+            import os from 'unknown';
+            import fs from 'fs';
+            import path from 'path';
+            fs.readFileSync(path.join(os.tmpdir(), 'foo.txt'));`,
       errors: [{ message: 'Found readFileSync from package "fs" with non literal argument at index 0' }],
     },
   ],
