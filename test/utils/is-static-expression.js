@@ -267,6 +267,92 @@ describe('isStaticExpression', () => {
         `,
         result: [false, false],
       },
+      {
+        code: `
+        import os from 'os';
+        import { tmpdir } from 'node:os';
+        const os2 = require('node:os');
+        const { tmpdir: tmpdir2 } = require('os');
+        target(os.tmpdir());
+        target(tmpdir());
+        target(os2.tmpdir());
+        target(tmpdir2());
+        target(require('os').tmpdir());
+        `,
+        result: [true, true, true, true, true],
+      },
+      {
+        code: `
+        import os from 'unknown';
+        import os2 from 'node:os';
+        target(os.tmpdir());
+        target(os2.tmpdir.unknown());
+        target(os2.homedir());
+        `,
+        result: [false, false, false],
+      },
+      {
+        code: `
+        import fs from 'fs';
+        import { mkdtempSync } from 'node:fs';
+        import { mkdtemp } from 'node:fs/promises';
+        const fs2 = require('fs');
+        const { mkdtemp: mkdtemp2 } = require('fs/promises');
+        const { promises } = require('node:fs');
+        target(fs.mkdtempSync('prefix'));
+        target(mkdtempSync('prefix'));
+        target(fs.promises.mkdtemp('prefix'));
+        target(mkdtemp('prefix'));
+        target(await fs.promises.mkdtemp('prefix'));
+        target(await mkdtemp('prefix'));
+        target(fs2.promises.mkdtemp('prefix'));
+        target(mkdtemp2('prefix'));
+        target(promises.mkdtemp('prefix'));
+        `,
+        result: [true, true, true, true, true, true, true, true, true],
+      },
+      {
+        code: `
+        import { mkdtempSync } from 'node:fs';
+        import { mkdtemp } from 'node:fs/promises';
+        import { mkdtemp as mkdtempCallback } from 'node:fs';
+        import fs from 'unknown';
+        target(mkdtempSync(dynamic));
+        target(await mkdtemp(dynamic));
+        target(mkdtempSync());
+        target(mkdtempCallback('prefix'));
+        target(fs.mkdtempSync('prefix'));
+        `,
+        result: [false, false, false, false, false],
+      },
+      {
+        code: `
+        import os from 'node:os';
+        import { mkdtempSync } from 'node:fs';
+        import path from 'node:path';
+
+        const root = mkdtempSync(path.join(os.tmpdir(), 'fixture-'));
+        const checkout = path.join(root, 'checkout');
+
+        target(root);
+        target(checkout);
+        `,
+        result: [true, true],
+      },
+      {
+        code: `
+        import os from 'node:os';
+        import { mkdtemp } from 'node:fs/promises';
+        import path from 'node:path';
+
+        const root = await mkdtemp(path.join(os.tmpdir(), 'fixture-'));
+        const checkout = path.join(root, 'checkout');
+
+        target(root);
+        target(checkout);
+        `,
+        result: [true, true],
+      },
     ]) {
       it(code, () => {
         deepStrictEqual(getIsStaticExpressionResult(code), result);
