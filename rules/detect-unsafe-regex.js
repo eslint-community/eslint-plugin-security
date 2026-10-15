@@ -39,7 +39,8 @@ module.exports = {
           }
         }
       },
-      NewExpression: function (node) {
+      // `RegExp(pattern)` without `new` creates a regular expression too
+      'NewExpression, CallExpression': function (node) {
         if (node.callee.name === 'RegExp' && node.arguments && node.arguments.length > 0 && node.arguments[0].type === 'Literal') {
           if (!safe(node.arguments[0].value)) {
             context.report({ node: node, message: 'Unsafe Regular Expression (new RegExp)' });
