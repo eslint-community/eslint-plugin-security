@@ -14,10 +14,15 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
             var source = 'ab+c'
             var a = new RegExp(source, 'i')`,
     },
+    { code: "var a = RegExp('ab+c', 'i')" },
   ],
   invalid: [
     {
       code: invalid,
+      errors: [{ message: 'Found non-literal argument to RegExp Constructor' }],
+    },
+    {
+      code: "var a = RegExp(c, 'i')",
       errors: [{ message: 'Found non-literal argument to RegExp Constructor' }],
     },
   ],
