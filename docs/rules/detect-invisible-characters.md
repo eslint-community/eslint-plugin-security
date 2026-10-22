@@ -8,10 +8,12 @@ Detects the presence of invisible characters (characters that have no visible gl
 
 This rule currently detects:
 
+- `U+115F` HANGUL CHOSEONG FILLER
+- `U+1160` HANGUL JUNGSEONG FILLER
 - `U+3164` HANGUL FILLER
 - `U+FFA0` HALFWIDTH HANGUL FILLER
 
-Both are valid JavaScript source characters (in strings, comments, and even identifiers) yet display as nothing, making them dangerous.
+All of them are valid JavaScript source characters (in strings, comments, and even identifiers) yet display as nothing, making them dangerous.
 
 ## Why is this important?
 

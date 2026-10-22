@@ -33,6 +33,9 @@ tester.run(ruleName, Rule, {
     {
       code: 'var s = "안녕하세요";',
     },
+    {
+      code: 'var s = "ᅞᅡ";',
+    },
   ],
   invalid: [
     {
@@ -53,6 +56,14 @@ tester.run(ruleName, Rule, {
     {
       code: 'var adm\u3164in = 1;',
       errors: [{ message: /Detected an invisible character introduced in this code/i, line: 1, column: 8, endLine: 1, endColumn: 9 }],
+    },
+    {
+      code: 'var adm\u115Fin = 1;',
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 1, column: 8, endLine: 1, endColumn: 9 }],
+    },
+    {
+      code: 'var \u1160x = 1;',
+      errors: [{ message: /Detected an invisible character introduced in this code/i, line: 1, column: 5, endLine: 1, endColumn: 6 }],
     },
     {
       code: 'var b\uffa0ar = 1;',

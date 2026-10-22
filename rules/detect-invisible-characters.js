@@ -5,7 +5,8 @@
 
 'use strict';
 
-const invisibleCharsRegexp = /[\u3164\uFFA0]/gu;
+// The Hangul fillers: default-ignorable (rendered as nothing) and valid at the start of an identifier
+const invisibleCharsRegexp = /[\u115F\u1160\u3164\uFFA0]/gu;
 
 /**
  * Detects all the invisible characters in a given source text
