@@ -82,7 +82,8 @@ module.exports = {
     const sourceCode = context.sourceCode || context.getSourceCode();
 
     return {
-      NewExpression(node) {
+      'NewExpression, CallExpression'(node) {
+        // `RegExp(pattern)` without `new` creates a regular expression too
         if (node.callee.name === 'RegExp') {
           const args = node.arguments;
           const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope();

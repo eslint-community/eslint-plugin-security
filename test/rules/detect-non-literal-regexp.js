@@ -17,6 +17,9 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
     { code: "var a = new RegExp(RegExp.escape(c), 'i')" },
     { code: "var a = new RegExp(`(${RegExp.escape(c)})$`, 'iv')" },
     { code: "var a = new RegExp(`^prefix${RegExp.escape(c)}` + RegExp.escape(d), 'i')" },
+    { code: "var a = RegExp('ab+c', 'i')" },
+    { code: "var a = RegExp(RegExp.escape(c), 'i')" },
+    { code: "var a = RegExp(`(${RegExp.escape(c)})$`, 'iv')" },
   ],
   invalid: [
     {
@@ -91,6 +94,20 @@ tester.run(ruleName, require(`../../rules/${ruleName}`), {
             {
               desc: 'Escape the dynamic parts with RegExp.escape()',
               output: "var a = new RegExp(`(${RegExp.escape(c)}|${RegExp.escape(d)})$`, 'iv')",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: "var a = RegExp(c, 'i')",
+      errors: [
+        {
+          message: 'Found non-literal argument to RegExp Constructor',
+          suggestions: [
+            {
+              desc: 'Escape the dynamic parts with RegExp.escape()',
+              output: "var a = RegExp(RegExp.escape(c), 'i')",
             },
           ],
         },

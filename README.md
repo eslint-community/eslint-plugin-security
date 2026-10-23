@@ -43,8 +43,6 @@ module.exports = {
 ## Developer guide
 
 - Use [GitHub pull requests](https://help.github.com/articles/using-pull-requests).
-- Conventions:
-- We use our [custom ESLint setup](https://github.com/nodesecurity/eslint-config-nodesecurity).
 - Please implement a test for each new rule and use this command to be sure the new code respects the style guide and the tests keep passing:
 
 ```sh
@@ -87,12 +85,16 @@ npm test
 
 ## TypeScript support
 
-Type definitions for this package are managed by [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Use [@types/eslint-plugin-security](https://www.npmjs.com/package/@types/eslint-plugin-security) for type checking.
+Type definitions for this package are bundled with it, so nothing else needs to be installed.
+
+They are written against the ESLint v9 type definitions, so they require either `eslint >= v9.10.0`, which is the first release that ships its own type definitions, or [@types/eslint](https://www.npmjs.com/package/@types/eslint) v9 alongside an older ESLint.
+
+If you previously installed [@types/eslint-plugin-security](https://www.npmjs.com/package/@types/eslint-plugin-security) from [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped), it is no longer needed and can be removed:
 
 ```sh
-npm install --save-dev @types/eslint-plugin-security
+npm uninstall @types/eslint-plugin-security
 
 # OR
 
-yarn add --dev @types/eslint-plugin-security
+yarn remove @types/eslint-plugin-security
 ```
