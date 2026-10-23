@@ -2,6 +2,8 @@
 
 ⚠️ This rule _warns_ in the ✅ `recommended` config.
 
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+
 <!-- end auto-generated rule header -->
 
 More information: [Regular Expression DoS and Node.js](../regular-expression-dos-and-node.md)
