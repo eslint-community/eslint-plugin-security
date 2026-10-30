@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.1](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.2.0...eslint-plugin-security-v4.2.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* check `RegExp()` called without `new` in the regexp rules ([#232](https://github.com/eslint-community/eslint-plugin-security/issues/232)) ([affbfc0](https://github.com/eslint-community/eslint-plugin-security/commit/affbfc0d7b83434434551f128335d04400e554bb))
+
 ## [4.2.0](https://github.com/eslint-community/eslint-plugin-security/compare/eslint-plugin-security-v4.1.0...eslint-plugin-security-v4.2.0) (2026-10-01)
 
 
