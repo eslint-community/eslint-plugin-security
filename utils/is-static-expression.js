@@ -8,6 +8,8 @@ const URL_PACKAGE_NAMES = ['url', 'node:url'];
 const PATH_CONSTRUCTION_METHOD_NAMES = new Set(['basename', 'dirname', 'extname', 'join', 'normalize', 'relative', 'resolve', 'toNamespacedPath']);
 const PATH_STATIC_MEMBER_NAMES = new Set(['delimiter', 'sep']);
 const IMPORT_META_STATIC_PROPERTY_NAMES = new Set(['url', 'dirname', 'filename']);
+const OS_PACKAGE_NAMES = ['os', 'node:os'];
+const FS_PACKAGE_NAMES = ['fs', 'node:fs', 'fs/promises', 'node:fs/promises', 'fs-extra'];
 
 /**
  * @type {WeakMap<import("estree").Expression, boolean>}
@@ -59,6 +61,9 @@ function isStaticExpression({ node, scope }) {
       // An expression is static if both operands are static.
       return isStatic(node.left) && isStatic(node.right);
     }
+    if (node.type === 'AwaitExpression') {
+      return isStatic(node.argument);
+    }
     if (node.type === 'Identifier') {
       const variable = findVariable(scope, node.name);
       if (variable) {
@@ -84,7 +89,15 @@ function isStaticExpression({ node, scope }) {
         return false;
       }
     }
-    return isStaticPath(node) || isStaticFileURLToPath(node) || isStaticImportMetaProperty(node) || isStaticRequireResolve(node) || isStaticCwd(node);
+    return (
+      isStaticPath(node) ||
+      isStaticFileURLToPath(node) ||
+      isStaticImportMetaProperty(node) ||
+      isStaticRequireResolve(node) ||
+      isStaticCwd(node) ||
+      isStaticTmpdir(node) ||
+      isStaticMkdtemp(node)
+    );
   }
 
   /**
@@ -220,5 +233,62 @@ function isStaticExpression({ node, scope }) {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Checks whether the given expression is a static `os.tmpdir()`.
+   *
+   * @param {import("estree").Expression} node The node to check.
+   * @returns {boolean} if true, the given expression is a static `os.tmpdir()`.
+   */
+  function isStaticTmpdir(node) {
+    if (node.type !== 'CallExpression') {
+      return false;
+    }
+    const pathInfo = getImportAccessPath({
+      node: node.callee,
+      scope,
+      packageNames: OS_PACKAGE_NAMES,
+    });
+    if (!pathInfo || pathInfo.path.length !== 1) {
+      return false;
+    }
+    return pathInfo.path[0] === 'tmpdir';
+  }
+
+  /**
+   * Checks whether the given expression is a static `fs.mkdtempSync()` or `fs.promises.mkdtemp()`.
+   *
+   * @param {import("estree").Expression} node The node to check.
+   * @returns {boolean} if true, the given expression is a static `fs.mkdtempSync()` or `fs.promises.mkdtemp()`.
+   */
+  function isStaticMkdtemp(node) {
+    if (node.type !== 'CallExpression') {
+      return false;
+    }
+    const pathInfo = getImportAccessPath({
+      node: node.callee,
+      scope,
+      packageNames: FS_PACKAGE_NAMES,
+    });
+    if (!pathInfo) {
+      return false;
+    }
+    let isMkdtempCall = false;
+    if (pathInfo.path.length === 1) {
+      if (pathInfo.path[0] === 'mkdtempSync') {
+        isMkdtempCall = true;
+      } else if (pathInfo.path[0] === 'mkdtemp' && (pathInfo.packageName === 'fs/promises' || pathInfo.packageName === 'node:fs/promises')) {
+        isMkdtempCall = true;
+      }
+    } else if (pathInfo.path.length === 2) {
+      if (pathInfo.path[0] === 'promises' && pathInfo.path[1] === 'mkdtemp') {
+        isMkdtempCall = true;
+      }
+    }
+    if (!isMkdtempCall) {
+      return false;
+    }
+    return Boolean(node.arguments.length) && isStatic(node.arguments[0]);
   }
 }
